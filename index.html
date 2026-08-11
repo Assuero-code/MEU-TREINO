@@ -23,16 +23,16 @@
             color: var(--text-main);
             margin: 0;
             padding: 15px;
-            padding-bottom: 100px;
+            padding-bottom: 120px;
         }
 
-        h1 { text-align: center; font-size: 1.5rem; color: var(--accent-color); margin-bottom: 20px; text-transform: uppercase; }
+        h1 { text-align: center; font-size: 1.4rem; color: var(--accent-color); margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
 
         .day-section {
             background: var(--card-bg);
             border-radius: 12px;
             padding: 15px;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
             border: 1px solid var(--border);
         }
@@ -86,8 +86,8 @@
         }
 
         .ex-img {
-            width: 70px;
-            height: 70px;
+            width: 65px;
+            height: 65px;
             border-radius: 8px;
             object-fit: cover;
             background: #000;
@@ -98,11 +98,11 @@
         .exercise-info { flex-grow: 1; }
         .ex-name { display: block; font-weight: 700; font-size: 0.95rem; margin-bottom: 2px; }
         .ex-details { display: block; font-size: 0.8rem; color: var(--accent-color); font-weight: bold; }
-        .ex-muscles { display: block; font-size: 0.75rem; color: var(--text-dim); font-style: italic; }
+        .ex-muscles { display: block; font-size: 0.7rem; color: var(--text-dim); font-style: italic; }
 
         .btn-reset {
             position: fixed;
-            bottom: 20px;
+            bottom: 25px;
             left: 50%;
             transform: translateX(-50%);
             background: #ef4444;
@@ -113,18 +113,20 @@
             font-weight: bold;
             width: 85%;
             box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            z-index: 1000;
         }
 
         @supports (padding: env(safe-area-inset-bottom)) {
-            body { padding-bottom: calc(100px + env(safe-area-inset-bottom)); }
+            body { padding-bottom: calc(120px + env(safe-area-inset-bottom)); }
         }
     </style>
 </head>
 <body>
 
-    <h1>💪 MEU TREINO SEMANAL</h1>
+    <h1>💪 TREINO HIPERTROFIA 5X</h1>
 
     <div id="workout-container">
+        
         <!-- SEGUNDA -->
         <section class="day-section">
             <div class="day-title">SEGUNDA <span>Peito + Tríceps</span></div>
@@ -135,7 +137,7 @@
                 <div class="exercise-info">
                     <span class="ex-name">1. Chest Press (Máquina)</span>
                     <span class="ex-details">4x 8-10 reps</span>
-                    <span class="ex-muscles">Músculos: Peitoral Maior, Tríceps</span>
+                    <span class="ex-muscles">Trabalha: Peitoral Maior, Tríceps</span>
                 </div>
             </div>
 
@@ -145,7 +147,7 @@
                 <div class="exercise-info">
                     <span class="ex-name">2. Supino Inclinado Máquina</span>
                     <span class="ex-details">3x 8-10 reps</span>
-                    <span class="ex-muscles">Músculos: Peitoral Superior, Deltoide Ant.</span>
+                    <span class="ex-muscles">Trabalha: Peitoral Superior, Deltoide Anterior</span>
                 </div>
             </div>
 
@@ -155,7 +157,7 @@
                 <div class="exercise-info">
                     <span class="ex-name">3. Peck Deck (Voador)</span>
                     <span class="ex-details">3x 10-12 reps</span>
-                    <span class="ex-muscles">Músculos: Peitoral Maior</span>
+                    <span class="ex-muscles">Trabalha: Peitoral Maior</span>
                 </div>
             </div>
 
@@ -165,17 +167,17 @@
                 <div class="exercise-info">
                     <span class="ex-name">4. Tríceps na Polia</span>
                     <span class="ex-details">3x 10-12 reps</span>
-                    <span class="ex-muscles">Músculos: Tríceps (Cabeça Lateral)</span>
+                    <span class="ex-muscles">Trabalha: Tríceps (Cabeça Lateral)</span>
                 </div>
             </div>
 
             <div class="exercise-item" onclick="toggleTask(this)">
                 <div class="checkbox-wrapper"></div>
-                <img src="img/triceps-corda.png" class="ex-img" onerror="this.src='https://placehold.co/100x100/1e293b/38bdf8?text=Triceps'">
+                <img src="img/triceps-testa.png" class="ex-img" onerror="this.src='https://placehold.co/100x100/1e293b/38bdf8?text=Triceps'">
                 <div class="exercise-info">
-                    <span class="ex-name">5. Tríceps Corda</span>
+                    <span class="ex-name">5. Tríceps acima da Cabeça</span>
                     <span class="ex-details">3x 10-12 reps</span>
-                    <span class="ex-muscles">Músculos: Tríceps (Cabeça Longa)</span>
+                    <span class="ex-muscles">Trabalha: Tríceps (Cabeça Longa)</span>
                 </div>
             </div>
         </section>
@@ -190,7 +192,7 @@
                 <div class="exercise-info">
                     <span class="ex-name">1. Puxada Frontal (Barra)</span>
                     <span class="ex-details">4x 8-10 reps</span>
-                    <span class="ex-muscles">Músculos: Latíssimo, Bíceps</span>
+                    <span class="ex-muscles">Trabalha: Latíssimo do Dorso, Bíceps</span>
                 </div>
             </div>
 
@@ -200,7 +202,17 @@
                 <div class="exercise-info">
                     <span class="ex-name">2. Remada Baixa (Cable)</span>
                     <span class="ex-details">4x 8-10 reps</span>
-                    <span class="ex-muscles">Músculos: Dorsal, Trapézio</span>
+                    <span class="ex-muscles">Trabalha: Dorsal, Trapézio, Romboides</span>
+                </div>
+            </div>
+
+            <div class="exercise-item" onclick="toggleTask(this)">
+                <div class="checkbox-wrapper"></div>
+                <img src="img/remada-articulada.png" class="ex-img" onerror="this.src='https://placehold.co/100x100/1e293b/38bdf8?text=Costas'">
+                <div class="exercise-info">
+                    <span class="ex-name">3. Remada Articulada</span>
+                    <span class="ex-details">3x 10 reps</span>
+                    <span class="ex-muscles">Trabalha: Dorsal, Romboides</span>
                 </div>
             </div>
 
@@ -210,7 +222,17 @@
                 <div class="exercise-info">
                     <span class="ex-name">4. Rosca Scott (Máquina)</span>
                     <span class="ex-details">3x 10-12 reps</span>
-                    <span class="ex-muscles">Músculos: Bíceps</span>
+                    <span class="ex-muscles">Trabalha: Bíceps</span>
+                </div>
+            </div>
+
+            <div class="exercise-item" onclick="toggleTask(this)">
+                <div class="checkbox-wrapper"></div>
+                <img src="img/rosca-polia.png" class="ex-img" onerror="this.src='https://placehold.co/100x100/1e293b/38bdf8?text=Biceps'">
+                <div class="exercise-info">
+                    <span class="ex-name">5. Rosca na Polia</span>
+                    <span class="ex-details">3x 10-12 reps</span>
+                    <span class="ex-muscles">Trabalha: Bíceps, Braquial</span>
                 </div>
             </div>
         </section>
@@ -225,22 +247,161 @@
                 <div class="exercise-info">
                     <span class="ex-name">1. Leg Press 45°</span>
                     <span class="ex-details">4x 8-10 reps</span>
-                    <span class="ex-muscles">Músculos: Quadríceps, Glúteos</span>
+                    <span class="ex-muscles">Trabalha: Quadríceps, Glúteos</span>
                 </div>
             </div>
 
             <div class="exercise-item" onclick="toggleTask(this)">
                 <div class="checkbox-wrapper"></div>
-                <img src="img/mesa-flexora.png" class="ex-img" onerror="this.src='https://placehold.co/100x100/1e293b/38bdf8?text=Perna'">
+                <img src="img/hack-squat.png" class="ex-img" onerror="this.src='https://placehold.co/100x100/1e293b/38bdf8?text=Perna'">
+                <div class="exercise-info">
+                    <span class="ex-name">2. Hack Squat</span>
+                    <span class="ex-details">4x 8-10 reps</span>
+                    <span class="ex-muscles">Trabalha: Quadríceps, Glúteos</span>
+                </div>
+            </div>
+
+            <div class="exercise-item" onclick="toggleTask(this)">
+                <div class="checkbox-wrapper"></div>
+                <img src="img/extensora.png" class="ex-img" onerror="this.src='https://placehold.co/100x100/1e293b/38bdf8?text=Perna'">
+                <div class="exercise-info">
+                    <span class="ex-name">3. Cadeira Extensora</span>
+                    <span class="ex-details">3x 10-12 reps</span>
+                    <span class="ex-muscles">Trabalha: Quadríceps</span>
+                </div>
+            </div>
+
+            <div class="exercise-item" onclick="toggleTask(this)">
+                <div class="checkbox-wrapper"></div>
+                <img src="img/flexora.png" class="ex-img" onerror="this.src='https://placehold.co/100x100/1e293b/38bdf8?text=Perna'">
                 <div class="exercise-info">
                     <span class="ex-name">4. Mesa Flexora</span>
                     <span class="ex-details">3x 10-12 reps</span>
-                    <span class="ex-muscles">Músculos: Isquiotibiais (Posterior)</span>
+                    <span class="ex-muscles">Trabalha: Posterior de Coxa</span>
+                </div>
+            </div>
+
+            <div class="exercise-item" onclick="toggleTask(this)">
+                <div class="checkbox-wrapper"></div>
+                <img src="img/panturrilha.png" class="ex-img" onerror="this.src='https://placehold.co/100x100/1e293b/38bdf8?text=Perna'">
+                <div class="exercise-info">
+                    <span class="ex-name">5. Panturrilha em Pé</span>
+                    <span class="ex-details">4x 12-15 reps</span>
+                    <span class="ex-muscles">Trabalha: Gastrocnêmio, Sóleo</span>
                 </div>
             </div>
         </section>
-        
-        <!-- Continue seguindo este padrão para Quinta e Sexta -->
+
+        <!-- QUINTA -->
+        <section class="day-section">
+            <div class="day-title">QUINTA <span>Ombros + Abdômen</span></div>
+            
+            <div class="exercise-item" onclick="toggleTask(this)">
+                <div class="checkbox-wrapper"></div>
+                <img src="img/desenvolvimento.png" class="ex-img" onerror="this.src='https://placehold.co/100x100/1e293b/38bdf8?text=Ombro'">
+                <div class="exercise-info">
+                    <span class="ex-name">1. Desenv. na Máquina</span>
+                    <span class="ex-details">4x 8-10 reps</span>
+                    <span class="ex-muscles">Trabalha: Deltoide Anterior e Lateral</span>
+                </div>
+            </div>
+
+            <div class="exercise-item" onclick="toggleTask(this)">
+                <div class="checkbox-wrapper"></div>
+                <img src="img/elevacao-lateral.png" class="ex-img" onerror="this.src='https://placehold.co/100x100/1e293b/38bdf8?text=Ombro'">
+                <div class="exercise-info">
+                    <span class="ex-name">2. Elevação Lateral (Máquina)</span>
+                    <span class="ex-details">3x 10-12 reps</span>
+                    <span class="ex-muscles">Trabalha: Deltoide Lateral</span>
+                </div>
+            </div>
+
+            <div class="exercise-item" onclick="toggleTask(this)">
+                <div class="checkbox-wrapper"></div>
+                <img src="img/peck-deck-invertido.png" class="ex-img" onerror="this.src='https://placehold.co/100x100/1e293b/38bdf8?text=Ombro'">
+                <div class="exercise-info">
+                    <span class="ex-name">3. Peck Deck Invertido</span>
+                    <span class="ex-details">3x 10-12 reps</span>
+                    <span class="ex-muscles">Trabalha: Deltoide Posterior, Trapézio</span>
+                </div>
+            </div>
+
+            <div class="exercise-item" onclick="toggleTask(this)">
+                <div class="checkbox-wrapper"></div>
+                <img src="img/crunch-abdominal.png" class="ex-img" onerror="this.src='https://placehold.co/100x100/1e293b/38bdf8?text=Abs'">
+                <div class="exercise-info">
+                    <span class="ex-name">4. Crunch na Polia</span>
+                    <span class="ex-details">3x 15 reps</span>
+                    <span class="ex-muscles">Trabalha: Reto Abdominal</span>
+                </div>
+            </div>
+
+            <div class="exercise-item" onclick="toggleTask(this)">
+                <div class="checkbox-wrapper"></div>
+                <img src="img/prancha.png" class="ex-img" onerror="this.src='https://placehold.co/100x100/1e293b/38bdf8?text=Abs'">
+                <div class="exercise-info">
+                    <span class="ex-name">5. Prancha</span>
+                    <span class="ex-details">3x 30-60s</span>
+                    <span class="ex-muscles">Trabalha: Core (Todo) e Lombar</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEXTA -->
+        <section class="day-section">
+            <div class="day-title">SEXTA <span>Braços + Reforço</span></div>
+            
+            <div class="exercise-item" onclick="toggleTask(this)">
+                <div class="checkbox-wrapper"></div>
+                <img src="img/supino-fechado.png" class="ex-img" onerror="this.src='https://placehold.co/100x100/1e293b/38bdf8?text=Braço'">
+                <div class="exercise-info">
+                    <span class="ex-name">1. Supino Fechado (Máquina)</span>
+                    <span class="ex-details">3x 8-10 reps</span>
+                    <span class="ex-muscles">Trabalha: Tríceps, Peitoral</span>
+                </div>
+            </div>
+
+            <div class="exercise-item" onclick="toggleTask(this)">
+                <div class="checkbox-wrapper"></div>
+                <img src="img/puxada-neutra.png" class="ex-img" onerror="this.src='https://placehold.co/100x100/1e293b/38bdf8?text=Costas'">
+                <div class="exercise-info">
+                    <span class="ex-name">2. Puxada Neutra</span>
+                    <span class="ex-details">3x 8-10 reps</span>
+                    <span class="ex-muscles">Trabalha: Latíssimo do Dorso, Bíceps</span>
+                </div>
+            </div>
+
+            <div class="exercise-item" onclick="toggleTask(this)">
+                <div class="checkbox-wrapper"></div>
+                <img src="img/triceps-corda.png" class="ex-img" onerror="this.src='https://placehold.co/100x100/1e293b/38bdf8?text=Triceps'">
+                <div class="exercise-info">
+                    <span class="ex-name">3. Tríceps Corda</span>
+                    <span class="ex-details">3x 10-12 reps</span>
+                    <span class="ex-muscles">Trabalha: Tríceps</span>
+                </div>
+            </div>
+
+            <div class="exercise-item" onclick="toggleTask(this)">
+                <div class="checkbox-wrapper"></div>
+                <img src="img/rosca-scott-2.png" class="ex-img" onerror="this.src='https://placehold.co/100x100/1e293b/38bdf8?text=Biceps'">
+                <div class="exercise-info">
+                    <span class="ex-name">4. Rosca Scott (Máquina)</span>
+                    <span class="ex-details">3x 10-12 reps</span>
+                    <span class="ex-muscles">Trabalha: Bíceps</span>
+                </div>
+            </div>
+
+            <div class="exercise-item" onclick="toggleTask(this)">
+                <div class="checkbox-wrapper"></div>
+                <img src="img/rosca-martelo.png" class="ex-img" onerror="this.src='https://placehold.co/100x100/1e293b/38bdf8?text=Biceps'">
+                <div class="exercise-info">
+                    <span class="ex-name">5. Rosca Martelo na Polia</span>
+                    <span class="ex-details">3x 10-12 reps</span>
+                    <span class="ex-muscles">Trabalha: Braquial, Bíceps</span>
+                </div>
+            </div>
+        </section>
+
     </div>
 
     <button class="btn-reset" onclick="resetWeek()">REINICIAR SEMANA</button>
@@ -254,11 +415,11 @@
         function saveProgress() {
             const exercises = document.querySelectorAll('.exercise-item');
             const progress = Array.from(exercises).map(ex => ex.classList.contains('completed'));
-            localStorage.setItem('workoutProgress', JSON.stringify(progress));
+            localStorage.setItem('workoutProgressPro', JSON.stringify(progress));
         }
 
         function loadProgress() {
-            const saved = localStorage.getItem('workoutProgress');
+            const saved = localStorage.getItem('workoutProgressPro');
             if (saved) {
                 const progress = JSON.parse(saved);
                 document.querySelectorAll('.exercise-item').forEach((ex, index) => {
@@ -270,7 +431,7 @@
         function resetWeek() {
             if (confirm("Deseja limpar o progresso da semana?")) {
                 document.querySelectorAll('.exercise-item').forEach(ex => ex.classList.remove('completed'));
-                localStorage.removeItem('workoutProgress');
+                localStorage.removeItem('workoutProgressPro');
             }
         }
 
