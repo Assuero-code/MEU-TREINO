@@ -133,11 +133,27 @@
             object-fit: cover;
             border: 1px solid var(--border-color);
             background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.03));
+            transition: transform 0.2s ease;
+        }
+
+        .exercise-image:hover {
+            transform: scale(1.05);
         }
 
         .exercise-image.muscle {
             width: 48px;
             height: 48px;
+        }
+
+        .exercise-image.loading {
+            background: linear-gradient(90deg, #2a2a2a 25%, #3a3a3a 50%, #2a2a2a 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
         }
 
         .btn-reset {
@@ -180,7 +196,7 @@
         <section class="day-section">
             <div class="day-title">SEGUNDA <span>Peito + Tríceps</span></div>
             <div class="exercise-list" data-day="seg">
-                <div class="exercise-item" data-machine="Chest Press (Máquina)" data-muscles="Peito" data-svg-id="chest-press" onclick="toggleTask(this)">
+                <div class="exercise-item" data-machine="chest press" data-muscles="Peito" onclick="toggleTask(this)">
                     <div class="checkbox-wrapper"></div>
                     <div class="exercise-info">
                         <span class="ex-name">1. Chest Press (Máquina)</span>
@@ -188,7 +204,7 @@
                     </div>
                     <div class="images-wrapper"></div>
                 </div>
-                <div class="exercise-item" data-machine="Supino Inclinado Máquina" data-muscles="Peito Superior" data-svg-id="supino-inclinado" onclick="toggleTask(this)">
+                <div class="exercise-item" data-machine="incline bench press" data-muscles="Peito Superior" onclick="toggleTask(this)">
                     <div class="checkbox-wrapper"></div>
                     <div class="exercise-info">
                         <span class="ex-name">2. Supino Inclinado Máquina</span>
@@ -196,7 +212,7 @@
                     </div>
                     <div class="images-wrapper"></div>
                 </div>
-                <div class="exercise-item" data-machine="Peck Deck (Voador)" data-muscles="Peito" data-svg-id="peck-deck" onclick="toggleTask(this)">
+                <div class="exercise-item" data-machine="pec deck fly" data-muscles="Peito" onclick="toggleTask(this)">
                     <div class="checkbox-wrapper"></div>
                     <div class="exercise-info">
                         <span class="ex-name">3. Peck Deck (Voador)</span>
@@ -204,7 +220,7 @@
                     </div>
                     <div class="images-wrapper"></div>
                 </div>
-                <div class="exercise-item" data-machine="Tríceps na Polia" data-muscles="Tríceps" data-svg-id="tricep-polia" onclick="toggleTask(this)">
+                <div class="exercise-item" data-machine="tricep pushdown cable" data-muscles="Tríceps" onclick="toggleTask(this)">
                     <div class="checkbox-wrapper"></div>
                     <div class="exercise-info">
                         <span class="ex-name">4. Tríceps na Polia</span>
@@ -212,7 +228,7 @@
                     </div>
                     <div class="images-wrapper"></div>
                 </div>
-                <div class="exercise-item" data-machine="Tríceps Corda" data-muscles="Tríceps" data-svg-id="tricep-corda" onclick="toggleTask(this)">
+                <div class="exercise-item" data-machine="tricep rope pushdown" data-muscles="Tríceps" onclick="toggleTask(this)">
                     <div class="checkbox-wrapper"></div>
                     <div class="exercise-info">
                         <span class="ex-name">5. Tríceps Corda</span>
@@ -227,7 +243,7 @@
         <section class="day-section">
             <div class="day-title">TERÇA <span>Costas + Bíceps</span></div>
             <div class="exercise-list" data-day="ter">
-                <div class="exercise-item" data-machine="Puxada Frontal (Barra)" data-muscles="Dorsais" onclick="toggleTask(this)">
+                <div class="exercise-item" data-machine="lat pulldown" data-muscles="Dorsais" onclick="toggleTask(this)">
                     <div class="checkbox-wrapper"></div>
                     <div class="exercise-info">
                         <span class="ex-name">1. Puxada Frontal (Barra)</span>
@@ -235,7 +251,7 @@
                     </div>
                     <div class="images-wrapper"></div>
                 </div>
-                <div class="exercise-item" data-machine="Remada Baixa (Cable)" data-muscles="Dorsais, Bíceps" onclick="toggleTask(this)">
+                <div class="exercise-item" data-machine="cable row" data-muscles="Dorsais" onclick="toggleTask(this)">
                     <div class="checkbox-wrapper"></div>
                     <div class="exercise-info">
                         <span class="ex-name">2. Remada Baixa (Cable)</span>
@@ -243,7 +259,7 @@
                     </div>
                     <div class="images-wrapper"></div>
                 </div>
-                <div class="exercise-item" data-machine="Remada Articulada" data-muscles="Dorsais" onclick="toggleTask(this)">
+                <div class="exercise-item" data-machine="machine row" data-muscles="Dorsais" onclick="toggleTask(this)">
                     <div class="checkbox-wrapper"></div>
                     <div class="exercise-info">
                         <span class="ex-name">3. Remada Articulada</span>
@@ -251,7 +267,7 @@
                     </div>
                     <div class="images-wrapper"></div>
                 </div>
-                <div class="exercise-item" data-machine="Rosca Scott (Máquina)" data-muscles="Bíceps" onclick="toggleTask(this)">
+                <div class="exercise-item" data-machine="barbell curl" data-muscles="Bíceps" onclick="toggleTask(this)">
                     <div class="checkbox-wrapper"></div>
                     <div class="exercise-info">
                         <span class="ex-name">4. Rosca Scott (Máquina)</span>
@@ -259,7 +275,7 @@
                     </div>
                     <div class="images-wrapper"></div>
                 </div>
-                <div class="exercise-item" data-machine="Rosca na Polia" data-muscles="Bíceps" onclick="toggleTask(this)">
+                <div class="exercise-item" data-machine="cable bicep curl" data-muscles="Bíceps" onclick="toggleTask(this)">
                     <div class="checkbox-wrapper"></div>
                     <div class="exercise-info">
                         <span class="ex-name">5. Rosca na Polia</span>
@@ -274,7 +290,7 @@
         <section class="day-section">
             <div class="day-title">QUARTA <span>Pernas</span></div>
             <div class="exercise-list" data-day="qua">
-                <div class="exercise-item" data-machine="Leg Press 45°" data-muscles="Quadríceps, Glúteos" onclick="toggleTask(this)">
+                <div class="exercise-item" data-machine="leg press" data-muscles="Quadríceps" onclick="toggleTask(this)">
                     <div class="checkbox-wrapper"></div>
                     <div class="exercise-info">
                         <span class="ex-name">1. Leg Press 45°</span>
@@ -282,7 +298,7 @@
                     </div>
                     <div class="images-wrapper"></div>
                 </div>
-                <div class="exercise-item" data-machine="Hack Squat" data-muscles="Quadríceps, Glúteos" onclick="toggleTask(this)">
+                <div class="exercise-item" data-machine="hack squat" data-muscles="Quadríceps" onclick="toggleTask(this)">
                     <div class="checkbox-wrapper"></div>
                     <div class="exercise-info">
                         <span class="ex-name">2. Hack Squat</span>
@@ -290,7 +306,7 @@
                     </div>
                     <div class="images-wrapper"></div>
                 </div>
-                <div class="exercise-item" data-machine="Cadeira Extensora" data-muscles="Quadríceps" onclick="toggleTask(this)">
+                <div class="exercise-item" data-machine="leg extension" data-muscles="Quadríceps" onclick="toggleTask(this)">
                     <div class="checkbox-wrapper"></div>
                     <div class="exercise-info">
                         <span class="ex-name">3. Cadeira Extensora</span>
@@ -298,7 +314,7 @@
                     </div>
                     <div class="images-wrapper"></div>
                 </div>
-                <div class="exercise-item" data-machine="Mesa Flexora" data-muscles="Posterior de Coxa" onclick="toggleTask(this)">
+                <div class="exercise-item" data-machine="leg curl" data-muscles="Posterior de Coxa" onclick="toggleTask(this)">
                     <div class="checkbox-wrapper"></div>
                     <div class="exercise-info">
                         <span class="ex-name">4. Mesa Flexora</span>
@@ -306,7 +322,7 @@
                     </div>
                     <div class="images-wrapper"></div>
                 </div>
-                <div class="exercise-item" data-machine="Panturrilha em Pé" data-muscles="Panturrilhas" onclick="toggleTask(this)">
+                <div class="exercise-item" data-machine="calf raise" data-muscles="Panturrilhas" onclick="toggleTask(this)">
                     <div class="checkbox-wrapper"></div>
                     <div class="exercise-info">
                         <span class="ex-name">5. Panturrilha em Pé</span>
@@ -321,7 +337,7 @@
         <section class="day-section">
             <div class="day-title">QUINTA <span>Ombros + Abdômen</span></div>
             <div class="exercise-list" data-day="qui">
-                <div class="exercise-item" data-machine="Desenvolvimento Máquina" data-muscles="Deltoides (Ombros)" onclick="toggleTask(this)">
+                <div class="exercise-item" data-machine="shoulder press" data-muscles="Deltoides" onclick="toggleTask(this)">
                     <div class="checkbox-wrapper"></div>
                     <div class="exercise-info">
                         <span class="ex-name">1. Desenvolvimento Máquina</span>
@@ -329,7 +345,7 @@
                     </div>
                     <div class="images-wrapper"></div>
                 </div>
-                <div class="exercise-item" data-machine="Elevação Lateral" data-muscles="Deltoides Laterais" onclick="toggleTask(this)">
+                <div class="exercise-item" data-machine="lateral raise" data-muscles="Deltoides Laterais" onclick="toggleTask(this)">
                     <div class="checkbox-wrapper"></div>
                     <div class="exercise-info">
                         <span class="ex-name">2. Elevação Lateral</span>
@@ -337,7 +353,7 @@
                     </div>
                     <div class="images-wrapper"></div>
                 </div>
-                <div class="exercise-item" data-machine="Peck Deck Invertido" data-muscles="Deltoides Posteriores" onclick="toggleTask(this)">
+                <div class="exercise-item" data-machine="reverse pec deck" data-muscles="Deltoides Posteriores" onclick="toggleTask(this)">
                     <div class="checkbox-wrapper"></div>
                     <div class="exercise-info">
                         <span class="ex-name">3. Peck Deck Invertido</span>
@@ -345,7 +361,7 @@
                     </div>
                     <div class="images-wrapper"></div>
                 </div>
-                <div class="exercise-item" data-machine="Crunch na Polia" data-muscles="Reto Abdominal" onclick="toggleTask(this)">
+                <div class="exercise-item" data-machine="cable crunch" data-muscles="Abdômen" onclick="toggleTask(this)">
                     <div class="checkbox-wrapper"></div>
                     <div class="exercise-info">
                         <span class="ex-name">4. Crunch na Polia</span>
@@ -353,7 +369,7 @@
                     </div>
                     <div class="images-wrapper"></div>
                 </div>
-                <div class="exercise-item" data-machine="Prancha" data-muscles="Core (Abdômen)" onclick="toggleTask(this)">
+                <div class="exercise-item" data-machine="plank" data-muscles="Core" onclick="toggleTask(this)">
                     <div class="checkbox-wrapper"></div>
                     <div class="exercise-info">
                         <span class="ex-name">5. Prancha</span>
@@ -368,7 +384,7 @@
         <section class="day-section">
             <div class="day-title">SEXTA <span>Braços + Reforço</span></div>
             <div class="exercise-list" data-day="sex">
-                <div class="exercise-item" data-machine="Supino Fechado (Máquina)" data-muscles="Peito (Foco Tríceps)" onclick="toggleTask(this)">
+                <div class="exercise-item" data-machine="close grip bench press" data-muscles="Tríceps" onclick="toggleTask(this)">
                     <div class="checkbox-wrapper"></div>
                     <div class="exercise-info">
                         <span class="ex-name">1. Supino Fechado (Máquina)</span>
@@ -376,7 +392,7 @@
                     </div>
                     <div class="images-wrapper"></div>
                 </div>
-                <div class="exercise-item" data-machine="Puxada Neutra" data-muscles="Dorsais, Bíceps" onclick="toggleTask(this)">
+                <div class="exercise-item" data-machine="neutral grip pulldown" data-muscles="Dorsais" onclick="toggleTask(this)">
                     <div class="checkbox-wrapper"></div>
                     <div class="exercise-info">
                         <span class="ex-name">2. Puxada Neutra</span>
@@ -384,7 +400,7 @@
                     </div>
                     <div class="images-wrapper"></div>
                 </div>
-                <div class="exercise-item" data-machine="Tríceps Corda" data-muscles="Tríceps" onclick="toggleTask(this)">
+                <div class="exercise-item" data-machine="tricep rope" data-muscles="Tríceps" onclick="toggleTask(this)">
                     <div class="checkbox-wrapper"></div>
                     <div class="exercise-info">
                         <span class="ex-name">3. Tríceps Corda</span>
@@ -392,7 +408,7 @@
                     </div>
                     <div class="images-wrapper"></div>
                 </div>
-                <div class="exercise-item" data-machine="Rosca Scott (Máquina)" data-muscles="Bíceps" onclick="toggleTask(this)">
+                <div class="exercise-item" data-machine="barbell curl" data-muscles="Bíceps" onclick="toggleTask(this)">
                     <div class="checkbox-wrapper"></div>
                     <div class="exercise-info">
                         <span class="ex-name">4. Rosca Scott (Máquina)</span>
@@ -400,7 +416,7 @@
                     </div>
                     <div class="images-wrapper"></div>
                 </div>
-                <div class="exercise-item" data-machine="Rosca Martelo na Polia" data-muscles="Bíceps, Braquiorradial" onclick="toggleTask(this)">
+                <div class="exercise-item" data-machine="hammer curl" data-muscles="Bíceps" onclick="toggleTask(this)">
                     <div class="checkbox-wrapper"></div>
                     <div class="exercise-info">
                         <span class="ex-name">5. Rosca Martelo na Polia</span>
@@ -415,172 +431,50 @@
     <button class="btn-reset" onclick="resetWeek()">REINICIAR SEMANA</button>
 
     <script>
-        // SVGs customizados para exercícios de segunda-feira
-        const svgExercises = {
-            'chest-press': {
-                svg: `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 150'>
-                    <defs>
-                        <linearGradient id="metalGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" style="stop-color:#555;stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:#222;stop-opacity:1" />
-                        </linearGradient>
-                    </defs>
-                    <!-- Banco -->
-                    <rect x="30" y="60" width="140" height="15" rx="3" fill="#333"/>
-                    <!-- Encosto -->
-                    <polygon points="40,60 35,20 55,25 50,60" fill="#444"/>
-                    <!-- Braço direito -->
-                    <ellipse cx="130" cy="50" rx="20" ry="12" fill="#d4a574"/>
-                    <ellipse cx="150" cy="50" rx="18" ry="11" fill="#e8c9a0"/>
-                    <!-- Braço esquerdo -->
-                    <ellipse cx="70" cy="50" rx="20" ry="12" fill="#d4a574"/>
-                    <ellipse cx="50" cy="50" rx="18" ry="11" fill="#e8c9a0"/>
-                    <!-- Mão direita -->
-                    <circle cx="155" cy="55" r="8" fill="#c9a876"/>
-                    <!-- Mão esquerda -->
-                    <circle cx="45" cy="55" r="8" fill="#c9a876"/>
-                    <!-- Alças de metal -->
-                    <rect x="100" y="35" width="8" height="30" rx="4" fill="url(#metalGradient)"/>
-                    <rect x="92" y="35" width="8" height="30" rx="4" fill="url(#metalGradient)"/>
-                    <!-- Texto -->
-                    <text x="100" y="140" font-size="14" font-weight="bold" text-anchor="middle" fill="#e5e7eb">CHEST PRESS</text>
-                </svg>`,
-                label: 'Chest Press'
-            },
-            'supino-inclinado': {
-                svg: `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 150'>
-                    <defs>
-                        <linearGradient id="inclineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                            <stop offset="0%" style="stop-color:#8B6F47;stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:#A0826D;stop-opacity:1" />
-                        </linearGradient>
-                    </defs>
-                    <!-- Banco inclinado -->
-                    <polygon points="40,100 160,100 155,40 45,40" fill="#3a3a3a" stroke="#555" stroke-width="2"/>
-                    <polygon points="40,100 160,100 155,40 45,40" fill="url(#inclineGrad)" opacity="0.7"/>
-                    <!-- Barra -->
-                    <ellipse cx="100" cy="35" rx="50" ry="8" fill="#444"/>
-                    <ellipse cx="100" cy="33" rx="50" ry="6" fill="#666"/>
-                    <!-- Discos na barra -->
-                    <circle cx="60" cy="35" r="12" fill="#d4af37" opacity="0.8"/>
-                    <circle cx="140" cy="35" r="12" fill="#d4af37" opacity="0.8"/>
-                    <!-- Peito -->
-                    <ellipse cx="100" cy="70" rx="30" ry="25" fill="#d4a574"/>
-                    <!-- Braços levantados -->
-                    <ellipse cx="55" cy="50" rx="15" ry="18" fill="#d4a574" transform="rotate(-30 55 50)"/>
-                    <ellipse cx="145" cy="50" rx="15" ry="18" fill="#d4a574" transform="rotate(30 145 50)"/>
-                    <!-- Texto -->
-                    <text x="100" y="140" font-size="12" font-weight="bold" text-anchor="middle" fill="#e5e7eb">SUPINO INCLINADO</text>
-                </svg>`,
-                label: 'Supino Inclinado'
-            },
-            'peck-deck': {
-                svg: `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 150'>
-                    <defs>
-                        <radialGradient id="deckGrad" cx="40%" cy="40%">
-                            <stop offset="0%" style="stop-color:#666;stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:#222;stop-opacity:1" />
-                        </radialGradient>
-                    </defs>
-                    <!-- Assento central -->
-                    <rect x="60" y="50" width="80" height="60" rx="8" fill="#333" stroke="#555" stroke-width="2"/>
-                    <rect x="62" y="52" width="76" height="56" rx="6" fill="#444" opacity="0.5"/>
-                    <!-- Encosto -->
-                    <rect x="70" y="30" width="60" height="25" rx="3" fill="#555" stroke="#666" stroke-width="1"/>
-                    <!-- Braço direito (alavanca) -->
-                    <ellipse cx="130" cy="80" rx="35" ry="12" fill="#3a3a3a" stroke="#666" stroke-width="2"/>
-                    <circle cx="160" cy="80" r="15" fill="#666" stroke="#888" stroke-width="1"/>
-                    <ellipse cx="150" cy="80" rx="8" ry="14" fill="#d4a574"/>
-                    <!-- Braço esquerdo (alavanca) -->
-                    <ellipse cx="70" cy="80" rx="35" ry="12" fill="#3a3a3a" stroke="#666" stroke-width="2" transform="scale(-1 1)" transform-origin="100 80"/>
-                    <circle cx="40" cy="80" r="15" fill="#666" stroke="#888" stroke-width="1"/>
-                    <ellipse cx="50" cy="80" rx="8" ry="14" fill="#d4a574"/>
-                    <!-- Peito -->
-                    <ellipse cx="100" cy="85" rx="20" ry="30" fill="#d4a574" opacity="0.8"/>
-                    <!-- Texto -->
-                    <text x="100" y="140" font-size="12" font-weight="bold" text-anchor="middle" fill="#e5e7eb">PECK DECK</text>
-                </svg>`,
-                label: 'Peck Deck'
-            },
-            'tricep-polia': {
-                svg: `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 150'>
-                    <defs>
-                        <linearGradient id="ropeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                            <stop offset="0%" style="stop-color:#666;stop-opacity:1" />
-                            <stop offset="50%" style="stop-color:#999;stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:#666;stop-opacity:1" />
-                        </linearGradient>
-                    </defs>
-                    <!-- Torre -->
-                    <rect x="90" y="10" width="20" height="100" fill="#333" stroke="#555" stroke-width="2" rx="4"/>
-                    <!-- Polia no topo -->
-                    <circle cx="100" cy="15" r="10" fill="#444" stroke="#666" stroke-width="2"/>
-                    <circle cx="100" cy="15" r="6" fill="#222"/>
-                    <!-- Corda -->
-                    <path d="M 90 25 Q 75 35 70 60" stroke="url(#ropeGrad)" stroke-width="6" fill="none" stroke-linecap="round"/>
-                    <path d="M 110 25 Q 125 35 130 60" stroke="url(#ropeGrad)" stroke-width="6" fill="none" stroke-linecap="round"/>
-                    <!-- Braço direito -->
-                    <ellipse cx="135" cy="70" rx="12" ry="20" fill="#d4a574"/>
-                    <!-- Braço esquerdo -->
-                    <ellipse cx="65" cy="70" rx="12" ry="20" fill="#d4a574"/>
-                    <!-- Mão direita segurando -->
-                    <circle cx="128" cy="62" r="7" fill="#c9a876"/>
-                    <!-- Mão esquerda segurando -->
-                    <circle cx="72" cy="62" r="7" fill="#c9a876"/>
-                    <!-- Corpo -->
-                    <rect x="85" y="65" width="30" height="40" fill="#5a5a5a" rx="3"/>
-                    <!-- Texto -->
-                    <text x="100" y="140" font-size="12" font-weight="bold" text-anchor="middle" fill="#e5e7eb">TRÍCEPS POLIA</text>
-                </svg>`,
-                label: 'Tríceps Polia'
-            },
-            'tricep-corda': {
-                svg: `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 150'>
-                    <defs>
-                        <linearGradient id="cordaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style="stop-color:#8B4513;stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:#654321;stop-opacity:1" />
-                        </linearGradient>
-                    </defs>
-                    <!-- Torre -->
-                    <rect x="88" y="10" width="24" height="105" fill="#2a2a2a" stroke="#555" stroke-width="2" rx="4"/>
-                    <!-- Polia -->
-                    <circle cx="100" cy="18" r="12" fill="#444" stroke="#777" stroke-width="2"/>
-                    <circle cx="100" cy="18" r="7" fill="#111"/>
-                    <!-- Corda esquerda -->
-                    <path d="M 94 30 Q 70 45 65 75" stroke="url(#cordaGrad)" stroke-width="8" fill="none" stroke-linecap="round"/>
-                    <!-- Corda direita -->
-                    <path d="M 106 30 Q 130 45 135 75" stroke="url(#cordaGrad)" stroke-width="8" fill="none" stroke-linecap="round"/>
-                    <!-- Nó na ponta esquerda -->
-                    <circle cx="63" cy="78" r="5" fill="#8B4513"/>
-                    <!-- Nó na ponta direita -->
-                    <circle cx="137" cy="78" r="5" fill="#8B4513"/>
-                    <!-- Braço direito flexionado -->
-                    <ellipse cx="130" cy="85" rx="14" ry="22" fill="#d4a574"/>
-                    <!-- Braço esquerdo flexionado -->
-                    <ellipse cx="70" cy="85" rx="14" ry="22" fill="#d4a574"/>
-                    <!-- Mão direita -->
-                    <circle cx="135" cy="75" r="6" fill="#c9a876"/>
-                    <!-- Mão esquerda -->
-                    <circle cx="65" cy="75" r="6" fill="#c9a876"/>
-                    <!-- Tríceps em destaque -->
-                    <ellipse cx="130" cy="95" rx="16" ry="10" fill="#ff6b6b" opacity="0.3"/>
-                    <ellipse cx="70" cy="95" rx="16" ry="10" fill="#ff6b6b" opacity="0.3"/>
-                    <!-- Texto -->
-                    <text x="100" y="140" font-size="12" font-weight="bold" text-anchor="middle" fill="#e5e7eb">TRÍCEPS CORDA</text>
-                </svg>`,
-                label: 'Tríceps Corda'
-            }
+        // Cache de imagens já carregadas
+        const imageCache = {};
+
+        // Mapeamento de músculos para cores e emojis
+        const muscleColors = {
+            'Peito': { color: '#ff6b6b', emoji: '🫀' },
+            'Peito Superior': { color: '#ff8787', emoji: '🫀' },
+            'Tríceps': { color: '#ff9800', emoji: '💪' },
+            'Dorsais': { color: '#9c27b0', emoji: '💪' },
+            'Bíceps': { color: '#2196f3', emoji: '💪' },
+            'Quadríceps': { color: '#4caf50', emoji: '🦵' },
+            'Posterior de Coxa': { color: '#8bc34a', emoji: '🦵' },
+            'Panturrilhas': { color: '#ff5722', emoji: '🦵' },
+            'Deltoides': { color: '#ffc107', emoji: '🔱' },
+            'Deltoides Laterais': { color: '#ffb300', emoji: '🔱' },
+            'Deltoides Posteriores': { color: '#ff9800', emoji: '🔱' },
+            'Abdômen': { color: '#e91e63', emoji: '💪' },
+            'Core': { color: '#ff1744', emoji: '💪' }
         };
+
+        // Função para obter imagem do ExerciseDB
+        async function fetchExerciseImage(exerciseName) {
+            try {
+                const response = await fetch(`https://exercisedb.io/api/exercises?limit=1&q=${encodeURIComponent(exerciseName)}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.length > 0) {
+                        return data[0].gifUrl;
+                    }
+                }
+            } catch (error) {
+                console.log('ExerciseDB API não disponível');
+            }
+            return null;
+        }
+
+        // Função para obter imagem do Unsplash
+        function getUnsplashImage(query) {
+            const unsplashUrl = `https://source.unsplash.com/400x300/?${encodeURIComponent(query)},fitness,gym,exercise`;
+            return unsplashUrl;
+        }
 
         // SVG genérico para músculos
         function createMuscleSVG(muscleGroup) {
-            const muscleColors = {
-                'Peito': { color: '#ff6b6b', emoji: '🫀' },
-                'Peito Superior': { color: '#ff8787', emoji: '🫀' },
-                'Tríceps': { color: '#ff9800', emoji: '💪' }
-            };
-            
             const muscle = muscleColors[muscleGroup] || { color: '#ffd93d', emoji: '💪' };
             
             return `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'>
@@ -597,47 +491,54 @@
             </svg>`;
         }
 
+        // SVG fallback quando a imagem não carrega
+        function createFallbackSVG(machineName) {
+            const svg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 150'>
+                <rect width='200' height='150' fill='#153243' rx='8'/>
+                <text x='100' y='70' font-size='14' font-weight='bold' text-anchor='middle' fill='#e6eef3'>${machineName.substring(0, 15)}</text>
+                <text x='100' y='95' font-size='11' text-anchor='middle' fill='#b0c4de'>💪</text>
+            </svg>`;
+            return 'data:image/svg+xml;base64,' + btoa(svg);
+        }
+
         // Função para marcar/desmarcar
         function toggleTask(element) {
             element.classList.toggle('completed');
             saveProgress();
         }
 
-        // Insere imagens em cada exercício
-        function injectExerciseImages() {
+        // Função para injetar imagens
+        async function injectExerciseImages() {
             const items = document.querySelectorAll('.exercise-item');
-            items.forEach(item => {
+            
+            for (let item of items) {
                 const wrapper = item.querySelector('.images-wrapper');
-                if (!wrapper) return;
-                // Evita inserir múltiplas vezes
-                if (wrapper.querySelector('img')) return;
+                if (!wrapper || wrapper.querySelector('img')) continue;
 
-                const svgId = item.dataset.svgId;
-                const machine = item.dataset.machine || 'Aparelho';
+                const machine = item.dataset.machine || 'Exercício';
                 const muscles = item.dataset.muscles || 'Músculos';
 
-                let imgMachine;
+                // Imagem da máquina/exercício
+                const imgMachine = document.createElement('img');
+                imgMachine.className = 'exercise-image machine loading';
+                imgMachine.alt = machine + ' - ilustração do exercício';
+
+                // Tenta buscar do ExerciseDB primeiro
+                let imageUrl = await fetchExerciseImage(machine);
                 
-                // Se houver um SVG customizado para segunda-feira
-                if (svgId && svgExercises[svgId]) {
-                    imgMachine = document.createElement('img');
-                    imgMachine.className = 'exercise-image machine';
-                    imgMachine.src = 'data:image/svg+xml;base64,' + btoa(svgExercises[svgId].svg);
-                    imgMachine.alt = machine + ' - ilustração do exercício';
-                } else {
-                    // Cria SVG genérico como fallback
-                    imgMachine = document.createElement('img');
-                    imgMachine.className = 'exercise-image machine';
-                    imgMachine.src = 'data:image/svg+xml;base64,' + btoa(`
-                        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 150'>
-                            <rect width='200' height='150' fill='#153243' rx='8'/>
-                            <text x='100' y='70' font-size='16' font-weight='bold' text-anchor='middle' fill='#e6eef3'>${machine}</text>
-                            <text x='100' y='95' font-size='11' text-anchor='middle' fill='#b0c4de'>Aparelho</text>
-                        </svg>
-                    `);
-                    imgMachine.alt = machine + ' - imagem demonstrativa';
+                // Se não encontrar, usa Unsplash como fallback
+                if (!imageUrl) {
+                    imageUrl = getUnsplashImage(machine);
                 }
 
+                imgMachine.src = imageUrl;
+                imgMachine.onload = () => imgMachine.classList.remove('loading');
+                imgMachine.onerror = () => {
+                    imgMachine.classList.remove('loading');
+                    imgMachine.src = createFallbackSVG(machine);
+                };
+
+                // Imagem do músculo
                 const imgMuscle = document.createElement('img');
                 imgMuscle.className = 'exercise-image muscle';
                 imgMuscle.src = 'data:image/svg+xml;base64,' + btoa(createMuscleSVG(muscles));
@@ -645,7 +546,7 @@
 
                 wrapper.appendChild(imgMachine);
                 wrapper.appendChild(imgMuscle);
-            });
+            }
         }
 
         // Salva o estado atual no Cache (LocalStorage)
