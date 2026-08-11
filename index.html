@@ -180,7 +180,7 @@
         <section class="day-section">
             <div class="day-title">SEGUNDA <span>Peito + Tríceps</span></div>
             <div class="exercise-list" data-day="seg">
-                <div class="exercise-item" data-machine="Chest Press (Máquina)" data-muscles="Peito" onclick="toggleTask(this)">
+                <div class="exercise-item" data-machine="Chest Press (Máquina)" data-muscles="Peito" data-image="1" onclick="toggleTask(this)">
                     <div class="checkbox-wrapper"></div>
                     <div class="exercise-info">
                         <span class="ex-name">1. Chest Press (Máquina)</span>
@@ -188,7 +188,7 @@
                     </div>
                     <div class="images-wrapper"></div>
                 </div>
-                <div class="exercise-item" data-machine="Supino Inclinado Máquina" data-muscles="Peito Superior" onclick="toggleTask(this)">
+                <div class="exercise-item" data-machine="Supino Inclinado Máquina" data-muscles="Peito Superior" data-image="3" onclick="toggleTask(this)">
                     <div class="checkbox-wrapper"></div>
                     <div class="exercise-info">
                         <span class="ex-name">2. Supino Inclinado Máquina</span>
@@ -196,7 +196,7 @@
                     </div>
                     <div class="images-wrapper"></div>
                 </div>
-                <div class="exercise-item" data-machine="Peck Deck (Voador)" data-muscles="Peito" onclick="toggleTask(this)">
+                <div class="exercise-item" data-machine="Peck Deck (Voador)" data-muscles="Peito" data-image="3" onclick="toggleTask(this)">
                     <div class="checkbox-wrapper"></div>
                     <div class="exercise-info">
                         <span class="ex-name">3. Peck Deck (Voador)</span>
@@ -204,7 +204,7 @@
                     </div>
                     <div class="images-wrapper"></div>
                 </div>
-                <div class="exercise-item" data-machine="Tríceps na Polia" data-muscles="Tríceps" onclick="toggleTask(this)">
+                <div class="exercise-item" data-machine="Tríceps na Polia" data-muscles="Tríceps" data-image="2" onclick="toggleTask(this)">
                     <div class="checkbox-wrapper"></div>
                     <div class="exercise-info">
                         <span class="ex-name">4. Tríceps na Polia</span>
@@ -212,7 +212,7 @@
                     </div>
                     <div class="images-wrapper"></div>
                 </div>
-                <div class="exercise-item" data-machine="Tríceps Corda" data-muscles="Tríceps" onclick="toggleTask(this)">
+                <div class="exercise-item" data-machine="Tríceps Corda" data-muscles="Tríceps" data-image="2" onclick="toggleTask(this)">
                     <div class="checkbox-wrapper"></div>
                     <div class="exercise-info">
                         <span class="ex-name">5. Tríceps Corda</span>
@@ -415,6 +415,14 @@
     <button class="btn-reset" onclick="resetWeek()">REINICIAR SEMANA</button>
 
     <script>
+        // Mapeamento de imagens por número
+        const exerciseImages = {
+            '1': 'https://raw.githubusercontent.com/Assuero-code/MEU-TREINO/main/1-chest-press.png',
+            '2': 'https://raw.githubusercontent.com/Assuero-code/MEU-TREINO/main/2-tricep.png',
+            '3': 'https://raw.githubusercontent.com/Assuero-code/MEU-TREINO/main/3-peck-deck.png',
+            '4': 'https://raw.githubusercontent.com/Assuero-code/MEU-TREINO/main/4-legpress.png'
+        };
+
         // Função para marcar/desmarcar
         function toggleTask(element) {
             element.classList.toggle('completed');
@@ -442,20 +450,33 @@
                 // Evita inserir múltiplas vezes
                 if (wrapper.querySelector('img')) return;
 
+                const imageNum = item.dataset.image;
                 const machine = item.dataset.machine || 'Aparelho';
                 const muscles = item.dataset.muscles || 'Músculos';
 
-                const machineSrc = createSvgData(machine, 'Aparelho', '#153243', '#e6eef3');
-                const muscleSrc = createSvgData(muscles, 'Músculos', '#2a2b2f', '#ffd6a5');
-
-                const imgMachine = document.createElement('img');
-                imgMachine.className = 'exercise-image machine';
-                imgMachine.src = machineSrc;
-                imgMachine.alt = machine + ' - imagem demonstrativa';
+                let imgMachine;
+                
+                // Se houver número de imagem, use a imagem real
+                if (imageNum && exerciseImages[imageNum]) {
+                    imgMachine = document.createElement('img');
+                    imgMachine.className = 'exercise-image machine';
+                    imgMachine.src = exerciseImages[imageNum];
+                    imgMachine.alt = machine + ' - imagem do exercício';
+                    imgMachine.onerror = function() {
+                        // Se a imagem falhar, cria SVG como fallback
+                        this.src = createSvgData(machine, 'Aparelho', '#153243', '#e6eef3');
+                    };
+                } else {
+                    // Cria SVG como fallback
+                    imgMachine = document.createElement('img');
+                    imgMachine.className = 'exercise-image machine';
+                    imgMachine.src = createSvgData(machine, 'Aparelho', '#153243', '#e6eef3');
+                    imgMachine.alt = machine + ' - imagem demonstrativa';
+                }
 
                 const imgMuscle = document.createElement('img');
                 imgMuscle.className = 'exercise-image muscle';
-                imgMuscle.src = muscleSrc;
+                imgMuscle.src = createSvgData(muscles, 'Músculos', '#2a2b2f', '#ffd6a5');
                 imgMuscle.alt = muscles + ' - área trabalhada';
 
                 wrapper.appendChild(imgMachine);
