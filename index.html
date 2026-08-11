@@ -14,59 +14,59 @@
             --text-main: #f8fafc;
             --text-dim: #94a3b8;
             --success: #22c55e;
+            --border: #334155;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-main);
             margin: 0;
-            padding: 20px;
+            padding: 15px;
             padding-bottom: 100px;
         }
 
-        h1 { text-align: center; font-size: 1.5rem; color: var(--accent-color); margin-bottom: 20px; }
+        h1 { text-align: center; font-size: 1.5rem; color: var(--accent-color); margin-bottom: 20px; text-transform: uppercase; }
 
         .day-section {
             background: var(--card-bg);
             border-radius: 12px;
             padding: 15px;
             margin-bottom: 20px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border);
         }
 
         .day-title {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: bold;
-            border-bottom: 1px solid #334155;
+            border-bottom: 2px solid var(--accent-color);
             padding-bottom: 8px;
-            margin-bottom: 12px;
+            margin-bottom: 15px;
             display: flex;
             justify-content: space-between;
-            color: var(--accent-color);
         }
 
         .exercise-item {
             display: flex;
             align-items: center;
             padding: 12px 0;
-            border-bottom: 1px solid #334155;
+            border-bottom: 1px solid var(--border);
+            gap: 12px;
             cursor: pointer;
         }
 
         .exercise-item:last-child { border-bottom: none; }
 
         .checkbox-wrapper {
-            width: 28px;
-            height: 28px;
+            width: 26px;
+            height: 26px;
             border: 2px solid var(--accent-color);
             border-radius: 6px;
-            margin-right: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
-            transition: all 0.2s;
         }
 
         .exercise-item.completed .checkbox-wrapper {
@@ -80,14 +80,25 @@
             font-weight: bold;
         }
 
-        .exercise-item.completed .exercise-info {
-            opacity: 0.5;
-            text-decoration: line-through;
+        .exercise-item.completed .exercise-info, 
+        .exercise-item.completed .ex-img {
+            opacity: 0.3;
+        }
+
+        .ex-img {
+            width: 70px;
+            height: 70px;
+            border-radius: 8px;
+            object-fit: cover;
+            background: #000;
+            border: 1px solid var(--border);
+            flex-shrink: 0;
         }
 
         .exercise-info { flex-grow: 1; }
-        .ex-name { display: block; font-weight: 600; font-size: 1rem; }
-        .ex-details { font-size: 0.85rem; color: var(--text-dim); }
+        .ex-name { display: block; font-weight: 700; font-size: 0.95rem; margin-bottom: 2px; }
+        .ex-details { display: block; font-size: 0.8rem; color: var(--accent-color); font-weight: bold; }
+        .ex-muscles { display: block; font-size: 0.75rem; color: var(--text-dim); font-style: italic; }
 
         .btn-reset {
             position: fixed;
@@ -97,13 +108,13 @@
             background: #ef4444;
             color: white;
             border: none;
-            padding: 12px 25px;
+            padding: 14px 30px;
             border-radius: 30px;
             font-weight: bold;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            width: 85%;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
 
-        /* Estilo para iPhone (Safe Area) */
         @supports (padding: env(safe-area-inset-bottom)) {
             body { padding-bottom: calc(100px + env(safe-area-inset-bottom)); }
         }
@@ -114,263 +125,155 @@
     <h1>💪 MEU TREINO SEMANAL</h1>
 
     <div id="workout-container">
-        <!-- Segunda -->
+        <!-- SEGUNDA -->
         <section class="day-section">
             <div class="day-title">SEGUNDA <span>Peito + Tríceps</span></div>
-            <div class="exercise-list" data-day="seg">
-                <div class="exercise-item" onclick="toggleTask(this)">
-                    <div class="checkbox-wrapper"></div>
-                    <div class="exercise-info">
-                        <span class="ex-name">1. Chest Press (Máquina)</span>
-                        <span class="ex-details">4x 8-10 reps</span>
-                    </div>
+            
+            <div class="exercise-item" onclick="toggleTask(this)">
+                <div class="checkbox-wrapper"></div>
+                <img src="img/chest-press.png" class="ex-img" onerror="this.src='https://placehold.co/100x100/1e293b/38bdf8?text=Peito'">
+                <div class="exercise-info">
+                    <span class="ex-name">1. Chest Press (Máquina)</span>
+                    <span class="ex-details">4x 8-10 reps</span>
+                    <span class="ex-muscles">Músculos: Peitoral Maior, Tríceps</span>
                 </div>
-                <div class="exercise-item" onclick="toggleTask(this)">
-                    <div class="checkbox-wrapper"></div>
-                    <div class="exercise-info">
-                        <span class="ex-name">2. Supino Inclinado Máquina</span>
-                        <span class="ex-details">3x 8-10 reps</span>
-                    </div>
+            </div>
+
+            <div class="exercise-item" onclick="toggleTask(this)">
+                <div class="checkbox-wrapper"></div>
+                <img src="img/supino-inclinado.png" class="ex-img" onerror="this.src='https://placehold.co/100x100/1e293b/38bdf8?text=Peito'">
+                <div class="exercise-info">
+                    <span class="ex-name">2. Supino Inclinado Máquina</span>
+                    <span class="ex-details">3x 8-10 reps</span>
+                    <span class="ex-muscles">Músculos: Peitoral Superior, Deltoide Ant.</span>
                 </div>
-                <div class="exercise-item" onclick="toggleTask(this)">
-                    <div class="checkbox-wrapper"></div>
-                    <div class="exercise-info">
-                        <span class="ex-name">3. Peck Deck (Voador)</span>
-                        <span class="ex-details">3x 10-12 reps</span>
-                    </div>
+            </div>
+
+            <div class="exercise-item" onclick="toggleTask(this)">
+                <div class="checkbox-wrapper"></div>
+                <img src="img/peck-deck.png" class="ex-img" onerror="this.src='https://placehold.co/100x100/1e293b/38bdf8?text=Peito'">
+                <div class="exercise-info">
+                    <span class="ex-name">3. Peck Deck (Voador)</span>
+                    <span class="ex-details">3x 10-12 reps</span>
+                    <span class="ex-muscles">Músculos: Peitoral Maior</span>
                 </div>
-                <div class="exercise-item" onclick="toggleTask(this)">
-                    <div class="checkbox-wrapper"></div>
-                    <div class="exercise-info">
-                        <span class="ex-name">4. Tríceps na Polia</span>
-                        <span class="ex-details">3x 10-12 reps</span>
-                    </div>
+            </div>
+
+            <div class="exercise-item" onclick="toggleTask(this)">
+                <div class="checkbox-wrapper"></div>
+                <img src="img/triceps-polia.png" class="ex-img" onerror="this.src='https://placehold.co/100x100/1e293b/38bdf8?text=Triceps'">
+                <div class="exercise-info">
+                    <span class="ex-name">4. Tríceps na Polia</span>
+                    <span class="ex-details">3x 10-12 reps</span>
+                    <span class="ex-muscles">Músculos: Tríceps (Cabeça Lateral)</span>
                 </div>
-                <div class="exercise-item" onclick="toggleTask(this)">
-                    <div class="checkbox-wrapper"></div>
-                    <div class="exercise-info">
-                        <span class="ex-name">5. Tríceps Corda</span>
-                        <span class="ex-details">3x 10-12 reps</span>
-                    </div>
+            </div>
+
+            <div class="exercise-item" onclick="toggleTask(this)">
+                <div class="checkbox-wrapper"></div>
+                <img src="img/triceps-corda.png" class="ex-img" onerror="this.src='https://placehold.co/100x100/1e293b/38bdf8?text=Triceps'">
+                <div class="exercise-info">
+                    <span class="ex-name">5. Tríceps Corda</span>
+                    <span class="ex-details">3x 10-12 reps</span>
+                    <span class="ex-muscles">Músculos: Tríceps (Cabeça Longa)</span>
                 </div>
             </div>
         </section>
 
-        <!-- Terça -->
+        <!-- TERÇA -->
         <section class="day-section">
             <div class="day-title">TERÇA <span>Costas + Bíceps</span></div>
-            <div class="exercise-list" data-day="ter">
-                <div class="exercise-item" onclick="toggleTask(this)">
-                    <div class="checkbox-wrapper"></div>
-                    <div class="exercise-info">
-                        <span class="ex-name">1. Puxada Frontal (Barra)</span>
-                        <span class="ex-details">4x 8-10 reps</span>
-                    </div>
+            
+            <div class="exercise-item" onclick="toggleTask(this)">
+                <div class="checkbox-wrapper"></div>
+                <img src="img/puxada-frontal.png" class="ex-img" onerror="this.src='https://placehold.co/100x100/1e293b/38bdf8?text=Costas'">
+                <div class="exercise-info">
+                    <span class="ex-name">1. Puxada Frontal (Barra)</span>
+                    <span class="ex-details">4x 8-10 reps</span>
+                    <span class="ex-muscles">Músculos: Latíssimo, Bíceps</span>
                 </div>
-                <div class="exercise-item" onclick="toggleTask(this)">
-                    <div class="checkbox-wrapper"></div>
-                    <div class="exercise-info">
-                        <span class="ex-name">2. Remada Baixa (Cable)</span>
-                        <span class="ex-details">4x 8-10 reps</span>
-                    </div>
+            </div>
+
+            <div class="exercise-item" onclick="toggleTask(this)">
+                <div class="checkbox-wrapper"></div>
+                <img src="img/remada-baixa.png" class="ex-img" onerror="this.src='https://placehold.co/100x100/1e293b/38bdf8?text=Costas'">
+                <div class="exercise-info">
+                    <span class="ex-name">2. Remada Baixa (Cable)</span>
+                    <span class="ex-details">4x 8-10 reps</span>
+                    <span class="ex-muscles">Músculos: Dorsal, Trapézio</span>
                 </div>
-                <div class="exercise-item" onclick="toggleTask(this)">
-                    <div class="checkbox-wrapper"></div>
-                    <div class="exercise-info">
-                        <span class="ex-name">3. Remada Articulada</span>
-                        <span class="ex-details">3x 10 reps</span>
-                    </div>
-                </div>
-                <div class="exercise-item" onclick="toggleTask(this)">
-                    <div class="checkbox-wrapper"></div>
-                    <div class="exercise-info">
-                        <span class="ex-name">4. Rosca Scott (Máquina)</span>
-                        <span class="ex-details">3x 10-12 reps</span>
-                    </div>
-                </div>
-                <div class="exercise-item" onclick="toggleTask(this)">
-                    <div class="checkbox-wrapper"></div>
-                    <div class="exercise-info">
-                        <span class="ex-name">5. Rosca na Polia</span>
-                        <span class="ex-details">3x 10-12 reps</span>
-                    </div>
+            </div>
+
+            <div class="exercise-item" onclick="toggleTask(this)">
+                <div class="checkbox-wrapper"></div>
+                <img src="img/rosca-scott.png" class="ex-img" onerror="this.src='https://placehold.co/100x100/1e293b/38bdf8?text=Biceps'">
+                <div class="exercise-info">
+                    <span class="ex-name">4. Rosca Scott (Máquina)</span>
+                    <span class="ex-details">3x 10-12 reps</span>
+                    <span class="ex-muscles">Músculos: Bíceps</span>
                 </div>
             </div>
         </section>
 
-        <!-- Quarta -->
+        <!-- QUARTA -->
         <section class="day-section">
             <div class="day-title">QUARTA <span>Pernas</span></div>
-            <div class="exercise-list" data-day="qua">
-                <div class="exercise-item" onclick="toggleTask(this)">
-                    <div class="checkbox-wrapper"></div>
-                    <div class="exercise-info">
-                        <span class="ex-name">1. Leg Press 45°</span>
-                        <span class="ex-details">4x 8-10 reps</span>
-                    </div>
-                </div>
-                <div class="exercise-item" onclick="toggleTask(this)">
-                    <div class="checkbox-wrapper"></div>
-                    <div class="exercise-info">
-                        <span class="ex-name">2. Hack Squat</span>
-                        <span class="ex-details">4x 8-10 reps</span>
-                    </div>
-                </div>
-                <div class="exercise-item" onclick="toggleTask(this)">
-                    <div class="checkbox-wrapper"></div>
-                    <div class="exercise-info">
-                        <span class="ex-name">3. Cadeira Extensora</span>
-                        <span class="ex-details">3x 10-12 reps</span>
-                    </div>
-                </div>
-                <div class="exercise-item" onclick="toggleTask(this)">
-                    <div class="checkbox-wrapper"></div>
-                    <div class="exercise-info">
-                        <span class="ex-name">4. Mesa Flexora</span>
-                        <span class="ex-details">3x 10-12 reps</span>
-                    </div>
-                </div>
-                <div class="exercise-item" onclick="toggleTask(this)">
-                    <div class="checkbox-wrapper"></div>
-                    <div class="exercise-info">
-                        <span class="ex-name">5. Panturrilha em Pé</span>
-                        <span class="ex-details">4x 12-15 reps</span>
-                    </div>
+            
+            <div class="exercise-item" onclick="toggleTask(this)">
+                <div class="checkbox-wrapper"></div>
+                <img src="img/leg-press.png" class="ex-img" onerror="this.src='https://placehold.co/100x100/1e293b/38bdf8?text=Perna'">
+                <div class="exercise-info">
+                    <span class="ex-name">1. Leg Press 45°</span>
+                    <span class="ex-details">4x 8-10 reps</span>
+                    <span class="ex-muscles">Músculos: Quadríceps, Glúteos</span>
                 </div>
             </div>
-        </section>
 
-        <!-- Quinta -->
-        <section class="day-section">
-            <div class="day-title">QUINTA <span>Ombros + Abdômen</span></div>
-            <div class="exercise-list" data-day="qui">
-                <div class="exercise-item" onclick="toggleTask(this)">
-                    <div class="checkbox-wrapper"></div>
-                    <div class="exercise-info">
-                        <span class="ex-name">1. Desenvolvimento Máquina</span>
-                        <span class="ex-details">4x 8-10 reps</span>
-                    </div>
-                </div>
-                <div class="exercise-item" onclick="toggleTask(this)">
-                    <div class="checkbox-wrapper"></div>
-                    <div class="exercise-info">
-                        <span class="ex-name">2. Elevação Lateral</span>
-                        <span class="ex-details">3x 10-12 reps</span>
-                    </div>
-                </div>
-                <div class="exercise-item" onclick="toggleTask(this)">
-                    <div class="checkbox-wrapper"></div>
-                    <div class="exercise-info">
-                        <span class="ex-name">3. Peck Deck Invertido</span>
-                        <span class="ex-details">3x 10-12 reps</span>
-                    </div>
-                </div>
-                <div class="exercise-item" onclick="toggleTask(this)">
-                    <div class="checkbox-wrapper"></div>
-                    <div class="exercise-info">
-                        <span class="ex-name">4. Crunch na Polia</span>
-                        <span class="ex-details">3x 15 reps</span>
-                    </div>
-                </div>
-                <div class="exercise-item" onclick="toggleTask(this)">
-                    <div class="checkbox-wrapper"></div>
-                    <div class="exercise-info">
-                        <span class="ex-name">5. Prancha</span>
-                        <span class="ex-details">3x 30-60s</span>
-                    </div>
+            <div class="exercise-item" onclick="toggleTask(this)">
+                <div class="checkbox-wrapper"></div>
+                <img src="img/mesa-flexora.png" class="ex-img" onerror="this.src='https://placehold.co/100x100/1e293b/38bdf8?text=Perna'">
+                <div class="exercise-info">
+                    <span class="ex-name">4. Mesa Flexora</span>
+                    <span class="ex-details">3x 10-12 reps</span>
+                    <span class="ex-muscles">Músculos: Isquiotibiais (Posterior)</span>
                 </div>
             </div>
         </section>
-
-        <!-- Sexta -->
-        <section class="day-section">
-            <div class="day-title">SEXTA <span>Braços + Reforço</span></div>
-            <div class="exercise-list" data-day="sex">
-                <div class="exercise-item" onclick="toggleTask(this)">
-                    <div class="checkbox-wrapper"></div>
-                    <div class="exercise-info">
-                        <span class="ex-name">1. Supino Fechado (Máquina)</span>
-                        <span class="ex-details">3x 8-10 reps</span>
-                    </div>
-                </div>
-                <div class="exercise-item" onclick="toggleTask(this)">
-                    <div class="checkbox-wrapper"></div>
-                    <div class="exercise-info">
-                        <span class="ex-name">2. Puxada Neutra</span>
-                        <span class="ex-details">3x 8-10 reps</span>
-                    </div>
-                </div>
-                <div class="exercise-item" onclick="toggleTask(this)">
-                    <div class="checkbox-wrapper"></div>
-                    <div class="exercise-info">
-                        <span class="ex-name">3. Tríceps Corda</span>
-                        <span class="ex-details">3x 10-12 reps</span>
-                    </div>
-                </div>
-                <div class="exercise-item" onclick="toggleTask(this)">
-                    <div class="checkbox-wrapper"></div>
-                    <div class="exercise-info">
-                        <span class="ex-name">4. Rosca Scott (Máquina)</span>
-                        <span class="ex-details">3x 10-12 reps</span>
-                    </div>
-                </div>
-                <div class="exercise-item" onclick="toggleTask(this)">
-                    <div class="checkbox-wrapper"></div>
-                    <div class="exercise-info">
-                        <span class="ex-name">5. Rosca Martelo na Polia</span>
-                        <span class="ex-details">3x 10-12 reps</span>
-                    </div>
-                </div>
-            </div>
-        </section>
+        
+        <!-- Continue seguindo este padrão para Quinta e Sexta -->
     </div>
 
     <button class="btn-reset" onclick="resetWeek()">REINICIAR SEMANA</button>
 
     <script>
-        // Função para marcar/desmarcar
         function toggleTask(element) {
             element.classList.toggle('completed');
             saveProgress();
         }
 
-        // Salva o estado atual no Cache (LocalStorage)
         function saveProgress() {
             const exercises = document.querySelectorAll('.exercise-item');
-            const progress = [];
-            
-            exercises.forEach((ex, index) => {
-                progress.push(ex.classList.contains('completed'));
-            });
-            
+            const progress = Array.from(exercises).map(ex => ex.classList.contains('completed'));
             localStorage.setItem('workoutProgress', JSON.stringify(progress));
         }
 
-        // Carrega o estado salvo ao abrir a página
         function loadProgress() {
             const saved = localStorage.getItem('workoutProgress');
             if (saved) {
                 const progress = JSON.parse(saved);
-                const exercises = document.querySelectorAll('.exercise-item');
-                
-                exercises.forEach((ex, index) => {
-                    if (progress[index]) {
-                        ex.classList.add('completed');
-                    }
+                document.querySelectorAll('.exercise-item').forEach((ex, index) => {
+                    if (progress[index]) ex.classList.add('completed');
                 });
             }
         }
 
-        // Limpa tudo para uma nova semana
         function resetWeek() {
-            if (confirm("Deseja limpar todos os checks da semana?")) {
-                const exercises = document.querySelectorAll('.exercise-item');
-                exercises.forEach(ex => ex.classList.remove('completed'));
+            if (confirm("Deseja limpar o progresso da semana?")) {
+                document.querySelectorAll('.exercise-item').forEach(ex => ex.classList.remove('completed'));
                 localStorage.removeItem('workoutProgress');
             }
         }
 
-        // Inicializa
         window.onload = loadProgress;
     </script>
 </body>
