@@ -119,14 +119,25 @@
             color: var(--text-dim); 
         }
 
-        .exercise-image {
-            width: 60px;
-            height: 60px;
+        .images-wrapper {
+            display: flex;
+            gap: 8px;
             margin-left: 12px;
+            flex-shrink: 0;
+        }
+
+        .exercise-image {
+            width: 64px;
+            height: 48px;
             border-radius: 6px;
             object-fit: cover;
-            flex-shrink: 0;
             border: 1px solid var(--border-color);
+            background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.03));
+        }
+
+        .exercise-image.muscle {
+            width: 48px;
+            height: 48px;
         }
 
         .btn-reset {
@@ -154,6 +165,10 @@
         @supports (padding: env(safe-area-inset-bottom)) {
             body { padding-bottom: calc(100px + env(safe-area-inset-bottom)); }
         }
+
+        @media (max-width: 520px) {
+            .exercise-image { display: none; }
+        }
     </style>
 </head>
 <body>
@@ -165,41 +180,45 @@
         <section class="day-section">
             <div class="day-title">SEGUNDA <span>Peito + Tríceps</span></div>
             <div class="exercise-list" data-day="seg">
-                <div class="exercise-item" onclick="toggleTask(this)">
+                <div class="exercise-item" data-machine="Chest Press (Máquina)" data-muscles="Peito" onclick="toggleTask(this)">
                     <div class="checkbox-wrapper"></div>
                     <div class="exercise-info">
                         <span class="ex-name">1. Chest Press (Máquina)</span>
                         <span class="ex-details">4x 8-10 reps</span>
                     </div>
-                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'%3E%3Crect fill='%23111827' width='400' height='400'/%3E%3C/svg%3E" alt="Chest Press" class="exercise-image" style="background: url('https://i.ibb.co/yVxV3xR/chest-press.jpg') center/cover;">
+                    <div class="images-wrapper"></div>
                 </div>
-                <div class="exercise-item" onclick="toggleTask(this)">
+                <div class="exercise-item" data-machine="Supino Inclinado Máquina" data-muscles="Peito Superior" onclick="toggleTask(this)">
                     <div class="checkbox-wrapper"></div>
                     <div class="exercise-info">
                         <span class="ex-name">2. Supino Inclinado Máquina</span>
                         <span class="ex-details">3x 8-10 reps</span>
                     </div>
+                    <div class="images-wrapper"></div>
                 </div>
-                <div class="exercise-item" onclick="toggleTask(this)">
+                <div class="exercise-item" data-machine="Peck Deck (Voador)" data-muscles="Peito" onclick="toggleTask(this)">
                     <div class="checkbox-wrapper"></div>
                     <div class="exercise-info">
                         <span class="ex-name">3. Peck Deck (Voador)</span>
                         <span class="ex-details">3x 10-12 reps</span>
                     </div>
+                    <div class="images-wrapper"></div>
                 </div>
-                <div class="exercise-item" onclick="toggleTask(this)">
+                <div class="exercise-item" data-machine="Tríceps na Polia" data-muscles="Tríceps" onclick="toggleTask(this)">
                     <div class="checkbox-wrapper"></div>
                     <div class="exercise-info">
                         <span class="ex-name">4. Tríceps na Polia</span>
                         <span class="ex-details">3x 10-12 reps</span>
                     </div>
+                    <div class="images-wrapper"></div>
                 </div>
-                <div class="exercise-item" onclick="toggleTask(this)">
+                <div class="exercise-item" data-machine="Tríceps Corda" data-muscles="Tríceps" onclick="toggleTask(this)">
                     <div class="checkbox-wrapper"></div>
                     <div class="exercise-info">
                         <span class="ex-name">5. Tríceps Corda</span>
                         <span class="ex-details">3x 10-12 reps</span>
                     </div>
+                    <div class="images-wrapper"></div>
                 </div>
             </div>
         </section>
@@ -208,40 +227,45 @@
         <section class="day-section">
             <div class="day-title">TERÇA <span>Costas + Bíceps</span></div>
             <div class="exercise-list" data-day="ter">
-                <div class="exercise-item" onclick="toggleTask(this)">
+                <div class="exercise-item" data-machine="Puxada Frontal (Barra)" data-muscles="Dorsais" onclick="toggleTask(this)">
                     <div class="checkbox-wrapper"></div>
                     <div class="exercise-info">
                         <span class="ex-name">1. Puxada Frontal (Barra)</span>
                         <span class="ex-details">4x 8-10 reps</span>
                     </div>
+                    <div class="images-wrapper"></div>
                 </div>
-                <div class="exercise-item" onclick="toggleTask(this)">
+                <div class="exercise-item" data-machine="Remada Baixa (Cable)" data-muscles="Dorsais, Bíceps" onclick="toggleTask(this)">
                     <div class="checkbox-wrapper"></div>
                     <div class="exercise-info">
                         <span class="ex-name">2. Remada Baixa (Cable)</span>
                         <span class="ex-details">4x 8-10 reps</span>
                     </div>
+                    <div class="images-wrapper"></div>
                 </div>
-                <div class="exercise-item" onclick="toggleTask(this)">
+                <div class="exercise-item" data-machine="Remada Articulada" data-muscles="Dorsais" onclick="toggleTask(this)">
                     <div class="checkbox-wrapper"></div>
                     <div class="exercise-info">
                         <span class="ex-name">3. Remada Articulada</span>
                         <span class="ex-details">3x 10 reps</span>
                     </div>
+                    <div class="images-wrapper"></div>
                 </div>
-                <div class="exercise-item" onclick="toggleTask(this)">
+                <div class="exercise-item" data-machine="Rosca Scott (Máquina)" data-muscles="Bíceps" onclick="toggleTask(this)">
                     <div class="checkbox-wrapper"></div>
                     <div class="exercise-info">
                         <span class="ex-name">4. Rosca Scott (Máquina)</span>
                         <span class="ex-details">3x 10-12 reps</span>
                     </div>
+                    <div class="images-wrapper"></div>
                 </div>
-                <div class="exercise-item" onclick="toggleTask(this)">
+                <div class="exercise-item" data-machine="Rosca na Polia" data-muscles="Bíceps" onclick="toggleTask(this)">
                     <div class="checkbox-wrapper"></div>
                     <div class="exercise-info">
                         <span class="ex-name">5. Rosca na Polia</span>
                         <span class="ex-details">3x 10-12 reps</span>
                     </div>
+                    <div class="images-wrapper"></div>
                 </div>
             </div>
         </section>
@@ -250,40 +274,45 @@
         <section class="day-section">
             <div class="day-title">QUARTA <span>Pernas</span></div>
             <div class="exercise-list" data-day="qua">
-                <div class="exercise-item" onclick="toggleTask(this)">
+                <div class="exercise-item" data-machine="Leg Press 45°" data-muscles="Quadríceps, Glúteos" onclick="toggleTask(this)">
                     <div class="checkbox-wrapper"></div>
                     <div class="exercise-info">
                         <span class="ex-name">1. Leg Press 45°</span>
                         <span class="ex-details">4x 8-10 reps</span>
                     </div>
+                    <div class="images-wrapper"></div>
                 </div>
-                <div class="exercise-item" onclick="toggleTask(this)">
+                <div class="exercise-item" data-machine="Hack Squat" data-muscles="Quadríceps, Glúteos" onclick="toggleTask(this)">
                     <div class="checkbox-wrapper"></div>
                     <div class="exercise-info">
                         <span class="ex-name">2. Hack Squat</span>
                         <span class="ex-details">4x 8-10 reps</span>
                     </div>
+                    <div class="images-wrapper"></div>
                 </div>
-                <div class="exercise-item" onclick="toggleTask(this)">
+                <div class="exercise-item" data-machine="Cadeira Extensora" data-muscles="Quadríceps" onclick="toggleTask(this)">
                     <div class="checkbox-wrapper"></div>
                     <div class="exercise-info">
                         <span class="ex-name">3. Cadeira Extensora</span>
                         <span class="ex-details">3x 10-12 reps</span>
                     </div>
+                    <div class="images-wrapper"></div>
                 </div>
-                <div class="exercise-item" onclick="toggleTask(this)">
+                <div class="exercise-item" data-machine="Mesa Flexora" data-muscles="Posterior de Coxa" onclick="toggleTask(this)">
                     <div class="checkbox-wrapper"></div>
                     <div class="exercise-info">
                         <span class="ex-name">4. Mesa Flexora</span>
                         <span class="ex-details">3x 10-12 reps</span>
                     </div>
+                    <div class="images-wrapper"></div>
                 </div>
-                <div class="exercise-item" onclick="toggleTask(this)">
+                <div class="exercise-item" data-machine="Panturrilha em Pé" data-muscles="Panturrilhas" onclick="toggleTask(this)">
                     <div class="checkbox-wrapper"></div>
                     <div class="exercise-info">
                         <span class="ex-name">5. Panturrilha em Pé</span>
                         <span class="ex-details">4x 12-15 reps</span>
                     </div>
+                    <div class="images-wrapper"></div>
                 </div>
             </div>
         </section>
@@ -292,40 +321,45 @@
         <section class="day-section">
             <div class="day-title">QUINTA <span>Ombros + Abdômen</span></div>
             <div class="exercise-list" data-day="qui">
-                <div class="exercise-item" onclick="toggleTask(this)">
+                <div class="exercise-item" data-machine="Desenvolvimento Máquina" data-muscles="Deltoides (Ombros)" onclick="toggleTask(this)">
                     <div class="checkbox-wrapper"></div>
                     <div class="exercise-info">
                         <span class="ex-name">1. Desenvolvimento Máquina</span>
                         <span class="ex-details">4x 8-10 reps</span>
                     </div>
+                    <div class="images-wrapper"></div>
                 </div>
-                <div class="exercise-item" onclick="toggleTask(this)">
+                <div class="exercise-item" data-machine="Elevação Lateral" data-muscles="Deltoides Laterais" onclick="toggleTask(this)">
                     <div class="checkbox-wrapper"></div>
                     <div class="exercise-info">
                         <span class="ex-name">2. Elevação Lateral</span>
                         <span class="ex-details">3x 10-12 reps</span>
                     </div>
+                    <div class="images-wrapper"></div>
                 </div>
-                <div class="exercise-item" onclick="toggleTask(this)">
+                <div class="exercise-item" data-machine="Peck Deck Invertido" data-muscles="Deltoides Posteriores" onclick="toggleTask(this)">
                     <div class="checkbox-wrapper"></div>
                     <div class="exercise-info">
                         <span class="ex-name">3. Peck Deck Invertido</span>
                         <span class="ex-details">3x 10-12 reps</span>
                     </div>
+                    <div class="images-wrapper"></div>
                 </div>
-                <div class="exercise-item" onclick="toggleTask(this)">
+                <div class="exercise-item" data-machine="Crunch na Polia" data-muscles="Reto Abdominal" onclick="toggleTask(this)">
                     <div class="checkbox-wrapper"></div>
                     <div class="exercise-info">
                         <span class="ex-name">4. Crunch na Polia</span>
                         <span class="ex-details">3x 15 reps</span>
                     </div>
+                    <div class="images-wrapper"></div>
                 </div>
-                <div class="exercise-item" onclick="toggleTask(this)">
+                <div class="exercise-item" data-machine="Prancha" data-muscles="Core (Abdômen)" onclick="toggleTask(this)">
                     <div class="checkbox-wrapper"></div>
                     <div class="exercise-info">
                         <span class="ex-name">5. Prancha</span>
                         <span class="ex-details">3x 30-60s</span>
                     </div>
+                    <div class="images-wrapper"></div>
                 </div>
             </div>
         </section>
@@ -334,40 +368,45 @@
         <section class="day-section">
             <div class="day-title">SEXTA <span>Braços + Reforço</span></div>
             <div class="exercise-list" data-day="sex">
-                <div class="exercise-item" onclick="toggleTask(this)">
+                <div class="exercise-item" data-machine="Supino Fechado (Máquina)" data-muscles="Peito (Foco Tríceps)" onclick="toggleTask(this)">
                     <div class="checkbox-wrapper"></div>
                     <div class="exercise-info">
                         <span class="ex-name">1. Supino Fechado (Máquina)</span>
                         <span class="ex-details">3x 8-10 reps</span>
                     </div>
+                    <div class="images-wrapper"></div>
                 </div>
-                <div class="exercise-item" onclick="toggleTask(this)">
+                <div class="exercise-item" data-machine="Puxada Neutra" data-muscles="Dorsais, Bíceps" onclick="toggleTask(this)">
                     <div class="checkbox-wrapper"></div>
                     <div class="exercise-info">
                         <span class="ex-name">2. Puxada Neutra</span>
                         <span class="ex-details">3x 8-10 reps</span>
                     </div>
+                    <div class="images-wrapper"></div>
                 </div>
-                <div class="exercise-item" onclick="toggleTask(this)">
+                <div class="exercise-item" data-machine="Tríceps Corda" data-muscles="Tríceps" onclick="toggleTask(this)">
                     <div class="checkbox-wrapper"></div>
                     <div class="exercise-info">
                         <span class="ex-name">3. Tríceps Corda</span>
                         <span class="ex-details">3x 10-12 reps</span>
                     </div>
+                    <div class="images-wrapper"></div>
                 </div>
-                <div class="exercise-item" onclick="toggleTask(this)">
+                <div class="exercise-item" data-machine="Rosca Scott (Máquina)" data-muscles="Bíceps" onclick="toggleTask(this)">
                     <div class="checkbox-wrapper"></div>
                     <div class="exercise-info">
                         <span class="ex-name">4. Rosca Scott (Máquina)</span>
                         <span class="ex-details">3x 10-12 reps</span>
                     </div>
+                    <div class="images-wrapper"></div>
                 </div>
-                <div class="exercise-item" onclick="toggleTask(this)">
+                <div class="exercise-item" data-machine="Rosca Martelo na Polia" data-muscles="Bíceps, Braquiorradial" onclick="toggleTask(this)">
                     <div class="checkbox-wrapper"></div>
                     <div class="exercise-info">
                         <span class="ex-name">5. Rosca Martelo na Polia</span>
                         <span class="ex-details">3x 10-12 reps</span>
                     </div>
+                    <div class="images-wrapper"></div>
                 </div>
             </div>
         </section>
@@ -380,6 +419,48 @@
         function toggleTask(element) {
             element.classList.toggle('completed');
             saveProgress();
+        }
+
+        // Cria um SVG simples como imagem demonstrativa (aparelho ou músculo)
+        function createSvgData(text, subtext, bgColor, textColor) {
+            const svg = `
+                <svg xmlns='http://www.w3.org/2000/svg' width='320' height='200' viewBox='0 0 320 200'>
+                    <rect width='100%' height='100%' fill='${bgColor}' rx='8' />
+                    <text x='50%' y='45%' font-size='18' fill='${textColor}' text-anchor='middle' font-family='Arial, Helvetica, sans-serif'>${text}</text>
+                    <text x='50%' y='70%' font-size='12' fill='${textColor}' text-anchor='middle' font-family='Arial, Helvetica, sans-serif' opacity='0.9'>${subtext}</text>
+                </svg>
+            `;
+            return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
+        }
+
+        // Insere imagens em cada exercício com base nos atributos data-machine e data-muscles
+        function injectExerciseImages() {
+            const items = document.querySelectorAll('.exercise-item');
+            items.forEach(item => {
+                const wrapper = item.querySelector('.images-wrapper');
+                if (!wrapper) return;
+                // Evita inserir múltiplas vezes
+                if (wrapper.querySelector('img')) return;
+
+                const machine = item.dataset.machine || 'Aparelho';
+                const muscles = item.dataset.muscles || 'Músculos';
+
+                const machineSrc = createSvgData(machine, 'Aparelho', '#153243', '#e6eef3');
+                const muscleSrc = createSvgData(muscles, 'Músculos', '#2a2b2f', '#ffd6a5');
+
+                const imgMachine = document.createElement('img');
+                imgMachine.className = 'exercise-image machine';
+                imgMachine.src = machineSrc;
+                imgMachine.alt = machine + ' - imagem demonstrativa';
+
+                const imgMuscle = document.createElement('img');
+                imgMuscle.className = 'exercise-image muscle';
+                imgMuscle.src = muscleSrc;
+                imgMuscle.alt = muscles + ' - área trabalhada';
+
+                wrapper.appendChild(imgMachine);
+                wrapper.appendChild(imgMuscle);
+            });
         }
 
         // Salva o estado atual no Cache (LocalStorage)
@@ -407,6 +488,8 @@
                     }
                 });
             }
+            // Depois de aplicar o progresso, injetamos as imagens
+            injectExerciseImages();
         }
 
         // Limpa tudo para uma nova semana
