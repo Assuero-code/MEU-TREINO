@@ -2,440 +2,1533 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Meu Treino Diário</title>
+    <meta name="apple-mobile-web-app-title" content="Meu Treino">
+    <meta name="theme-color" content="#0b0f19">
+    <title>Meu Treino Diário | Pro Workout</title>
+    
+    <!-- Google Fonts & Font Awesome Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
         :root {
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
-            --accent-color: #38bdf8;
+            --bg-dark: #090d16;
+            --card-bg: rgba(22, 30, 46, 0.75);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --accent-primary: #38bdf8;
+            --accent-gradient: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
+            --accent-glow: rgba(56, 189, 248, 0.35);
+            --success-color: #10b981;
+            --success-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            --danger-color: #ef4444;
             --text-main: #f8fafc;
-            --text-dim: #94a3b8;
-            --success: #22c55e;
-            --border: #334155;
+            --text-muted: #94a3b8;
+            --text-subtle: #64748b;
+            --radius-xl: 22px;
+            --radius-lg: 16px;
+            --radius-md: 12px;
+            --shadow-card: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+            --safe-area-bottom: env(safe-area-inset-bottom, 20px);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: var(--bg-color);
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-dark);
+            background-image: 
+                radial-gradient(circle at 10% 10%, rgba(56, 189, 248, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(129, 140, 248, 0.08) 0%, transparent 40%);
+            background-attachment: fixed;
             color: var(--text-main);
-            margin: 0;
-            padding: 15px;
-            padding-bottom: 120px;
+            min-height: 100vh;
+            padding-bottom: calc(140px + var(--safe-area-bottom));
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        h1 { text-align: center; font-size: 1.4rem; color: var(--accent-color); margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
-
-        .day-section {
-            background: var(--card-bg);
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 25px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-            border: 1px solid var(--border);
+        /* App Container & Max Width for iPad/Desktop */
+        .app-wrapper {
+            width: 100%;
+            max-width: 768px;
+            padding: 16px 16px 0 16px;
         }
 
-        .day-title {
-            font-size: 1.1rem;
-            font-weight: bold;
-            border-bottom: 2px solid var(--accent-color);
-            padding-bottom: 8px;
-            margin-bottom: 15px;
+        /* Header Layout */
+        header {
+            margin-bottom: 20px;
+            padding: 12px 4px;
+        }
+
+        .header-top {
             display: flex;
             justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
         }
 
-        .exercise-item {
+        .brand-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             display: flex;
             align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid var(--border);
+            gap: 8px;
+        }
+
+        .brand-title i {
+            -webkit-text-fill-color: var(--accent-primary);
+        }
+
+        .today-badge {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 5px 12px;
+            border-radius: 20px;
+            background: rgba(56, 189, 248, 0.12);
+            color: var(--accent-primary);
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            letter-spacing: 0.5px;
+        }
+
+        /* Overall Progress Bar */
+        .progress-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-lg);
+            padding: 14px 16px;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            box-shadow: var(--shadow-card);
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .progress-bar-bg {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: var(--accent-gradient);
+            border-radius: 10px;
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 12px var(--accent-glow);
+        }
+
+        /* Day Navigation Tabs (Mobile Optimized Horizontal Scroll) */
+        .day-tabs-container {
+            margin-bottom: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(9, 13, 22, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 10px 0;
+            margin-left: -16px;
+            margin-right: -16px;
+            padding-left: 16px;
+            padding-right: 16px;
+        }
+
+        .day-tabs {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE */
+        }
+        .day-tabs::-webkit-scrollbar { display: none; }
+
+        .tab-btn {
+            flex: 0 0 auto;
+            padding: 10px 18px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-md);
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .tab-btn .tab-sub {
+            font-size: 0.65rem;
+            font-weight: 500;
+            opacity: 0.7;
+        }
+
+        .tab-btn.active {
+            background: var(--accent-gradient);
+            color: #ffffff;
+            border-color: transparent;
+            box-shadow: 0 4px 16px var(--accent-glow);
+            transform: translateY(-2px);
+        }
+
+        .tab-btn.completed-day:not(.active) {
+            border-color: rgba(16, 185, 129, 0.4);
+            color: var(--success-color);
+        }
+
+        /* Workout Sections */
+        .day-section {
+            display: none;
+            animation: fadeIn 0.35s ease-in-out forwards;
+        }
+        .day-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-header {
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .muscle-group-tag {
+            font-size: 0.8rem;
+            color: var(--accent-primary);
+            font-weight: 600;
+            background: rgba(56, 189, 248, 0.1);
+            padding: 4px 10px;
+            border-radius: 8px;
+        }
+
+        /* Exercise Cards */
+        .exercise-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .exercise-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-xl);
+            padding: 14px;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: var(--shadow-card);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
             gap: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .exercise-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--accent-gradient);
+            opacity: 0;
+            transition: opacity 0.25s ease;
+        }
+
+        .exercise-card.completed {
+            background: rgba(16, 185, 129, 0.05);
+            border-color: rgba(16, 185, 129, 0.25);
+        }
+
+        .exercise-card.completed::before {
+            background: var(--success-gradient);
+            opacity: 1;
+        }
+
+        .exercise-main-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
             cursor: pointer;
         }
 
-        .exercise-item:last-child { border-bottom: none; }
-
-        .checkbox-wrapper {
-            width: 26px;
-            height: 26px;
-            border: 2px solid var(--accent-color);
-            border-radius: 6px;
+        .checkbox-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 10px;
+            border: 2px solid var(--card-border);
+            background: rgba(255, 255, 255, 0.03);
             display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
+            transition: all 0.25s ease;
+            font-size: 0.9rem;
+            color: transparent;
         }
 
-        .exercise-item.completed .checkbox-wrapper {
-            background-color: var(--success);
-            border-color: var(--success);
+        .exercise-card.completed .checkbox-btn {
+            background: var(--success-gradient);
+            border-color: transparent;
+            color: #ffffff;
+            box-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
         }
 
-        .exercise-item.completed .checkbox-wrapper::after {
-            content: '✓';
-            color: white;
-            font-weight: bold;
-        }
-
-        .exercise-item.completed .exercise-info, 
-        .exercise-item.completed .ex-img {
-            opacity: 0.3;
+        .ex-img-wrapper {
+            width: 68px;
+            height: 68px;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--card-border);
+            flex-shrink: 0;
+            position: relative;
         }
 
         .ex-img {
-            width: 65px;
-            height: 65px;
-            border-radius: 8px;
+            width: 100%;
+            height: 100%;
             object-fit: cover;
-            background: #000;
-            border: 1px solid var(--border);
-            flex-shrink: 0;
+            transition: transform 0.3s ease;
         }
 
-        .exercise-info { flex-grow: 1; }
-        .ex-name { display: block; font-weight: 700; font-size: 0.95rem; margin-bottom: 2px; }
-        .ex-details { display: block; font-size: 0.8rem; color: var(--accent-color); font-weight: bold; }
-        .ex-muscles { display: block; font-size: 0.7rem; color: var(--text-dim); font-style: italic; }
+        .exercise-card.completed .ex-img {
+            opacity: 0.5;
+            filter: grayscale(0.5);
+        }
 
-        .btn-reset {
-            position: fixed;
-            bottom: 25px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #ef4444;
-            color: white;
+        .exercise-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .ex-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 4px;
+            line-height: 1.3;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .exercise-card.completed .ex-title {
+            text-decoration: line-through;
+            color: var(--text-muted);
+        }
+
+        .ex-details-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 4px;
+        }
+
+        .ex-sets-badge {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+            background: rgba(56, 189, 248, 0.12);
+            padding: 2px 8px;
+            border-radius: 6px;
+        }
+
+        .ex-muscles-text {
+            font-size: 0.73rem;
+            color: var(--text-muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Load / Reps Tracker Row */
+        .exercise-extra-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding-top: 8px;
+            border-top: 1px dashed rgba(255, 255, 255, 0.08);
+            font-size: 0.8rem;
+        }
+
+        .load-input-group {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(0, 0, 0, 0.25);
+            padding: 4px 10px;
+            border-radius: 8px;
+            border: 1px solid var(--card-border);
+        }
+
+        .load-input-group label {
+            color: var(--text-subtle);
+            font-size: 0.72rem;
+            font-weight: 600;
+        }
+
+        .load-input {
+            width: 50px;
+            background: transparent;
             border: none;
-            padding: 14px 30px;
+            color: var(--accent-primary);
+            font-weight: 700;
+            font-size: 0.85rem;
+            font-family: inherit;
+            outline: none;
+            text-align: right;
+        }
+
+        .timer-trigger-btn {
+            background: rgba(56, 189, 248, 0.1);
+            color: var(--accent-primary);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            padding: 5px 10px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.2s ease;
+        }
+        .timer-trigger-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Floating Rest Timer Widget */
+        .timer-widget {
+            position: fixed;
+            bottom: 85px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            opacity: 0;
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid var(--accent-primary);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6), 0 0 20px var(--accent-glow);
+            padding: 10px 20px;
             border-radius: 30px;
-            font-weight: bold;
-            width: 85%;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            z-index: 990;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            pointer-events: none;
+        }
+
+        .timer-widget.active {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .timer-display {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--accent-primary);
+            font-variant-numeric: tabular-nums;
+        }
+
+        .timer-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .timer-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: var(--text-main);
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 0.75rem;
+        }
+
+        /* Bottom Fixed Action Bar */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(9, 13, 22, 0.9);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid var(--card-border);
+            padding: 12px 16px calc(12px + var(--safe-area-bottom)) 16px;
+            display: flex;
+            justify-content: center;
             z-index: 1000;
         }
 
-        @supports (padding: env(safe-area-inset-bottom)) {
-            body { padding-bottom: calc(120px + env(safe-area-inset-bottom)); }
+        .nav-content {
+            width: 100%;
+            max-width: 768px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-action {
+            flex: 1;
+            padding: 14px;
+            border-radius: 14px;
+            border: none;
+            font-weight: 700;
+            font-size: 0.9rem;
+            font-family: inherit;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-reset {
+            background: rgba(239, 68, 68, 0.12);
+            color: #f87171;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .btn-reset:active {
+            background: rgba(239, 68, 68, 0.25);
+            transform: scale(0.98);
+        }
+
+        .btn-quick-timer {
+            background: var(--accent-gradient);
+            color: #ffffff;
+            box-shadow: 0 4px 16px var(--accent-glow);
+        }
+
+        .btn-quick-timer:active {
+            transform: scale(0.98);
+        }
+
+        /* Responsive Layout for iPad / Desktop (Grid Split) */
+        @media (min-width: 640px) {
+            .app-wrapper {
+                padding-top: 24px;
+            }
+            .header-top {
+                margin-bottom: 20px;
+            }
+            .brand-title {
+                font-size: 1.8rem;
+            }
+            .day-tabs {
+                justify-content: space-between;
+            }
+            .tab-btn {
+                flex: 1;
+            }
+            .exercise-list {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 16px;
+            }
+            .exercise-card {
+                height: 100%;
+                justify-content: space-between;
+            }
         }
     </style>
 </head>
 <body>
 
-    <h1>💪 TREINO HIPERTROFIA 5X</h1>
-
-    <div id="workout-container">
-        
-        <!-- SEGUNDA -->
-        <section class="day-section">
-            <div class="day-title">SEGUNDA <span>Peito + Tríceps</span></div>
-            
-            <div class="exercise-item" onclick="toggleTask(this)">
-                <div class="checkbox-wrapper"></div>
-                <img src="img/chest-press.png" class="ex-img" onerror="this.src='https://placehold.co/100x100/1e293b/38bdf8?text=Peito'">
-                <div class="exercise-info">
-                    <span class="ex-name">1. Chest Press (Máquina)</span>
-                    <span class="ex-details">4x 8-10 reps</span>
-                    <span class="ex-muscles">Trabalha: Peitoral Maior, Tríceps</span>
+    <div class="app-wrapper">
+        <!-- Header -->
+        <header>
+            <div class="header-top">
+                <div class="brand-title">
+                    <i class="fa-solid fa-dumbbell"></i> MEU TREINO PRO
                 </div>
+                <div class="today-badge" id="todayBadge">SEMANA ATIVA</div>
             </div>
 
-            <div class="exercise-item" onclick="toggleTask(this)">
-                <div class="checkbox-wrapper"></div>
-                <img src="img/supino-inclinado.png" class="ex-img" onerror="this.src='https://placehold.co/100x100/1e293b/38bdf8?text=Peito'">
-                <div class="exercise-info">
-                    <span class="ex-name">2. Supino Inclinado Máquina</span>
-                    <span class="ex-details">3x 8-10 reps</span>
-                    <span class="ex-muscles">Trabalha: Peitoral Superior, Deltoide Anterior</span>
+            <!-- Progress Bar -->
+            <div class="progress-card">
+                <div class="progress-info">
+                    <span>Progresso Semanal</span>
+                    <span id="progressPercent">0%</span>
+                </div>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" id="progressBarFill"></div>
                 </div>
             </div>
+        </header>
 
-            <div class="exercise-item" onclick="toggleTask(this)">
-                <div class="checkbox-wrapper"></div>
-                <img src="img/peck-deck.png" class="ex-img" onerror="this.src='https://placehold.co/100x100/1e293b/38bdf8?text=Peito'">
-                <div class="exercise-info">
-                    <span class="ex-name">3. Peck Deck (Voador)</span>
-                    <span class="ex-details">3x 10-12 reps</span>
-                    <span class="ex-muscles">Trabalha: Peitoral Maior</span>
-                </div>
+        <!-- Navigation Tabs for Days -->
+        <div class="day-tabs-container">
+            <div class="day-tabs" id="dayTabs">
+                <button class="tab-btn active" onclick="switchDay(0)">
+                    SEG
+                    <span class="tab-sub">Peito/Tri</span>
+                </button>
+                <button class="tab-btn" onclick="switchDay(1)">
+                    TER
+                    <span class="tab-sub">Costas/Bi</span>
+                </button>
+                <button class="tab-btn" onclick="switchDay(2)">
+                    QUA
+                    <span class="tab-sub">Pernas</span>
+                </button>
+                <button class="tab-btn" onclick="switchDay(3)">
+                    QUI
+                    <span class="tab-sub">Ombros/Abs</span>
+                </button>
+                <button class="tab-btn" onclick="switchDay(4)">
+                    SEX
+                    <span class="tab-sub">Braços/Ref</span>
+                </button>
             </div>
+        </div>
 
-            <div class="exercise-item" onclick="toggleTask(this)">
-                <div class="checkbox-wrapper"></div>
-                <img src="img/triceps-polia.png" class="ex-img" onerror="this.src='https://placehold.co/100x100/1e293b/38bdf8?text=Triceps'">
-                <div class="exercise-info">
-                    <span class="ex-name">4. Tríceps na Polia</span>
-                    <span class="ex-details">3x 10-12 reps</span>
-                    <span class="ex-muscles">Trabalha: Tríceps (Cabeça Lateral)</span>
+        <!-- Workout Sections Container -->
+        <main id="workout-container">
+
+            <!-- SEGUNDA -->
+            <section class="day-section active" data-day="0">
+                <div class="section-header">
+                    <h2 class="section-title">Segunda-feira</h2>
+                    <span class="muscle-group-tag"><i class="fa-solid fa-fire"></i> Peito + Tríceps</span>
                 </div>
-            </div>
+                <div class="exercise-list">
+                    <div class="exercise-card" data-id="ex-0">
+                        <div class="exercise-main-row" onclick="toggleTask(this)">
+                            <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
+                            <div class="ex-img-wrapper">
+                                <img src="img/chest-press.png" class="ex-img" onerror="this.src='https://placehold.co/120x120/1e293b/38bdf8?text=Chest+Press'">
+                            </div>
+                            <div class="exercise-info">
+                                <div class="ex-title">1. Chest Press (Máquina)</div>
+                                <div class="ex-details-row">
+                                    <span class="ex-sets-badge">4x 8-10 reps</span>
+                                </div>
+                                <div class="ex-muscles-text">Peitoral Maior, Tríceps</div>
+                            </div>
+                        </div>
+                        <div class="exercise-extra-row">
+                            <div class="load-input-group">
+                                <label>CARGA:</label>
+                                <input type="text" class="load-input" placeholder="0 kg" data-ex="ex-0" onchange="saveLoads()">
+                            </div>
+                            <button class="timer-trigger-btn" onclick="startTimer(60)">
+                                <i class="fa-regular fa-clock"></i> 60s Repouso
+                            </button>
+                        </div>
+                    </div>
 
-            <div class="exercise-item" onclick="toggleTask(this)">
-                <div class="checkbox-wrapper"></div>
-                <img src="img/triceps-testa.png" class="ex-img" onerror="this.src='https://placehold.co/100x100/1e293b/38bdf8?text=Triceps'">
-                <div class="exercise-info">
-                    <span class="ex-name">5. Tríceps acima da Cabeça</span>
-                    <span class="ex-details">3x 10-12 reps</span>
-                    <span class="ex-muscles">Trabalha: Tríceps (Cabeça Longa)</span>
+                    <div class="exercise-card" data-id="ex-1">
+                        <div class="exercise-main-row" onclick="toggleTask(this)">
+                            <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
+                            <div class="ex-img-wrapper">
+                                <img src="img/supino-inclinado.png" class="ex-img" onerror="this.src='https://placehold.co/120x120/1e293b/38bdf8?text=Supino+Inc'">
+                            </div>
+                            <div class="exercise-info">
+                                <div class="ex-title">2. Supino Inclinado Máquina</div>
+                                <div class="ex-details-row">
+                                    <span class="ex-sets-badge">3x 8-10 reps</span>
+                                </div>
+                                <div class="ex-muscles-text">Peitoral Superior, Deltoide</div>
+                            </div>
+                        </div>
+                        <div class="exercise-extra-row">
+                            <div class="load-input-group">
+                                <label>CARGA:</label>
+                                <input type="text" class="load-input" placeholder="0 kg" data-ex="ex-1" onchange="saveLoads()">
+                            </div>
+                            <button class="timer-trigger-btn" onclick="startTimer(60)">
+                                <i class="fa-regular fa-clock"></i> 60s Repouso
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="exercise-card" data-id="ex-2">
+                        <div class="exercise-main-row" onclick="toggleTask(this)">
+                            <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
+                            <div class="ex-img-wrapper">
+                                <img src="img/peck-deck.png" class="ex-img" onerror="this.src='https://placehold.co/120x120/1e293b/38bdf8?text=Peck+Deck'">
+                            </div>
+                            <div class="exercise-info">
+                                <div class="ex-title">3. Peck Deck (Voador)</div>
+                                <div class="ex-details-row">
+                                    <span class="ex-sets-badge">3x 10-12 reps</span>
+                                </div>
+                                <div class="ex-muscles-text">Peitoral Maior</div>
+                            </div>
+                        </div>
+                        <div class="exercise-extra-row">
+                            <div class="load-input-group">
+                                <label>CARGA:</label>
+                                <input type="text" class="load-input" placeholder="0 kg" data-ex="ex-2" onchange="saveLoads()">
+                            </div>
+                            <button class="timer-trigger-btn" onclick="startTimer(45)">
+                                <i class="fa-regular fa-clock"></i> 45s Repouso
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="exercise-card" data-id="ex-3">
+                        <div class="exercise-main-row" onclick="toggleTask(this)">
+                            <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
+                            <div class="ex-img-wrapper">
+                                <img src="img/triceps-polia.png" class="ex-img" onerror="this.src='https://placehold.co/120x120/1e293b/38bdf8?text=Triceps+Polia'">
+                            </div>
+                            <div class="exercise-info">
+                                <div class="ex-title">4. Tríceps na Polia</div>
+                                <div class="ex-details-row">
+                                    <span class="ex-sets-badge">3x 10-12 reps</span>
+                                </div>
+                                <div class="ex-muscles-text">Tríceps (Cabeça Lateral)</div>
+                            </div>
+                        </div>
+                        <div class="exercise-extra-row">
+                            <div class="load-input-group">
+                                <label>CARGA:</label>
+                                <input type="text" class="load-input" placeholder="0 kg" data-ex="ex-3" onchange="saveLoads()">
+                            </div>
+                            <button class="timer-trigger-btn" onclick="startTimer(45)">
+                                <i class="fa-regular fa-clock"></i> 45s Repouso
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="exercise-card" data-id="ex-4">
+                        <div class="exercise-main-row" onclick="toggleTask(this)">
+                            <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
+                            <div class="ex-img-wrapper">
+                                <img src="img/triceps-testa.png" class="ex-img" onerror="this.src='https://placehold.co/120x120/1e293b/38bdf8?text=Triceps+Testa'">
+                            </div>
+                            <div class="exercise-info">
+                                <div class="ex-title">5. Tríceps acima da Cabeça</div>
+                                <div class="ex-details-row">
+                                    <span class="ex-sets-badge">3x 10-12 reps</span>
+                                </div>
+                                <div class="ex-muscles-text">Tríceps (Cabeça Longa)</div>
+                            </div>
+                        </div>
+                        <div class="exercise-extra-row">
+                            <div class="load-input-group">
+                                <label>CARGA:</label>
+                                <input type="text" class="load-input" placeholder="0 kg" data-ex="ex-4" onchange="saveLoads()">
+                            </div>
+                            <button class="timer-trigger-btn" onclick="startTimer(45)">
+                                <i class="fa-regular fa-clock"></i> 45s Repouso
+                            </button>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- TERÇA -->
-        <section class="day-section">
-            <div class="day-title">TERÇA <span>Costas + Bíceps</span></div>
-            
-            <div class="exercise-item" onclick="toggleTask(this)">
-                <div class="checkbox-wrapper"></div>
-                <img src="img/puxada-frontal.png" class="ex-img" onerror="this.src='https://placehold.co/100x100/1e293b/38bdf8?text=Costas'">
-                <div class="exercise-info">
-                    <span class="ex-name">1. Puxada Frontal (Barra)</span>
-                    <span class="ex-details">4x 8-10 reps</span>
-                    <span class="ex-muscles">Trabalha: Latíssimo do Dorso, Bíceps</span>
+            <!-- TERÇA -->
+            <section class="day-section" data-day="1">
+                <div class="section-header">
+                    <h2 class="section-title">Terça-feira</h2>
+                    <span class="muscle-group-tag"><i class="fa-solid fa-fire"></i> Costas + Bíceps</span>
                 </div>
-            </div>
+                <div class="exercise-list">
+                    <div class="exercise-card" data-id="ex-5">
+                        <div class="exercise-main-row" onclick="toggleTask(this)">
+                            <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
+                            <div class="ex-img-wrapper">
+                                <img src="img/puxada-frontal.png" class="ex-img" onerror="this.src='https://placehold.co/120x120/1e293b/38bdf8?text=Puxada'">
+                            </div>
+                            <div class="exercise-info">
+                                <div class="ex-title">1. Puxada Frontal (Barra)</div>
+                                <div class="ex-details-row">
+                                    <span class="ex-sets-badge">4x 8-10 reps</span>
+                                </div>
+                                <div class="ex-muscles-text">Latíssimo do Dorso, Bíceps</div>
+                            </div>
+                        </div>
+                        <div class="exercise-extra-row">
+                            <div class="load-input-group">
+                                <label>CARGA:</label>
+                                <input type="text" class="load-input" placeholder="0 kg" data-ex="ex-5" onchange="saveLoads()">
+                            </div>
+                            <button class="timer-trigger-btn" onclick="startTimer(60)">
+                                <i class="fa-regular fa-clock"></i> 60s Repouso
+                            </button>
+                        </div>
+                    </div>
 
-            <div class="exercise-item" onclick="toggleTask(this)">
-                <div class="checkbox-wrapper"></div>
-                <img src="img/remada-baixa.png" class="ex-img" onerror="this.src='https://placehold.co/100x100/1e293b/38bdf8?text=Costas'">
-                <div class="exercise-info">
-                    <span class="ex-name">2. Remada Baixa (Cable)</span>
-                    <span class="ex-details">4x 8-10 reps</span>
-                    <span class="ex-muscles">Trabalha: Dorsal, Trapézio, Romboides</span>
+                    <div class="exercise-card" data-id="ex-6">
+                        <div class="exercise-main-row" onclick="toggleTask(this)">
+                            <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
+                            <div class="ex-img-wrapper">
+                                <img src="img/remada-baixa.png" class="ex-img" onerror="this.src='https://placehold.co/120x120/1e293b/38bdf8?text=Remada+Baixa'">
+                            </div>
+                            <div class="exercise-info">
+                                <div class="ex-title">2. Remada Baixa (Cable)</div>
+                                <div class="ex-details-row">
+                                    <span class="ex-sets-badge">4x 8-10 reps</span>
+                                </div>
+                                <div class="ex-muscles-text">Dorsal, Trapézio, Romboides</div>
+                            </div>
+                        </div>
+                        <div class="exercise-extra-row">
+                            <div class="load-input-group">
+                                <label>CARGA:</label>
+                                <input type="text" class="load-input" placeholder="0 kg" data-ex="ex-6" onchange="saveLoads()">
+                            </div>
+                            <button class="timer-trigger-btn" onclick="startTimer(60)">
+                                <i class="fa-regular fa-clock"></i> 60s Repouso
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="exercise-card" data-id="ex-7">
+                        <div class="exercise-main-row" onclick="toggleTask(this)">
+                            <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
+                            <div class="ex-img-wrapper">
+                                <img src="img/remada-articulada.png" class="ex-img" onerror="this.src='https://placehold.co/120x120/1e293b/38bdf8?text=Remada+Art'">
+                            </div>
+                            <div class="exercise-info">
+                                <div class="ex-title">3. Remada Articulada</div>
+                                <div class="ex-details-row">
+                                    <span class="ex-sets-badge">3x 10 reps</span>
+                                </div>
+                                <div class="ex-muscles-text">Dorsal, Romboides</div>
+                            </div>
+                        </div>
+                        <div class="exercise-extra-row">
+                            <div class="load-input-group">
+                                <label>CARGA:</label>
+                                <input type="text" class="load-input" placeholder="0 kg" data-ex="ex-7" onchange="saveLoads()">
+                            </div>
+                            <button class="timer-trigger-btn" onclick="startTimer(60)">
+                                <i class="fa-regular fa-clock"></i> 60s Repouso
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="exercise-card" data-id="ex-8">
+                        <div class="exercise-main-row" onclick="toggleTask(this)">
+                            <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
+                            <div class="ex-img-wrapper">
+                                <img src="img/rosca-scott.png" class="ex-img" onerror="this.src='https://placehold.co/120x120/1e293b/38bdf8?text=Rosca+Scott'">
+                            </div>
+                            <div class="exercise-info">
+                                <div class="ex-title">4. Rosca Scott (Máquina)</div>
+                                <div class="ex-details-row">
+                                    <span class="ex-sets-badge">3x 10-12 reps</span>
+                                </div>
+                                <div class="ex-muscles-text">Bíceps Braquial</div>
+                            </div>
+                        </div>
+                        <div class="exercise-extra-row">
+                            <div class="load-input-group">
+                                <label>CARGA:</label>
+                                <input type="text" class="load-input" placeholder="0 kg" data-ex="ex-8" onchange="saveLoads()">
+                            </div>
+                            <button class="timer-trigger-btn" onclick="startTimer(45)">
+                                <i class="fa-regular fa-clock"></i> 45s Repouso
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="exercise-card" data-id="ex-9">
+                        <div class="exercise-main-row" onclick="toggleTask(this)">
+                            <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
+                            <div class="ex-img-wrapper">
+                                <img src="img/rosca-polia.png" class="ex-img" onerror="this.src='https://placehold.co/120x120/1e293b/38bdf8?text=Rosca+Polia'">
+                            </div>
+                            <div class="exercise-info">
+                                <div class="ex-title">5. Rosca na Polia</div>
+                                <div class="ex-details-row">
+                                    <span class="ex-sets-badge">3x 10-12 reps</span>
+                                </div>
+                                <div class="ex-muscles-text">Bíceps, Braquial</div>
+                            </div>
+                        </div>
+                        <div class="exercise-extra-row">
+                            <div class="load-input-group">
+                                <label>CARGA:</label>
+                                <input type="text" class="load-input" placeholder="0 kg" data-ex="ex-9" onchange="saveLoads()">
+                            </div>
+                            <button class="timer-trigger-btn" onclick="startTimer(45)">
+                                <i class="fa-regular fa-clock"></i> 45s Repouso
+                            </button>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </section>
 
-            <div class="exercise-item" onclick="toggleTask(this)">
-                <div class="checkbox-wrapper"></div>
-                <img src="img/remada-articulada.png" class="ex-img" onerror="this.src='https://placehold.co/100x100/1e293b/38bdf8?text=Costas'">
-                <div class="exercise-info">
-                    <span class="ex-name">3. Remada Articulada</span>
-                    <span class="ex-details">3x 10 reps</span>
-                    <span class="ex-muscles">Trabalha: Dorsal, Romboides</span>
+            <!-- QUARTA -->
+            <section class="day-section" data-day="2">
+                <div class="section-header">
+                    <h2 class="section-title">Quarta-feira</h2>
+                    <span class="muscle-group-tag"><i class="fa-solid fa-fire"></i> Pernas</span>
                 </div>
-            </div>
+                <div class="exercise-list">
+                    <div class="exercise-card" data-id="ex-10">
+                        <div class="exercise-main-row" onclick="toggleTask(this)">
+                            <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
+                            <div class="ex-img-wrapper">
+                                <img src="img/leg-press.png" class="ex-img" onerror="this.src='https://placehold.co/120x120/1e293b/38bdf8?text=Leg+Press'">
+                            </div>
+                            <div class="exercise-info">
+                                <div class="ex-title">1. Leg Press 45°</div>
+                                <div class="ex-details-row">
+                                    <span class="ex-sets-badge">4x 8-10 reps</span>
+                                </div>
+                                <div class="ex-muscles-text">Quadríceps, Glúteos</div>
+                            </div>
+                        </div>
+                        <div class="exercise-extra-row">
+                            <div class="load-input-group">
+                                <label>CARGA:</label>
+                                <input type="text" class="load-input" placeholder="0 kg" data-ex="ex-10" onchange="saveLoads()">
+                            </div>
+                            <button class="timer-trigger-btn" onclick="startTimer(90)">
+                                <i class="fa-regular fa-clock"></i> 90s Repouso
+                            </button>
+                        </div>
+                    </div>
 
-            <div class="exercise-item" onclick="toggleTask(this)">
-                <div class="checkbox-wrapper"></div>
-                <img src="img/rosca-scott.png" class="ex-img" onerror="this.src='https://placehold.co/100x100/1e293b/38bdf8?text=Biceps'">
-                <div class="exercise-info">
-                    <span class="ex-name">4. Rosca Scott (Máquina)</span>
-                    <span class="ex-details">3x 10-12 reps</span>
-                    <span class="ex-muscles">Trabalha: Bíceps</span>
+                    <div class="exercise-card" data-id="ex-11">
+                        <div class="exercise-main-row" onclick="toggleTask(this)">
+                            <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
+                            <div class="ex-img-wrapper">
+                                <img src="img/hack-squat.png" class="ex-img" onerror="this.src='https://placehold.co/120x120/1e293b/38bdf8?text=Hack+Squat'">
+                            </div>
+                            <div class="exercise-info">
+                                <div class="ex-title">2. Hack Squat</div>
+                                <div class="ex-details-row">
+                                    <span class="ex-sets-badge">4x 8-10 reps</span>
+                                </div>
+                                <div class="ex-muscles-text">Quadríceps, Glúteos</div>
+                            </div>
+                        </div>
+                        <div class="exercise-extra-row">
+                            <div class="load-input-group">
+                                <label>CARGA:</label>
+                                <input type="text" class="load-input" placeholder="0 kg" data-ex="ex-11" onchange="saveLoads()">
+                            </div>
+                            <button class="timer-trigger-btn" onclick="startTimer(90)">
+                                <i class="fa-regular fa-clock"></i> 90s Repouso
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="exercise-card" data-id="ex-12">
+                        <div class="exercise-main-row" onclick="toggleTask(this)">
+                            <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
+                            <div class="ex-img-wrapper">
+                                <img src="img/extensora.png" class="ex-img" onerror="this.src='https://placehold.co/120x120/1e293b/38bdf8?text=Extensora'">
+                            </div>
+                            <div class="exercise-info">
+                                <div class="ex-title">3. Cadeira Extensora</div>
+                                <div class="ex-details-row">
+                                    <span class="ex-sets-badge">3x 10-12 reps</span>
+                                </div>
+                                <div class="ex-muscles-text">Quadríceps</div>
+                            </div>
+                        </div>
+                        <div class="exercise-extra-row">
+                            <div class="load-input-group">
+                                <label>CARGA:</label>
+                                <input type="text" class="load-input" placeholder="0 kg" data-ex="ex-12" onchange="saveLoads()">
+                            </div>
+                            <button class="timer-trigger-btn" onclick="startTimer(60)">
+                                <i class="fa-regular fa-clock"></i> 60s Repouso
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="exercise-card" data-id="ex-13">
+                        <div class="exercise-main-row" onclick="toggleTask(this)">
+                            <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
+                            <div class="ex-img-wrapper">
+                                <img src="img/flexora.png" class="ex-img" onerror="this.src='https://placehold.co/120x120/1e293b/38bdf8?text=Flexora'">
+                            </div>
+                            <div class="exercise-info">
+                                <div class="ex-title">4. Mesa Flexora</div>
+                                <div class="ex-details-row">
+                                    <span class="ex-sets-badge">3x 10-12 reps</span>
+                                </div>
+                                <div class="ex-muscles-text">Posterior de Coxa</div>
+                            </div>
+                        </div>
+                        <div class="exercise-extra-row">
+                            <div class="load-input-group">
+                                <label>CARGA:</label>
+                                <input type="text" class="load-input" placeholder="0 kg" data-ex="ex-13" onchange="saveLoads()">
+                            </div>
+                            <button class="timer-trigger-btn" onclick="startTimer(60)">
+                                <i class="fa-regular fa-clock"></i> 60s Repouso
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="exercise-card" data-id="ex-14">
+                        <div class="exercise-main-row" onclick="toggleTask(this)">
+                            <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
+                            <div class="ex-img-wrapper">
+                                <img src="img/panturrilha.png" class="ex-img" onerror="this.src='https://placehold.co/120x120/1e293b/38bdf8?text=Panturrilha'">
+                            </div>
+                            <div class="exercise-info">
+                                <div class="ex-title">5. Panturrilha em Pé</div>
+                                <div class="ex-details-row">
+                                    <span class="ex-sets-badge">4x 12-15 reps</span>
+                                </div>
+                                <div class="ex-muscles-text">Gastrocnêmio, Sóleo</div>
+                            </div>
+                        </div>
+                        <div class="exercise-extra-row">
+                            <div class="load-input-group">
+                                <label>CARGA:</label>
+                                <input type="text" class="load-input" placeholder="0 kg" data-ex="ex-14" onchange="saveLoads()">
+                            </div>
+                            <button class="timer-trigger-btn" onclick="startTimer(45)">
+                                <i class="fa-regular fa-clock"></i> 45s Repouso
+                            </button>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </section>
 
-            <div class="exercise-item" onclick="toggleTask(this)">
-                <div class="checkbox-wrapper"></div>
-                <img src="img/rosca-polia.png" class="ex-img" onerror="this.src='https://placehold.co/100x100/1e293b/38bdf8?text=Biceps'">
-                <div class="exercise-info">
-                    <span class="ex-name">5. Rosca na Polia</span>
-                    <span class="ex-details">3x 10-12 reps</span>
-                    <span class="ex-muscles">Trabalha: Bíceps, Braquial</span>
+            <!-- QUINTA -->
+            <section class="day-section" data-day="3">
+                <div class="section-header">
+                    <h2 class="section-title">Quinta-feira</h2>
+                    <span class="muscle-group-tag"><i class="fa-solid fa-fire"></i> Ombros + Abdômen</span>
                 </div>
-            </div>
-        </section>
+                <div class="exercise-list">
+                    <div class="exercise-card" data-id="ex-15">
+                        <div class="exercise-main-row" onclick="toggleTask(this)">
+                            <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
+                            <div class="ex-img-wrapper">
+                                <img src="img/desenvolvimento.png" class="ex-img" onerror="this.src='https://placehold.co/120x120/1e293b/38bdf8?text=Desenvolvimento'">
+                            </div>
+                            <div class="exercise-info">
+                                <div class="ex-title">1. Desenv. na Máquina</div>
+                                <div class="ex-details-row">
+                                    <span class="ex-sets-badge">4x 8-10 reps</span>
+                                </div>
+                                <div class="ex-muscles-text">Deltoide Anterior e Lateral</div>
+                            </div>
+                        </div>
+                        <div class="exercise-extra-row">
+                            <div class="load-input-group">
+                                <label>CARGA:</label>
+                                <input type="text" class="load-input" placeholder="0 kg" data-ex="ex-15" onchange="saveLoads()">
+                            </div>
+                            <button class="timer-trigger-btn" onclick="startTimer(60)">
+                                <i class="fa-regular fa-clock"></i> 60s Repouso
+                            </button>
+                        </div>
+                    </div>
 
-        <!-- QUARTA -->
-        <section class="day-section">
-            <div class="day-title">QUARTA <span>Pernas</span></div>
-            
-            <div class="exercise-item" onclick="toggleTask(this)">
-                <div class="checkbox-wrapper"></div>
-                <img src="img/leg-press.png" class="ex-img" onerror="this.src='https://placehold.co/100x100/1e293b/38bdf8?text=Perna'">
-                <div class="exercise-info">
-                    <span class="ex-name">1. Leg Press 45°</span>
-                    <span class="ex-details">4x 8-10 reps</span>
-                    <span class="ex-muscles">Trabalha: Quadríceps, Glúteos</span>
+                    <div class="exercise-card" data-id="ex-16">
+                        <div class="exercise-main-row" onclick="toggleTask(this)">
+                            <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
+                            <div class="ex-img-wrapper">
+                                <img src="img/elevacao-lateral.png" class="ex-img" onerror="this.src='https://placehold.co/120x120/1e293b/38bdf8?text=Elevacao+Lat'">
+                            </div>
+                            <div class="exercise-info">
+                                <div class="ex-title">2. Elevação Lateral (Máquina)</div>
+                                <div class="ex-details-row">
+                                    <span class="ex-sets-badge">3x 10-12 reps</span>
+                                </div>
+                                <div class="ex-muscles-text">Deltoide Lateral</div>
+                            </div>
+                        </div>
+                        <div class="exercise-extra-row">
+                            <div class="load-input-group">
+                                <label>CARGA:</label>
+                                <input type="text" class="load-input" placeholder="0 kg" data-ex="ex-16" onchange="saveLoads()">
+                            </div>
+                            <button class="timer-trigger-btn" onclick="startTimer(45)">
+                                <i class="fa-regular fa-clock"></i> 45s Repouso
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="exercise-card" data-id="ex-17">
+                        <div class="exercise-main-row" onclick="toggleTask(this)">
+                            <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
+                            <div class="ex-img-wrapper">
+                                <img src="img/peck-deck-invertido.png" class="ex-img" onerror="this.src='https://placehold.co/120x120/1e293b/38bdf8?text=Peck+Deck+Inv'">
+                            </div>
+                            <div class="exercise-info">
+                                <div class="ex-title">3. Peck Deck Invertido</div>
+                                <div class="ex-details-row">
+                                    <span class="ex-sets-badge">3x 10-12 reps</span>
+                                </div>
+                                <div class="ex-muscles-text">Deltoide Posterior, Trapézio</div>
+                            </div>
+                        </div>
+                        <div class="exercise-extra-row">
+                            <div class="load-input-group">
+                                <label>CARGA:</label>
+                                <input type="text" class="load-input" placeholder="0 kg" data-ex="ex-17" onchange="saveLoads()">
+                            </div>
+                            <button class="timer-trigger-btn" onclick="startTimer(45)">
+                                <i class="fa-regular fa-clock"></i> 45s Repouso
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="exercise-card" data-id="ex-18">
+                        <div class="exercise-main-row" onclick="toggleTask(this)">
+                            <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
+                            <div class="ex-img-wrapper">
+                                <img src="img/crunch-abdominal.png" class="ex-img" onerror="this.src='https://placehold.co/120x120/1e293b/38bdf8?text=Crunch+Polia'">
+                            </div>
+                            <div class="exercise-info">
+                                <div class="ex-title">4. Crunch na Polia</div>
+                                <div class="ex-details-row">
+                                    <span class="ex-sets-badge">3x 15 reps</span>
+                                </div>
+                                <div class="ex-muscles-text">Reto Abdominal</div>
+                            </div>
+                        </div>
+                        <div class="exercise-extra-row">
+                            <div class="load-input-group">
+                                <label>CARGA:</label>
+                                <input type="text" class="load-input" placeholder="0 kg" data-ex="ex-18" onchange="saveLoads()">
+                            </div>
+                            <button class="timer-trigger-btn" onclick="startTimer(45)">
+                                <i class="fa-regular fa-clock"></i> 45s Repouso
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="exercise-card" data-id="ex-19">
+                        <div class="exercise-main-row" onclick="toggleTask(this)">
+                            <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
+                            <div class="ex-img-wrapper">
+                                <img src="img/prancha.png" class="ex-img" onerror="this.src='https://placehold.co/120x120/1e293b/38bdf8?text=Prancha'">
+                            </div>
+                            <div class="exercise-info">
+                                <div class="ex-title">5. Prancha Isometrica</div>
+                                <div class="ex-details-row">
+                                    <span class="ex-sets-badge">3x 30-60s</span>
+                                </div>
+                                <div class="ex-muscles-text">Core Completo e Lombar</div>
+                            </div>
+                        </div>
+                        <div class="exercise-extra-row">
+                            <div class="load-input-group">
+                                <label>TEMPO:</label>
+                                <input type="text" class="load-input" placeholder="60 s" data-ex="ex-19" onchange="saveLoads()">
+                            </div>
+                            <button class="timer-trigger-btn" onclick="startTimer(60)">
+                                <i class="fa-regular fa-clock"></i> 60s Repouso
+                            </button>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </section>
 
-            <div class="exercise-item" onclick="toggleTask(this)">
-                <div class="checkbox-wrapper"></div>
-                <img src="img/hack-squat.png" class="ex-img" onerror="this.src='https://placehold.co/100x100/1e293b/38bdf8?text=Perna'">
-                <div class="exercise-info">
-                    <span class="ex-name">2. Hack Squat</span>
-                    <span class="ex-details">4x 8-10 reps</span>
-                    <span class="ex-muscles">Trabalha: Quadríceps, Glúteos</span>
+            <!-- SEXTA -->
+            <section class="day-section" data-day="4">
+                <div class="section-header">
+                    <h2 class="section-title">Sexta-feira</h2>
+                    <span class="muscle-group-tag"><i class="fa-solid fa-fire"></i> Braços + Reforço</span>
                 </div>
-            </div>
+                <div class="exercise-list">
+                    <div class="exercise-card" data-id="ex-20">
+                        <div class="exercise-main-row" onclick="toggleTask(this)">
+                            <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
+                            <div class="ex-img-wrapper">
+                                <img src="img/supino-fechado.png" class="ex-img" onerror="this.src='https://placehold.co/120x120/1e293b/38bdf8?text=Supino+Fechado'">
+                            </div>
+                            <div class="exercise-info">
+                                <div class="ex-title">1. Supino Fechado (Máquina)</div>
+                                <div class="ex-details-row">
+                                    <span class="ex-sets-badge">3x 8-10 reps</span>
+                                </div>
+                                <div class="ex-muscles-text">Tríceps, Peitoral</div>
+                            </div>
+                        </div>
+                        <div class="exercise-extra-row">
+                            <div class="load-input-group">
+                                <label>CARGA:</label>
+                                <input type="text" class="load-input" placeholder="0 kg" data-ex="ex-20" onchange="saveLoads()">
+                            </div>
+                            <button class="timer-trigger-btn" onclick="startTimer(60)">
+                                <i class="fa-regular fa-clock"></i> 60s Repouso
+                            </button>
+                        </div>
+                    </div>
 
-            <div class="exercise-item" onclick="toggleTask(this)">
-                <div class="checkbox-wrapper"></div>
-                <img src="img/extensora.png" class="ex-img" onerror="this.src='https://placehold.co/100x100/1e293b/38bdf8?text=Perna'">
-                <div class="exercise-info">
-                    <span class="ex-name">3. Cadeira Extensora</span>
-                    <span class="ex-details">3x 10-12 reps</span>
-                    <span class="ex-muscles">Trabalha: Quadríceps</span>
+                    <div class="exercise-card" data-id="ex-21">
+                        <div class="exercise-main-row" onclick="toggleTask(this)">
+                            <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
+                            <div class="ex-img-wrapper">
+                                <img src="img/puxada-neutra.png" class="ex-img" onerror="this.src='https://placehold.co/120x120/1e293b/38bdf8?text=Puxada+Neutra'">
+                            </div>
+                            <div class="exercise-info">
+                                <div class="ex-title">2. Puxada Neutra</div>
+                                <div class="ex-details-row">
+                                    <span class="ex-sets-badge">3x 8-10 reps</span>
+                                </div>
+                                <div class="ex-muscles-text">Latíssimo do Dorso, Bíceps</div>
+                            </div>
+                        </div>
+                        <div class="exercise-extra-row">
+                            <div class="load-input-group">
+                                <label>CARGA:</label>
+                                <input type="text" class="load-input" placeholder="0 kg" data-ex="ex-21" onchange="saveLoads()">
+                            </div>
+                            <button class="timer-trigger-btn" onclick="startTimer(60)">
+                                <i class="fa-regular fa-clock"></i> 60s Repouso
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="exercise-card" data-id="ex-22">
+                        <div class="exercise-main-row" onclick="toggleTask(this)">
+                            <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
+                            <div class="ex-img-wrapper">
+                                <img src="img/triceps-corda.png" class="ex-img" onerror="this.src='https://placehold.co/120x120/1e293b/38bdf8?text=Triceps+Corda'">
+                            </div>
+                            <div class="exercise-info">
+                                <div class="ex-title">3. Tríceps Corda</div>
+                                <div class="ex-details-row">
+                                    <span class="ex-sets-badge">3x 10-12 reps</span>
+                                </div>
+                                <div class="ex-muscles-text">Tríceps</div>
+                            </div>
+                        </div>
+                        <div class="exercise-extra-row">
+                            <div class="load-input-group">
+                                <label>CARGA:</label>
+                                <input type="text" class="load-input" placeholder="0 kg" data-ex="ex-22" onchange="saveLoads()">
+                            </div>
+                            <button class="timer-trigger-btn" onclick="startTimer(45)">
+                                <i class="fa-regular fa-clock"></i> 45s Repouso
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="exercise-card" data-id="ex-23">
+                        <div class="exercise-main-row" onclick="toggleTask(this)">
+                            <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
+                            <div class="ex-img-wrapper">
+                                <img src="img/rosca-scott-2.png" class="ex-img" onerror="this.src='https://placehold.co/120x120/1e293b/38bdf8?text=Rosca+Scott'">
+                            </div>
+                            <div class="exercise-info">
+                                <div class="ex-title">4. Rosca Scott (Máquina)</div>
+                                <div class="ex-details-row">
+                                    <span class="ex-sets-badge">3x 10-12 reps</span>
+                                </div>
+                                <div class="ex-muscles-text">Bíceps</div>
+                            </div>
+                        </div>
+                        <div class="exercise-extra-row">
+                            <div class="load-input-group">
+                                <label>CARGA:</label>
+                                <input type="text" class="load-input" placeholder="0 kg" data-ex="ex-23" onchange="saveLoads()">
+                            </div>
+                            <button class="timer-trigger-btn" onclick="startTimer(45)">
+                                <i class="fa-regular fa-clock"></i> 45s Repouso
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="exercise-card" data-id="ex-24">
+                        <div class="exercise-main-row" onclick="toggleTask(this)">
+                            <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
+                            <div class="ex-img-wrapper">
+                                <img src="img/rosca-martelo.png" class="ex-img" onerror="this.src='https://placehold.co/120x120/1e293b/38bdf8?text=Rosca+Martelo'">
+                            </div>
+                            <div class="exercise-info">
+                                <div class="ex-title">5. Rosca Martelo na Polia</div>
+                                <div class="ex-details-row">
+                                    <span class="ex-sets-badge">3x 10-12 reps</span>
+                                </div>
+                                <div class="ex-muscles-text">Braquial, Bíceps</div>
+                            </div>
+                        </div>
+                        <div class="exercise-extra-row">
+                            <div class="load-input-group">
+                                <label>CARGA:</label>
+                                <input type="text" class="load-input" placeholder="0 kg" data-ex="ex-24" onchange="saveLoads()">
+                            </div>
+                            <button class="timer-trigger-btn" onclick="startTimer(45)">
+                                <i class="fa-regular fa-clock"></i> 45s Repouso
+                            </button>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </section>
 
-            <div class="exercise-item" onclick="toggleTask(this)">
-                <div class="checkbox-wrapper"></div>
-                <img src="img/flexora.png" class="ex-img" onerror="this.src='https://placehold.co/100x100/1e293b/38bdf8?text=Perna'">
-                <div class="exercise-info">
-                    <span class="ex-name">4. Mesa Flexora</span>
-                    <span class="ex-details">3x 10-12 reps</span>
-                    <span class="ex-muscles">Trabalha: Posterior de Coxa</span>
-                </div>
-            </div>
-
-            <div class="exercise-item" onclick="toggleTask(this)">
-                <div class="checkbox-wrapper"></div>
-                <img src="img/panturrilha.png" class="ex-img" onerror="this.src='https://placehold.co/100x100/1e293b/38bdf8?text=Perna'">
-                <div class="exercise-info">
-                    <span class="ex-name">5. Panturrilha em Pé</span>
-                    <span class="ex-details">4x 12-15 reps</span>
-                    <span class="ex-muscles">Trabalha: Gastrocnêmio, Sóleo</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- QUINTA -->
-        <section class="day-section">
-            <div class="day-title">QUINTA <span>Ombros + Abdômen</span></div>
-            
-            <div class="exercise-item" onclick="toggleTask(this)">
-                <div class="checkbox-wrapper"></div>
-                <img src="img/desenvolvimento.png" class="ex-img" onerror="this.src='https://placehold.co/100x100/1e293b/38bdf8?text=Ombro'">
-                <div class="exercise-info">
-                    <span class="ex-name">1. Desenv. na Máquina</span>
-                    <span class="ex-details">4x 8-10 reps</span>
-                    <span class="ex-muscles">Trabalha: Deltoide Anterior e Lateral</span>
-                </div>
-            </div>
-
-            <div class="exercise-item" onclick="toggleTask(this)">
-                <div class="checkbox-wrapper"></div>
-                <img src="img/elevacao-lateral.png" class="ex-img" onerror="this.src='https://placehold.co/100x100/1e293b/38bdf8?text=Ombro'">
-                <div class="exercise-info">
-                    <span class="ex-name">2. Elevação Lateral (Máquina)</span>
-                    <span class="ex-details">3x 10-12 reps</span>
-                    <span class="ex-muscles">Trabalha: Deltoide Lateral</span>
-                </div>
-            </div>
-
-            <div class="exercise-item" onclick="toggleTask(this)">
-                <div class="checkbox-wrapper"></div>
-                <img src="img/peck-deck-invertido.png" class="ex-img" onerror="this.src='https://placehold.co/100x100/1e293b/38bdf8?text=Ombro'">
-                <div class="exercise-info">
-                    <span class="ex-name">3. Peck Deck Invertido</span>
-                    <span class="ex-details">3x 10-12 reps</span>
-                    <span class="ex-muscles">Trabalha: Deltoide Posterior, Trapézio</span>
-                </div>
-            </div>
-
-            <div class="exercise-item" onclick="toggleTask(this)">
-                <div class="checkbox-wrapper"></div>
-                <img src="img/crunch-abdominal.png" class="ex-img" onerror="this.src='https://placehold.co/100x100/1e293b/38bdf8?text=Abs'">
-                <div class="exercise-info">
-                    <span class="ex-name">4. Crunch na Polia</span>
-                    <span class="ex-details">3x 15 reps</span>
-                    <span class="ex-muscles">Trabalha: Reto Abdominal</span>
-                </div>
-            </div>
-
-            <div class="exercise-item" onclick="toggleTask(this)">
-                <div class="checkbox-wrapper"></div>
-                <img src="img/prancha.png" class="ex-img" onerror="this.src='https://placehold.co/100x100/1e293b/38bdf8?text=Abs'">
-                <div class="exercise-info">
-                    <span class="ex-name">5. Prancha</span>
-                    <span class="ex-details">3x 30-60s</span>
-                    <span class="ex-muscles">Trabalha: Core (Todo) e Lombar</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- SEXTA -->
-        <section class="day-section">
-            <div class="day-title">SEXTA <span>Braços + Reforço</span></div>
-            
-            <div class="exercise-item" onclick="toggleTask(this)">
-                <div class="checkbox-wrapper"></div>
-                <img src="img/supino-fechado.png" class="ex-img" onerror="this.src='https://placehold.co/100x100/1e293b/38bdf8?text=Braço'">
-                <div class="exercise-info">
-                    <span class="ex-name">1. Supino Fechado (Máquina)</span>
-                    <span class="ex-details">3x 8-10 reps</span>
-                    <span class="ex-muscles">Trabalha: Tríceps, Peitoral</span>
-                </div>
-            </div>
-
-            <div class="exercise-item" onclick="toggleTask(this)">
-                <div class="checkbox-wrapper"></div>
-                <img src="img/puxada-neutra.png" class="ex-img" onerror="this.src='https://placehold.co/100x100/1e293b/38bdf8?text=Costas'">
-                <div class="exercise-info">
-                    <span class="ex-name">2. Puxada Neutra</span>
-                    <span class="ex-details">3x 8-10 reps</span>
-                    <span class="ex-muscles">Trabalha: Latíssimo do Dorso, Bíceps</span>
-                </div>
-            </div>
-
-            <div class="exercise-item" onclick="toggleTask(this)">
-                <div class="checkbox-wrapper"></div>
-                <img src="img/triceps-corda.png" class="ex-img" onerror="this.src='https://placehold.co/100x100/1e293b/38bdf8?text=Triceps'">
-                <div class="exercise-info">
-                    <span class="ex-name">3. Tríceps Corda</span>
-                    <span class="ex-details">3x 10-12 reps</span>
-                    <span class="ex-muscles">Trabalha: Tríceps</span>
-                </div>
-            </div>
-
-            <div class="exercise-item" onclick="toggleTask(this)">
-                <div class="checkbox-wrapper"></div>
-                <img src="img/rosca-scott-2.png" class="ex-img" onerror="this.src='https://placehold.co/100x100/1e293b/38bdf8?text=Biceps'">
-                <div class="exercise-info">
-                    <span class="ex-name">4. Rosca Scott (Máquina)</span>
-                    <span class="ex-details">3x 10-12 reps</span>
-                    <span class="ex-muscles">Trabalha: Bíceps</span>
-                </div>
-            </div>
-
-            <div class="exercise-item" onclick="toggleTask(this)">
-                <div class="checkbox-wrapper"></div>
-                <img src="img/rosca-martelo.png" class="ex-img" onerror="this.src='https://placehold.co/100x100/1e293b/38bdf8?text=Biceps'">
-                <div class="exercise-info">
-                    <span class="ex-name">5. Rosca Martelo na Polia</span>
-                    <span class="ex-details">3x 10-12 reps</span>
-                    <span class="ex-muscles">Trabalha: Braquial, Bíceps</span>
-                </div>
-            </div>
-        </section>
-
+        </main>
     </div>
 
-    <button class="btn-reset" onclick="resetWeek()">REINICIAR SEMANA</button>
+    <!-- Floating Timer Box -->
+    <div class="timer-widget" id="timerWidget">
+        <i class="fa-solid fa-stopwatch" style="color: var(--accent-primary)"></i>
+        <div class="timer-display" id="timerDisplay">01:00</div>
+        <div class="timer-actions">
+            <button class="timer-btn" onclick="addTimerTime(15)">+15s</button>
+            <button class="timer-btn" onclick="stopTimer()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+    </div>
+
+    <!-- Bottom Action Navigation -->
+    <nav class="bottom-nav">
+        <div class="nav-content">
+            <button class="btn-action btn-quick-timer" onclick="startTimer(60)">
+                <i class="fa-solid fa-stopwatch"></i> CRONÔMETRO REST
+            </button>
+            <button class="btn-action btn-reset" onclick="resetWeek()">
+                <i class="fa-solid fa-rotate-left"></i> REINICIAR
+            </button>
+        </div>
+    </nav>
 
     <script>
-        function toggleTask(element) {
-            element.classList.toggle('completed');
+        let currentDayIndex = 0;
+        let timerInterval = null;
+        let timerSeconds = 0;
+
+        // Auto select day based on real day of week (Monday=1 -> index 0)
+        function initDaySelection() {
+            const dayOfWeek = new Date().getDay(); // 0 is Sun, 1 is Mon...
+            let targetIndex = 0;
+            if (dayOfWeek >= 1 && dayOfWeek <= 5) {
+                targetIndex = dayOfWeek - 1;
+            }
+            switchDay(targetIndex);
+        }
+
+        function switchDay(index) {
+            currentDayIndex = index;
+            const buttons = document.querySelectorAll('.tab-btn');
+            const sections = document.querySelectorAll('.day-section');
+
+            buttons.forEach((btn, idx) => {
+                if (idx === index) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+
+            sections.forEach((sec, idx) => {
+                if (idx === index) {
+                    sec.classList.add('active');
+                } else {
+                    sec.classList.remove('active');
+                }
+            });
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleTask(mainRowElement) {
+            const card = mainRowElement.closest('.exercise-card');
+            card.classList.toggle('completed');
+
+            // Haptic vibration feedback for iOS / Android if supported
+            if (navigator.vibrate) {
+                navigator.vibrate(40);
+            }
+
             saveProgress();
+            updateProgressStats();
+        }
+
+        function updateProgressStats() {
+            const allCards = document.querySelectorAll('.exercise-card');
+            const completedCards = document.querySelectorAll('.exercise-card.completed');
+            const total = allCards.length;
+            const completed = completedCards.length;
+
+            const percentage = total > 0 ? Math.round((completed / total) * 100) : 0;
+
+            document.getElementById('progressPercent').innerText = `${percentage}%`;
+            document.getElementById('progressBarFill').style.width = `${percentage}%`;
+
+            // Update tab badges for completed days
+            const sections = document.querySelectorAll('.day-section');
+            const tabs = document.querySelectorAll('.tab-btn');
+
+            sections.forEach((sec, idx) => {
+                const dayCards = sec.querySelectorAll('.exercise-card');
+                const dayCompleted = sec.querySelectorAll('.exercise-card.completed');
+                if (dayCards.length > 0 && dayCards.length === dayCompleted.length) {
+                    tabs[idx].classList.add('completed-day');
+                } else {
+                    tabs[idx].classList.remove('completed-day');
+                }
+            });
         }
 
         function saveProgress() {
-            const exercises = document.querySelectorAll('.exercise-item');
-            const progress = Array.from(exercises).map(ex => ex.classList.contains('completed'));
-            localStorage.setItem('workoutProgressPro', JSON.stringify(progress));
+            const exercises = document.querySelectorAll('.exercise-card');
+            const progress = {};
+            exercises.forEach(card => {
+                const id = card.getAttribute('data-id');
+                if (id) {
+                    progress[id] = card.classList.contains('completed');
+                }
+            });
+            localStorage.setItem('workoutProgressPro_v2', JSON.stringify(progress));
+        }
+
+        function saveLoads() {
+            const loadInputs = document.querySelectorAll('.load-input');
+            const loads = {};
+            loadInputs.forEach(input => {
+                const exId = input.getAttribute('data-ex');
+                if (exId) {
+                    loads[exId] = input.value;
+                }
+            });
+            localStorage.setItem('workoutLoadsPro_v2', JSON.stringify(loads));
         }
 
         function loadProgress() {
-            const saved = localStorage.getItem('workoutProgressPro');
-            if (saved) {
-                const progress = JSON.parse(saved);
-                document.querySelectorAll('.exercise-item').forEach((ex, index) => {
-                    if (progress[index]) ex.classList.add('completed');
+            const savedProgress = localStorage.getItem('workoutProgressPro_v2');
+            if (savedProgress) {
+                const progress = JSON.parse(savedProgress);
+                document.querySelectorAll('.exercise-card').forEach(card => {
+                    const id = card.getAttribute('data-id');
+                    if (id && progress[id]) {
+                        card.classList.add('completed');
+                    }
+                });
+            } else {
+                // Backward compatibility check for old index-based storage
+                const oldSaved = localStorage.getItem('workoutProgressPro');
+                if (oldSaved) {
+                    const oldProgress = JSON.parse(oldSaved);
+                    document.querySelectorAll('.exercise-card').forEach((card, index) => {
+                        if (oldProgress[index]) card.classList.add('completed');
+                    });
+                }
+            }
+
+            const savedLoads = localStorage.getItem('workoutLoadsPro_v2');
+            if (savedLoads) {
+                const loads = JSON.parse(savedLoads);
+                document.querySelectorAll('.load-input').forEach(input => {
+                    const exId = input.getAttribute('data-ex');
+                    if (exId && loads[exId]) {
+                        input.value = loads[exId];
+                    }
                 });
             }
+
+            updateProgressStats();
         }
 
         function resetWeek() {
-            if (confirm("Deseja limpar o progresso da semana?")) {
-                document.querySelectorAll('.exercise-item').forEach(ex => ex.classList.remove('completed'));
+            if (confirm("Deseja reiniciar o progresso de toda a semana?")) {
+                document.querySelectorAll('.exercise-card').forEach(card => card.classList.remove('completed'));
+                localStorage.removeItem('workoutProgressPro_v2');
                 localStorage.removeItem('workoutProgressPro');
+                updateProgressStats();
+                stopTimer();
             }
         }
 
-        window.onload = loadProgress;
+        /* Rest Timer Functions */
+        function startTimer(seconds) {
+            clearInterval(timerInterval);
+            timerSeconds = seconds;
+            updateTimerDisplay();
+
+            const widget = document.getElementById('timerWidget');
+            widget.classList.add('active');
+
+            timerInterval = setInterval(() => {
+                timerSeconds--;
+                if (timerSeconds <= 0) {
+                    clearInterval(timerInterval);
+                    timerSeconds = 0;
+                    updateTimerDisplay();
+                    if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
+                    setTimeout(() => {
+                        widget.classList.remove('active');
+                    }, 2000);
+                } else {
+                    updateTimerDisplay();
+                }
+            }, 1000);
+        }
+
+        function addTimerTime(extra) {
+            timerSeconds += extra;
+            updateTimerDisplay();
+        }
+
+        function stopTimer() {
+            clearInterval(timerInterval);
+            document.getElementById('timerWidget').classList.remove('active');
+        }
+
+        function updateTimerDisplay() {
+            const mins = Math.floor(timerSeconds / 60);
+            const secs = timerSeconds % 60;
+            document.getElementById('timerDisplay').innerText = 
+                `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        }
+
+        window.onload = function() {
+            initDaySelection();
+            loadProgress();
+        };
     </script>
 </body>
 </html>
+
