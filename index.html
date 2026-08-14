@@ -1154,7 +1154,7 @@
                     <div class="exercise-card" data-id="ex-23" data-group="biceps">
                         <div class="exercise-main-row" onclick="toggleTask(this)">
                             <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
-                            <div class="ex-img-wrapper"><img src="img/rosca-scott-2.png" class="ex-img" onerror="placeholderImg(this)"></div>
+                            <div class="ex-img-wrapper"><img src="img/rosca-scott.png" class="ex-img" onerror="placeholderImg(this)"></div>
                             <div class="exercise-info">
                                 <div class="ex-title">Rosca Direta</div>
                                 <div class="ex-details-row">
@@ -1224,29 +1224,29 @@
     </nav>
 
     <script>
-        // [NOVO: BIBLIOTECA DE EXERCÍCIOS]
+        // [NOVO: BIBLIOTECA DE EXERCÍCIOS - AGORA COM IMAGENS ÚNICAS]
         const EXERCISE_LIBRARY = {
             peito: [
-                { title: "Supino Reto (Barra)", muscles: "Peitoral Maior, Tríceps, Deltoide", img: "img/chest-press.png" },
-                { title: "Supino Inclinado (Halteres)", muscles: "Peitoral Superior, Deltoide Anterior", img: "img/supino-inclinado.png" },
-                { title: "Crucifixo Reto (Halteres)", muscles: "Peitoral Maior", img: "img/peck-deck.png" },
+                { title: "Supino Reto (Barra)", muscles: "Peitoral Maior, Tríceps, Deltoide", img: "img/supino-reto.png" },
+                { title: "Supino Inclinado (Halteres)", muscles: "Peitoral Superior, Deltoide Anterior", img: "img/supino-inclinado-halteres.png" },
+                { title: "Crucifixo Reto (Halteres)", muscles: "Peitoral Maior", img: "img/crucifixo-reto.png" },
                 { title: "Chest Press (Máquina)", muscles: "Peitoral Maior, Tríceps", img: "img/chest-press.png" },
                 { title: "Peck Deck (Voador)", muscles: "Peitoral Maior", img: "img/peck-deck.png" },
-                { title: "Flexão de Braço", muscles: "Peitoral, Tríceps, Core", img: "img/chest-press.png" },
-                { title: "Cross-over (Polia Alta)", muscles: "Peitoral Inferior", img: "img/peck-deck.png" }
+                { title: "Flexão de Braço", muscles: "Peitoral, Tríceps, Core", img: "img/flexao-braco.png" },
+                { title: "Cross-over (Polia Alta)", muscles: "Peitoral Inferior", img: "img/cross-over.png" }
             ],
             costas: [
                 { title: "Puxada Frontal (Aberta)", muscles: "Latíssimo do Dorso, Bíceps", img: "img/puxada-frontal.png" },
-                { title: "Remada Curvada (Barra)", muscles: "Dorsal, Trapézio, Bíceps", img: "img/remada-baixa.png" },
-                { title: "Remada Cavalinho", muscles: "Dorsais, Romboides", img: "img/remada-articulada.png" },
-                { title: "Barra Fixa (Pronada)", muscles: "Dorsais, Bíceps, Antebraço", img: "img/puxada-frontal.png" },
+                { title: "Remada Curvada (Barra)", muscles: "Dorsal, Trapézio, Bíceps", img: "img/remada-curvada.png" },
+                { title: "Remada Cavalinho", muscles: "Dorsais, Romboides", img: "img/remada-cavalinho.png" },
+                { title: "Barra Fixa (Pronada)", muscles: "Dorsais, Bíceps, Antebraço", img: "img/barra-fixa.png" },
                 { title: "Remada Baixa (Triângulo)", muscles: "Dorsal Médio, Trapézio", img: "img/remada-baixa.png" },
                 { title: "Puxada Neutra (Polia)", muscles: "Dorso, Braquial", img: "img/puxada-neutra.png" },
-                { title: "Pulldown (Corda)", muscles: "Latíssimo do Dorso", img: "img/puxada-frontal.png" }
+                { title: "Pulldown (Corda)", muscles: "Latíssimo do Dorso", img: "img/pulldown-corda.png" }
             ],
             biceps: [
                 { title: "Rosca Direta (Barra W)", muscles: "Bíceps Braquial", img: "img/rosca-direta.png" },
-                { title: "Rosca Alternada (Halteres)", muscles: "Bíceps, Braquiorradial", img: "img/rosca-polia.png" },
+                { title: "Rosca Alternada (Halteres)", muscles: "Bíceps, Braquiorradial", img: "img/rosca-alternada.png" },
                 { title: "Rosca Scott (Máquina)", muscles: "Bíceps Braquial (Isolado)", img: "img/rosca-scott.png" },
                 { title: "Rosca Martelo (Halteres)", muscles: "Braquial, Bíceps", img: "img/rosca-martelo.png" },
                 { title: "Rosca Concentrada", muscles: "Pico do Bíceps", img: "img/rosca-concentrada.png" },
@@ -1256,36 +1256,36 @@
                 { title: "Tríceps na Polia (Barra)", muscles: "Tríceps Lateral", img: "img/triceps-polia.png" },
                 { title: "Tríceps Corda (Polia)", muscles: "Tríceps (Cabeça Longa)", img: "img/triceps-corda.png" },
                 { title: "Tríceps Testa (Halteres)", muscles: "Tríceps (Cabeça Longa)", img: "img/triceps-testa.png" },
-                { title: "Tríceps Francês", muscles: "Tríceps Braquial", img: "img/triceps-testa.png" },
-                { title: "Paralelas (Banco)", muscles: "Tríceps, Peitoral", img: "img/supino-fechado.png" },
+                { title: "Tríceps Francês", muscles: "Tríceps Braquial", img: "img/triceps-frances.png" },
+                { title: "Paralelas (Banco)", muscles: "Tríceps, Peitoral", img: "img/paralelas-banco.png" },
                 { title: "Supino Fechado", muscles: "Tríceps, Peitoral", img: "img/supino-fechado.png" }
             ],
             pernas: [
-                { title: "Agachamento Livre", muscles: "Quadríceps, Glúteos, Core", img: "img/hack-squat.png" },
+                { title: "Agachamento Livre", muscles: "Quadríceps, Glúteos, Core", img: "img/agachamento-livre.png" },
                 { title: "Leg Press 45°", muscles: "Quadríceps, Glúteo", img: "img/leg-press.png" },
                 { title: "Cadeira Extensora", muscles: "Quadríceps", img: "img/extensora.png" },
                 { title: "Mesa Flexora", muscles: "Isquiotibiais", img: "img/flexora.png" },
-                { title: "Cadeira Flexora", muscles: "Posterior de Coxa", img: "img/flexora.png" },
+                { title: "Cadeira Flexora", muscles: "Posterior de Coxa", img: "img/cadeira-flexora.png" },
                 { title: "Hack Squat", muscles: "Quadríceps, Glúteos", img: "img/hack-squat.png" },
-                { title: "Stiff (Halteres)", muscles: "Isquiotibiais, Glúteos, Lombar", img: "img/flexora.png" },
-                { title: "Elevação Pélvica", muscles: "Glúteo Máximo", img: "img/flexora.png" },
-                { title: "Afundo (Passada)", muscles: "Quadríceps, Glúteos", img: "img/hack-squat.png" },
+                { title: "Stiff (Halteres)", muscles: "Isquiotibiais, Glúteos, Lombar", img: "img/stiff.png" },
+                { title: "Elevação Pélvica", muscles: "Glúteo Máximo", img: "img/elevacao-pelvica.png" },
+                { title: "Afundo (Passada)", muscles: "Quadríceps, Glúteos", img: "img/afundo.png" },
                 { title: "Panturrilha em Pé", muscles: "Gastrocnêmio", img: "img/panturrilha.png" }
             ],
             ombros: [
                 { title: "Desenvolvimento (Halteres)", muscles: "Deltoide Anterior/Lateral", img: "img/desenvolvimento.png" },
                 { title: "Elevação Lateral (Halteres)", muscles: "Deltoide Lateral", img: "img/elevacao-lateral.png" },
-                { title: "Elevação Frontal", muscles: "Deltoide Anterior", img: "img/desenvolvimento.png" },
+                { title: "Elevação Frontal", muscles: "Deltoide Anterior", img: "img/elevacao-frontal.png" },
                 { title: "Peck Deck Invertido", muscles: "Deltoide Posterior", img: "img/peck-deck-invertido.png" },
-                { title: "Desenvolvimento Máquina", muscles: "Deltoide Anterior", img: "img/desenvolvimento.png" },
-                { title: "Remada Alta (Polia)", muscles: "Trapézio, Deltoide", img: "img/elevacao-lateral.png" }
+                { title: "Desenvolvimento Máquina", muscles: "Deltoide Anterior", img: "img/desenvolvimento-maquina.png" },
+                { title: "Remada Alta (Polia)", muscles: "Trapézio, Deltoide", img: "img/remada-alta.png" }
             ],
             abs: [
                 { title: "Crunch Abdominal", muscles: "Reto Abdominal", img: "img/crunch-abdominal.png" },
-                { title: "Elevação de Pernas", muscles: "Abdominal Infra", img: "img/crunch-abdominal.png" },
+                { title: "Elevação de Pernas", muscles: "Abdominal Infra", img: "img/elevacao-pernas.png" },
                 { title: "Prancha Isométrica", muscles: "Core Completo", img: "img/prancha.png" },
-                { title: "Abdominal Bicicleta", muscles: "Oblíquos, Reto Abdominal", img: "img/crunch-abdominal.png" },
-                { title: "Crunch na Polia", muscles: "Reto Abdominal", img: "img/crunch-abdominal.png" }
+                { title: "Abdominal Bicicleta", muscles: "Oblíquos, Reto Abdominal", img: "img/abdominal-bicicleta.png" },
+                { title: "Crunch na Polia", muscles: "Reto Abdominal", img: "img/crunch-polia.png" }
             ]
         };
 
