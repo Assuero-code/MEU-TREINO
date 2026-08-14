@@ -360,7 +360,7 @@
         .ex-details-row {
             display: flex;
             align-items: center;
-            justify-content: space-between; /* Ajustado para caber o botão de troca */
+            justify-content: space-between; 
             gap: 8px;
             flex-wrap: nowrap;
             margin-bottom: 4px;
@@ -383,7 +383,6 @@
             text-overflow: ellipsis;
         }
 
-        /* [NOVO ESTILO: BOTÃO DE TROCA] */
         .swap-btn {
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid var(--card-border);
@@ -560,7 +559,6 @@
             box-shadow: 0 4px 16px var(--accent-glow);
         }
 
-        /* [NOVO ESTILO: MODAL DE TROCA] */
         .swap-modal-overlay {
             position: fixed;
             inset: 0;
@@ -680,11 +678,10 @@
                     <span class="muscle-group-tag"><i class="fa-solid fa-fire"></i> Peito + Tríceps</span>
                 </div>
                 <div class="exercise-list">
-                    <!-- Cards com ID e Grupo Muscular para lógica de troca -->
                     <div class="exercise-card" data-id="ex-0" data-group="peito">
                         <div class="exercise-main-row" onclick="toggleTask(this)">
                             <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
-                            <div class="ex-img-wrapper"><img src="" class="ex-img" onerror="placeholderImg(this)"></div>
+                            <div class="ex-img-wrapper"><img src="img/chest-press.png" class="ex-img" onerror="placeholderImg(this)"></div>
                             <div class="exercise-info">
                                 <div class="ex-title">Chest Press (Máquina)</div>
                                 <div class="ex-details-row">
@@ -703,7 +700,7 @@
                     <div class="exercise-card" data-id="ex-1" data-group="peito">
                         <div class="exercise-main-row" onclick="toggleTask(this)">
                             <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
-                            <div class="ex-img-wrapper"><img src="" class="ex-img" onerror="placeholderImg(this)"></div>
+                            <div class="ex-img-wrapper"><img src="img/supino-inclinado.png" class="ex-img" onerror="placeholderImg(this)"></div>
                             <div class="exercise-info">
                                 <div class="ex-title">Supino Inclinado Máquina</div>
                                 <div class="ex-details-row">
@@ -722,7 +719,7 @@
                     <div class="exercise-card" data-id="ex-2" data-group="peito">
                         <div class="exercise-main-row" onclick="toggleTask(this)">
                             <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
-                            <div class="ex-img-wrapper"><img src="" class="ex-img" onerror="placeholderImg(this)"></div>
+                            <div class="ex-img-wrapper"><img src="img/peck-deck.png" class="ex-img" onerror="placeholderImg(this)"></div>
                             <div class="exercise-info">
                                 <div class="ex-title">Peck Deck (Voador)</div>
                                 <div class="ex-details-row">
@@ -741,7 +738,7 @@
                     <div class="exercise-card" data-id="ex-3" data-group="triceps">
                         <div class="exercise-main-row" onclick="toggleTask(this)">
                             <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
-                            <div class="ex-img-wrapper"><img src="" class="ex-img" onerror="placeholderImg(this)"></div>
+                            <div class="ex-img-wrapper"><img src="img/triceps-polia.png" class="ex-img" onerror="placeholderImg(this)"></div>
                             <div class="exercise-info">
                                 <div class="ex-title">Tríceps na Polia</div>
                                 <div class="ex-details-row">
@@ -760,7 +757,7 @@
                     <div class="exercise-card" data-id="ex-4" data-group="triceps">
                         <div class="exercise-main-row" onclick="toggleTask(this)">
                             <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
-                            <div class="ex-img-wrapper"><img src="" class="ex-img" onerror="placeholderImg(this)"></div>
+                            <div class="ex-img-wrapper"><img src="img/triceps-testa.png" class="ex-img" onerror="placeholderImg(this)"></div>
                             <div class="exercise-info">
                                 <div class="ex-title">Tríceps Francês</div>
                                 <div class="ex-details-row">
@@ -788,7 +785,7 @@
                     <div class="exercise-card" data-id="ex-5" data-group="costas">
                         <div class="exercise-main-row" onclick="toggleTask(this)">
                             <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
-                            <div class="ex-img-wrapper"><img src="" class="ex-img" onerror="placeholderImg(this)"></div>
+                            <div class="ex-img-wrapper"><img src="img/puxada-frontal.png" class="ex-img" onerror="placeholderImg(this)"></div>
                             <div class="exercise-info">
                                 <div class="ex-title">Puxada Frontal (Barra)</div>
                                 <div class="ex-details-row">
@@ -807,7 +804,7 @@
                     <div class="exercise-card" data-id="ex-6" data-group="costas">
                         <div class="exercise-main-row" onclick="toggleTask(this)">
                             <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
-                            <div class="ex-img-wrapper"><img src="" class="ex-img" onerror="placeholderImg(this)"></div>
+                            <div class="ex-img-wrapper"><img src="img/remada-baixa.png" class="ex-img" onerror="placeholderImg(this)"></div>
                             <div class="exercise-info">
                                 <div class="ex-title">Remada Baixa (Cable)</div>
                                 <div class="ex-details-row">
@@ -826,7 +823,7 @@
                     <div class="exercise-card" data-id="ex-7" data-group="costas">
                         <div class="exercise-main-row" onclick="toggleTask(this)">
                             <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
-                            <div class="ex-img-wrapper"><img src="" class="ex-img" onerror="placeholderImg(this)"></div>
+                            <div class="ex-img-wrapper"><img src="img/remada-articulada.png" class="ex-img" onerror="placeholderImg(this)"></div>
                             <div class="exercise-info">
                                 <div class="ex-title">Remada Articulada</div>
                                 <div class="ex-details-row">
@@ -845,7 +842,7 @@
                     <div class="exercise-card" data-id="ex-8" data-group="biceps">
                         <div class="exercise-main-row" onclick="toggleTask(this)">
                             <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
-                            <div class="ex-img-wrapper"><img src="" class="ex-img" onerror="placeholderImg(this)"></div>
+                            <div class="ex-img-wrapper"><img src="img/rosca-scott.png" class="ex-img" onerror="placeholderImg(this)"></div>
                             <div class="exercise-info">
                                 <div class="ex-title">Rosca Scott (Máquina)</div>
                                 <div class="ex-details-row">
@@ -864,7 +861,7 @@
                     <div class="exercise-card" data-id="ex-9" data-group="biceps">
                         <div class="exercise-main-row" onclick="toggleTask(this)">
                             <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
-                            <div class="ex-img-wrapper"><img src="" class="ex-img" onerror="placeholderImg(this)"></div>
+                            <div class="ex-img-wrapper"><img src="img/rosca-polia.png" class="ex-img" onerror="placeholderImg(this)"></div>
                             <div class="exercise-info">
                                 <div class="ex-title">Rosca Direta Polia</div>
                                 <div class="ex-details-row">
@@ -892,7 +889,7 @@
                     <div class="exercise-card" data-id="ex-10" data-group="pernas">
                         <div class="exercise-main-row" onclick="toggleTask(this)">
                             <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
-                            <div class="ex-img-wrapper"><img src="" class="ex-img" onerror="placeholderImg(this)"></div>
+                            <div class="ex-img-wrapper"><img src="img/leg-press.png" class="ex-img" onerror="placeholderImg(this)"></div>
                             <div class="exercise-info">
                                 <div class="ex-title">Leg Press 45°</div>
                                 <div class="ex-details-row">
@@ -911,7 +908,7 @@
                     <div class="exercise-card" data-id="ex-11" data-group="pernas">
                         <div class="exercise-main-row" onclick="toggleTask(this)">
                             <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
-                            <div class="ex-img-wrapper"><img src="" class="ex-img" onerror="placeholderImg(this)"></div>
+                            <div class="ex-img-wrapper"><img src="img/hack-squat.png" class="ex-img" onerror="placeholderImg(this)"></div>
                             <div class="exercise-info">
                                 <div class="ex-title">Hack Squat</div>
                                 <div class="ex-details-row">
@@ -930,7 +927,7 @@
                     <div class="exercise-card" data-id="ex-12" data-group="pernas">
                         <div class="exercise-main-row" onclick="toggleTask(this)">
                             <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
-                            <div class="ex-img-wrapper"><img src="" class="ex-img" onerror="placeholderImg(this)"></div>
+                            <div class="ex-img-wrapper"><img src="img/extensora.png" class="ex-img" onerror="placeholderImg(this)"></div>
                             <div class="exercise-info">
                                 <div class="ex-title">Cadeira Extensora</div>
                                 <div class="ex-details-row">
@@ -949,7 +946,7 @@
                     <div class="exercise-card" data-id="ex-13" data-group="pernas">
                         <div class="exercise-main-row" onclick="toggleTask(this)">
                             <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
-                            <div class="ex-img-wrapper"><img src="" class="ex-img" onerror="placeholderImg(this)"></div>
+                            <div class="ex-img-wrapper"><img src="img/flexora.png" class="ex-img" onerror="placeholderImg(this)"></div>
                             <div class="exercise-info">
                                 <div class="ex-title">Mesa Flexora</div>
                                 <div class="ex-details-row">
@@ -968,7 +965,7 @@
                     <div class="exercise-card" data-id="ex-14" data-group="pernas">
                         <div class="exercise-main-row" onclick="toggleTask(this)">
                             <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
-                            <div class="ex-img-wrapper"><img src="" class="ex-img" onerror="placeholderImg(this)"></div>
+                            <div class="ex-img-wrapper"><img src="img/panturrilha.png" class="ex-img" onerror="placeholderImg(this)"></div>
                             <div class="exercise-info">
                                 <div class="ex-title">Panturrilha em Pé</div>
                                 <div class="ex-details-row">
@@ -996,7 +993,7 @@
                     <div class="exercise-card" data-id="ex-15" data-group="ombros">
                         <div class="exercise-main-row" onclick="toggleTask(this)">
                             <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
-                            <div class="ex-img-wrapper"><img src="" class="ex-img" onerror="placeholderImg(this)"></div>
+                            <div class="ex-img-wrapper"><img src="img/desenvolvimento.png" class="ex-img" onerror="placeholderImg(this)"></div>
                             <div class="exercise-info">
                                 <div class="ex-title">Desenv. na Máquina</div>
                                 <div class="ex-details-row">
@@ -1015,7 +1012,7 @@
                     <div class="exercise-card" data-id="ex-16" data-group="ombros">
                         <div class="exercise-main-row" onclick="toggleTask(this)">
                             <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
-                            <div class="ex-img-wrapper"><img src="" class="ex-img" onerror="placeholderImg(this)"></div>
+                            <div class="ex-img-wrapper"><img src="img/elevacao-lateral.png" class="ex-img" onerror="placeholderImg(this)"></div>
                             <div class="exercise-info">
                                 <div class="ex-title">Elevação Lateral (Máquina)</div>
                                 <div class="ex-details-row">
@@ -1034,7 +1031,7 @@
                     <div class="exercise-card" data-id="ex-17" data-group="ombros">
                         <div class="exercise-main-row" onclick="toggleTask(this)">
                             <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
-                            <div class="ex-img-wrapper"><img src="" class="ex-img" onerror="placeholderImg(this)"></div>
+                            <div class="ex-img-wrapper"><img src="img/peck-deck-invertido.png" class="ex-img" onerror="placeholderImg(this)"></div>
                             <div class="exercise-info">
                                 <div class="ex-title">Peck Deck Invertido</div>
                                 <div class="ex-details-row">
@@ -1053,7 +1050,7 @@
                     <div class="exercise-card" data-id="ex-18" data-group="abs">
                         <div class="exercise-main-row" onclick="toggleTask(this)">
                             <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
-                            <div class="ex-img-wrapper"><img src="" class="ex-img" onerror="placeholderImg(this)"></div>
+                            <div class="ex-img-wrapper"><img src="img/crunch-abdominal.png" class="ex-img" onerror="placeholderImg(this)"></div>
                             <div class="exercise-info">
                                 <div class="ex-title">Crunch na Polia</div>
                                 <div class="ex-details-row">
@@ -1072,7 +1069,7 @@
                     <div class="exercise-card" data-id="ex-19" data-group="abs">
                         <div class="exercise-main-row" onclick="toggleTask(this)">
                             <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
-                            <div class="ex-img-wrapper"><img src="" class="ex-img" onerror="placeholderImg(this)"></div>
+                            <div class="ex-img-wrapper"><img src="img/prancha.png" class="ex-img" onerror="placeholderImg(this)"></div>
                             <div class="exercise-info">
                                 <div class="ex-title">Prancha Isometrica</div>
                                 <div class="ex-details-row">
@@ -1100,7 +1097,7 @@
                     <div class="exercise-card" data-id="ex-20" data-group="triceps">
                         <div class="exercise-main-row" onclick="toggleTask(this)">
                             <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
-                            <div class="ex-img-wrapper"><img src="" class="ex-img" onerror="placeholderImg(this)"></div>
+                            <div class="ex-img-wrapper"><img src="img/supino-fechado.png" class="ex-img" onerror="placeholderImg(this)"></div>
                             <div class="exercise-info">
                                 <div class="ex-title">Supino Fechado</div>
                                 <div class="ex-details-row">
@@ -1119,7 +1116,7 @@
                     <div class="exercise-card" data-id="ex-21" data-group="costas">
                         <div class="exercise-main-row" onclick="toggleTask(this)">
                             <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
-                            <div class="ex-img-wrapper"><img src="" class="ex-img" onerror="placeholderImg(this)"></div>
+                            <div class="ex-img-wrapper"><img src="img/puxada-neutra.png" class="ex-img" onerror="placeholderImg(this)"></div>
                             <div class="exercise-info">
                                 <div class="ex-title">Puxada Neutra</div>
                                 <div class="ex-details-row">
@@ -1138,7 +1135,7 @@
                     <div class="exercise-card" data-id="ex-22" data-group="triceps">
                         <div class="exercise-main-row" onclick="toggleTask(this)">
                             <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
-                            <div class="ex-img-wrapper"><img src="" class="ex-img" onerror="placeholderImg(this)"></div>
+                            <div class="ex-img-wrapper"><img src="img/triceps-corda.png" class="ex-img" onerror="placeholderImg(this)"></div>
                             <div class="exercise-info">
                                 <div class="ex-title">Tríceps Corda</div>
                                 <div class="ex-details-row">
@@ -1157,7 +1154,7 @@
                     <div class="exercise-card" data-id="ex-23" data-group="biceps">
                         <div class="exercise-main-row" onclick="toggleTask(this)">
                             <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
-                            <div class="ex-img-wrapper"><img src="" class="ex-img" onerror="placeholderImg(this)"></div>
+                            <div class="ex-img-wrapper"><img src="img/rosca-scott-2.png" class="ex-img" onerror="placeholderImg(this)"></div>
                             <div class="exercise-info">
                                 <div class="ex-title">Rosca Direta</div>
                                 <div class="ex-details-row">
@@ -1176,7 +1173,7 @@
                     <div class="exercise-card" data-id="ex-24" data-group="biceps">
                         <div class="exercise-main-row" onclick="toggleTask(this)">
                             <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
-                            <div class="ex-img-wrapper"><img src="" class="ex-img" onerror="placeholderImg(this)"></div>
+                            <div class="ex-img-wrapper"><img src="img/rosca-martelo.png" class="ex-img" onerror="placeholderImg(this)"></div>
                             <div class="exercise-info">
                                 <div class="ex-title">Rosca Martelo</div>
                                 <div class="ex-details-row">
@@ -1230,65 +1227,65 @@
         // [NOVO: BIBLIOTECA DE EXERCÍCIOS]
         const EXERCISE_LIBRARY = {
             peito: [
-                { title: "Supino Reto (Barra)", muscles: "Peitoral Maior, Tríceps, Deltoide" },
-                { title: "Supino Inclinado (Halteres)", muscles: "Peitoral Superior, Deltoide Anterior" },
-                { title: "Crucifixo Reto (Halteres)", muscles: "Peitoral Maior" },
-                { title: "Chest Press (Máquina)", muscles: "Peitoral Maior, Tríceps" },
-                { title: "Peck Deck (Voador)", muscles: "Peitoral Maior" },
-                { title: "Flexão de Braço", muscles: "Peitoral, Tríceps, Core" },
-                { title: "Cross-over (Polia Alta)", muscles: "Peitoral Inferior" }
+                { title: "Supino Reto (Barra)", muscles: "Peitoral Maior, Tríceps, Deltoide", img: "img/chest-press.png" },
+                { title: "Supino Inclinado (Halteres)", muscles: "Peitoral Superior, Deltoide Anterior", img: "img/supino-inclinado.png" },
+                { title: "Crucifixo Reto (Halteres)", muscles: "Peitoral Maior", img: "img/peck-deck.png" },
+                { title: "Chest Press (Máquina)", muscles: "Peitoral Maior, Tríceps", img: "img/chest-press.png" },
+                { title: "Peck Deck (Voador)", muscles: "Peitoral Maior", img: "img/peck-deck.png" },
+                { title: "Flexão de Braço", muscles: "Peitoral, Tríceps, Core", img: "img/chest-press.png" },
+                { title: "Cross-over (Polia Alta)", muscles: "Peitoral Inferior", img: "img/peck-deck.png" }
             ],
             costas: [
-                { title: "Puxada Frontal (Aberta)", muscles: "Latíssimo do Dorso, Bíceps" },
-                { title: "Remada Curvada (Barra)", muscles: "Dorsal, Trapézio, Bíceps" },
-                { title: "Remada Cavalinho", muscles: "Dorsais, Romboides" },
-                { title: "Barra Fixa (Pronada)", muscles: "Dorsais, Bíceps, Antebraço" },
-                { title: "Remada Baixa (Triângulo)", muscles: "Dorsal Médio, Trapézio" },
-                { title: "Puxada Neutra (Polia)", muscles: "Dorso, Braquial" },
-                { title: "Pulldown (Corda)", muscles: "Latíssimo do Dorso" }
+                { title: "Puxada Frontal (Aberta)", muscles: "Latíssimo do Dorso, Bíceps", img: "img/puxada-frontal.png" },
+                { title: "Remada Curvada (Barra)", muscles: "Dorsal, Trapézio, Bíceps", img: "img/remada-baixa.png" },
+                { title: "Remada Cavalinho", muscles: "Dorsais, Romboides", img: "img/remada-articulada.png" },
+                { title: "Barra Fixa (Pronada)", muscles: "Dorsais, Bíceps, Antebraço", img: "img/puxada-frontal.png" },
+                { title: "Remada Baixa (Triângulo)", muscles: "Dorsal Médio, Trapézio", img: "img/remada-baixa.png" },
+                { title: "Puxada Neutra (Polia)", muscles: "Dorso, Braquial", img: "img/puxada-neutra.png" },
+                { title: "Pulldown (Corda)", muscles: "Latíssimo do Dorso", img: "img/puxada-frontal.png" }
             ],
             biceps: [
-                { title: "Rosca Direta (Barra W)", muscles: "Bíceps Braquial" },
-                { title: "Rosca Alternada (Halteres)", muscles: "Bíceps, Braquiorradial" },
-                { title: "Rosca Scott (Máquina)", muscles: "Bíceps Braquial (Isolado)" },
-                { title: "Rosca Martelo (Halteres)", muscles: "Braquial, Bíceps" },
-                { title: "Rosca Concentrada", muscles: "Pico do Bíceps" },
-                { title: "Rosca Direta Polia", muscles: "Bíceps Braquial" }
+                { title: "Rosca Direta (Barra W)", muscles: "Bíceps Braquial", img: "img/rosca-scott.png" },
+                { title: "Rosca Alternada (Halteres)", muscles: "Bíceps, Braquiorradial", img: "img/rosca-polia.png" },
+                { title: "Rosca Scott (Máquina)", muscles: "Bíceps Braquial (Isolado)", img: "img/rosca-scott.png" },
+                { title: "Rosca Martelo (Halteres)", muscles: "Braquial, Bíceps", img: "img/rosca-martelo.png" },
+                { title: "Rosca Concentrada", muscles: "Pico do Bíceps", img: "img/rosca-polia.png" },
+                { title: "Rosca Direta Polia", muscles: "Bíceps Braquial", img: "img/rosca-polia.png" }
             ],
             triceps: [
-                { title: "Tríceps na Polia (Barra)", muscles: "Tríceps Lateral" },
-                { title: "Tríceps Corda (Polia)", muscles: "Tríceps (Cabeça Longa)" },
-                { title: "Tríceps Testa (Halteres)", muscles: "Tríceps (Cabeça Longa)" },
-                { title: "Tríceps Francês", muscles: "Tríceps Braquial" },
-                { title: "Paralelas (Banco)", muscles: "Tríceps, Peitoral" },
-                { title: "Supino Fechado", muscles: "Tríceps, Peitoral" }
+                { title: "Tríceps na Polia (Barra)", muscles: "Tríceps Lateral", img: "img/triceps-polia.png" },
+                { title: "Tríceps Corda (Polia)", muscles: "Tríceps (Cabeça Longa)", img: "img/triceps-corda.png" },
+                { title: "Tríceps Testa (Halteres)", muscles: "Tríceps (Cabeça Longa)", img: "img/triceps-testa.png" },
+                { title: "Tríceps Francês", muscles: "Tríceps Braquial", img: "img/triceps-testa.png" },
+                { title: "Paralelas (Banco)", muscles: "Tríceps, Peitoral", img: "img/supino-fechado.png" },
+                { title: "Supino Fechado", muscles: "Tríceps, Peitoral", img: "img/supino-fechado.png" }
             ],
             pernas: [
-                { title: "Agachamento Livre", muscles: "Quadríceps, Glúteos, Core" },
-                { title: "Leg Press 45°", muscles: "Quadríceps, Glúteo" },
-                { title: "Cadeira Extensora", muscles: "Quadríceps" },
-                { title: "Mesa Flexora", muscles: "Isquiotibiais" },
-                { title: "Cadeira Flexora", muscles: "Posterior de Coxa" },
-                { title: "Hack Squat", muscles: "Quadríceps, Glúteos" },
-                { title: "Stiff (Halteres)", muscles: "Isquiotibiais, Glúteos, Lombar" },
-                { title: "Elevação Pélvica", muscles: "Glúteo Máximo" },
-                { title: "Afundo (Passada)", muscles: "Quadríceps, Glúteos" },
-                { title: "Panturrilha em Pé", muscles: "Gastrocnêmio" }
+                { title: "Agachamento Livre", muscles: "Quadríceps, Glúteos, Core", img: "img/hack-squat.png" },
+                { title: "Leg Press 45°", muscles: "Quadríceps, Glúteo", img: "img/leg-press.png" },
+                { title: "Cadeira Extensora", muscles: "Quadríceps", img: "img/extensora.png" },
+                { title: "Mesa Flexora", muscles: "Isquiotibiais", img: "img/flexora.png" },
+                { title: "Cadeira Flexora", muscles: "Posterior de Coxa", img: "img/flexora.png" },
+                { title: "Hack Squat", muscles: "Quadríceps, Glúteos", img: "img/hack-squat.png" },
+                { title: "Stiff (Halteres)", muscles: "Isquiotibiais, Glúteos, Lombar", img: "img/flexora.png" },
+                { title: "Elevação Pélvica", muscles: "Glúteo Máximo", img: "img/flexora.png" },
+                { title: "Afundo (Passada)", muscles: "Quadríceps, Glúteos", img: "img/hack-squat.png" },
+                { title: "Panturrilha em Pé", muscles: "Gastrocnêmio", img: "img/panturrilha.png" }
             ],
             ombros: [
-                { title: "Desenvolvimento (Halteres)", muscles: "Deltoide Anterior/Lateral" },
-                { title: "Elevação Lateral (Halteres)", muscles: "Deltoide Lateral" },
-                { title: "Elevação Frontal", muscles: "Deltoide Anterior" },
-                { title: "Peck Deck Invertido", muscles: "Deltoide Posterior" },
-                { title: "Desenvolvimento Máquina", muscles: "Deltoide Anterior" },
-                { title: "Remada Alta (Polia)", muscles: "Trapézio, Deltoide" }
+                { title: "Desenvolvimento (Halteres)", muscles: "Deltoide Anterior/Lateral", img: "img/desenvolvimento.png" },
+                { title: "Elevação Lateral (Halteres)", muscles: "Deltoide Lateral", img: "img/elevacao-lateral.png" },
+                { title: "Elevação Frontal", muscles: "Deltoide Anterior", img: "img/desenvolvimento.png" },
+                { title: "Peck Deck Invertido", muscles: "Deltoide Posterior", img: "img/peck-deck-invertido.png" },
+                { title: "Desenvolvimento Máquina", muscles: "Deltoide Anterior", img: "img/desenvolvimento.png" },
+                { title: "Remada Alta (Polia)", muscles: "Trapézio, Deltoide", img: "img/elevacao-lateral.png" }
             ],
             abs: [
-                { title: "Crunch Abdominal", muscles: "Reto Abdominal" },
-                { title: "Elevação de Pernas", muscles: "Abdominal Infra" },
-                { title: "Prancha Isométrica", muscles: "Core Completo" },
-                { title: "Abdominal Bicicleta", muscles: "Oblíquos, Reto Abdominal" },
-                { title: "Crunch na Polia", muscles: "Reto Abdominal" }
+                { title: "Crunch Abdominal", muscles: "Reto Abdominal", img: "img/crunch-abdominal.png" },
+                { title: "Elevação de Pernas", muscles: "Abdominal Infra", img: "img/crunch-abdominal.png" },
+                { title: "Prancha Isométrica", muscles: "Core Completo", img: "img/prancha.png" },
+                { title: "Abdominal Bicicleta", muscles: "Oblíquos, Reto Abdominal", img: "img/crunch-abdominal.png" },
+                { title: "Crunch na Polia", muscles: "Reto Abdominal", img: "img/crunch-abdominal.png" }
             ]
         };
 
@@ -1331,9 +1328,9 @@
             card.querySelector('.ex-title').innerText = newExData.title;
             card.querySelector('.ex-muscles-text').innerText = newExData.muscles;
             
-            // Atualiza Imagem Placeholder (ou lógica de imagem real se houver)
+            // Atualiza Imagem do repositório
             const img = card.querySelector('.ex-img');
-            img.src = `https://placehold.co/120x120/1e293b/38bdf8?text=${encodeURIComponent(newExData.title)}`;
+            img.src = newExData.img;
             
             // Salva a configuração personalizada
             saveCustomWorkout();
@@ -1346,7 +1343,8 @@
                 const id = card.getAttribute('data-id');
                 custom[id] = {
                     title: card.querySelector('.ex-title').innerText,
-                    muscles: card.querySelector('.ex-muscles-text').innerText
+                    muscles: card.querySelector('.ex-muscles-text').innerText,
+                    img: card.querySelector('.ex-img').getAttribute('src')
                 };
             });
             localStorage.setItem('customWorkout_v1', JSON.stringify(custom));
@@ -1362,7 +1360,7 @@
                         card.querySelector('.ex-title').innerText = custom[id].title;
                         card.querySelector('.ex-muscles-text').innerText = custom[id].muscles;
                         const img = card.querySelector('.ex-img');
-                        img.src = `https://placehold.co/120x120/1e293b/38bdf8?text=${encodeURIComponent(custom[id].title)}`;
+                        img.src = custom[id].img;
                     }
                 });
             }
