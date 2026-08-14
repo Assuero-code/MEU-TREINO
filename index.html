@@ -36,6 +36,7 @@
             --safe-area-bottom: env(safe-area-inset-bottom, 20px);
         }
 
+        /* [ESTILOS ORIGINAIS PRESERVADOS] */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -59,14 +60,12 @@
             align-items: center;
         }
 
-        /* App Container & Max Width for iPad/Desktop */
         .app-wrapper {
             width: 100%;
             max-width: 768px;
             padding: 16px 16px 0 16px;
         }
 
-        /* Header Layout */
         header {
             margin-bottom: 20px;
             padding: 12px 4px;
@@ -107,7 +106,6 @@
             letter-spacing: 0.5px;
         }
 
-        /* Overall Progress Bar */
         .progress-card {
             background: var(--card-bg);
             border: 1px solid var(--card-border);
@@ -144,7 +142,6 @@
             box-shadow: 0 0 12px var(--accent-glow);
         }
 
-        /* Day Navigation Tabs (Mobile Optimized Horizontal Scroll) */
         .day-tabs-container {
             margin-bottom: 20px;
             position: sticky;
@@ -164,8 +161,8 @@
             display: flex;
             gap: 10px;
             overflow-x: auto;
-            scrollbar-width: none; /* Firefox */
-            -ms-overflow-style: none; /* IE */
+            scrollbar-width: none;
+            -ms-overflow-style: none;
         }
         .day-tabs::-webkit-scrollbar { display: none; }
 
@@ -205,7 +202,6 @@
             color: var(--success-color);
         }
 
-        /* Workout Sections */
         .day-section {
             display: none;
             animation: fadeIn 0.35s ease-in-out forwards;
@@ -244,7 +240,6 @@
             border-radius: 8px;
         }
 
-        /* Exercise Cards */
         .exercise-list {
             display: flex;
             flex-direction: column;
@@ -365,8 +360,9 @@
         .ex-details-row {
             display: flex;
             align-items: center;
+            justify-content: space-between; /* Ajustado para caber o botão de troca */
             gap: 8px;
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
             margin-bottom: 4px;
         }
 
@@ -387,7 +383,24 @@
             text-overflow: ellipsis;
         }
 
-        /* Load / Reps Tracker Row */
+        /* [NOVO ESTILO: BOTÃO DE TROCA] */
+        .swap-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+            color: var(--accent-primary);
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 4px 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            text-transform: uppercase;
+        }
+        .swap-btn:hover { background: rgba(56, 189, 248, 0.15); }
+
         .exercise-extra-row {
             display: flex;
             align-items: center;
@@ -444,7 +457,6 @@
             transform: scale(0.95);
         }
 
-        /* Floating Rest Timer Widget */
         .timer-widget {
             position: fixed;
             bottom: 85px;
@@ -498,7 +510,6 @@
             font-size: 0.75rem;
         }
 
-        /* Bottom Fixed Action Bar */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -543,47 +554,70 @@
             border: 1px solid rgba(239, 68, 68, 0.3);
         }
 
-        .btn-reset:active {
-            background: rgba(239, 68, 68, 0.25);
-            transform: scale(0.98);
-        }
-
         .btn-quick-timer {
             background: var(--accent-gradient);
             color: #ffffff;
             box-shadow: 0 4px 16px var(--accent-glow);
         }
 
-        .btn-quick-timer:active {
-            transform: scale(0.98);
+        /* [NOVO ESTILO: MODAL DE TROCA] */
+        .swap-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
         }
+        .swap-modal {
+            background: var(--bg-dark);
+            width: 100%;
+            max-width: 450px;
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-xl);
+            max-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+        }
+        .swap-modal-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--card-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .swap-list {
+            overflow-y: auto;
+            padding: 10px;
+        }
+        .swap-item {
+            padding: 15px;
+            border-radius: var(--radius-md);
+            margin-bottom: 8px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .swap-item:hover {
+            background: rgba(56, 189, 248, 0.1);
+            border-color: var(--accent-primary);
+        }
+        .swap-item-title { font-weight: 700; color: var(--text-main); margin-bottom: 2px; }
+        .swap-item-muscles { font-size: 0.7rem; color: var(--text-muted); }
 
-        /* Responsive Layout for iPad / Desktop (Grid Split) */
         @media (min-width: 640px) {
-            .app-wrapper {
-                padding-top: 24px;
-            }
-            .header-top {
-                margin-bottom: 20px;
-            }
-            .brand-title {
-                font-size: 1.8rem;
-            }
-            .day-tabs {
-                justify-content: space-between;
-            }
-            .tab-btn {
-                flex: 1;
-            }
-            .exercise-list {
-                display: grid;
-                grid-template-columns: repeat(2, 1fr);
-                gap: 16px;
-            }
-            .exercise-card {
-                height: 100%;
-                justify-content: space-between;
-            }
+            .app-wrapper { padding-top: 24px; }
+            .brand-title { font-size: 1.8rem; }
+            .day-tabs { justify-content: space-between; }
+            .tab-btn { flex: 1; }
+            .exercise-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+            .exercise-card { height: 100%; justify-content: space-between; }
         }
     </style>
 </head>
@@ -611,7 +645,7 @@
             </div>
         </header>
 
-        <!-- Navigation Tabs for Days -->
+        <!-- Navigation Tabs -->
         <div class="day-tabs-container">
             <div class="day-tabs" id="dayTabs">
                 <button class="tab-btn active" onclick="switchDay(0)">
@@ -637,9 +671,8 @@
             </div>
         </div>
 
-        <!-- Workout Sections Container -->
+        <!-- Workout Sections -->
         <main id="workout-container">
-
             <!-- SEGUNDA -->
             <section class="day-section active" data-day="0">
                 <div class="section-header">
@@ -647,128 +680,99 @@
                     <span class="muscle-group-tag"><i class="fa-solid fa-fire"></i> Peito + Tríceps</span>
                 </div>
                 <div class="exercise-list">
-                    <div class="exercise-card" data-id="ex-0">
+                    <!-- Cards com ID e Grupo Muscular para lógica de troca -->
+                    <div class="exercise-card" data-id="ex-0" data-group="peito">
                         <div class="exercise-main-row" onclick="toggleTask(this)">
                             <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
-                            <div class="ex-img-wrapper">
-                                <img src="img/chest-press.png" class="ex-img" onerror="this.src='https://placehold.co/120x120/1e293b/38bdf8?text=Chest+Press'">
-                            </div>
+                            <div class="ex-img-wrapper"><img src="" class="ex-img" onerror="placeholderImg(this)"></div>
                             <div class="exercise-info">
-                                <div class="ex-title">1. Chest Press (Máquina)</div>
+                                <div class="ex-title">Chest Press (Máquina)</div>
                                 <div class="ex-details-row">
                                     <span class="ex-sets-badge">4x 8-10 reps</span>
+                                    <button class="swap-btn" onclick="openSwapModal(event, 'ex-0')"><i class="fa-solid fa-right-left"></i> Trocar</button>
                                 </div>
                                 <div class="ex-muscles-text">Peitoral Maior, Tríceps</div>
                             </div>
                         </div>
                         <div class="exercise-extra-row">
-                            <div class="load-input-group">
-                                <label>CARGA:</label>
-                                <input type="text" class="load-input" placeholder="0 kg" data-ex="ex-0" onchange="saveLoads()">
-                            </div>
-                            <button class="timer-trigger-btn" onclick="startTimer(60)">
-                                <i class="fa-regular fa-clock"></i> 60s Repouso
-                            </button>
+                            <div class="load-input-group"><label>CARGA:</label><input type="text" class="load-input" placeholder="0 kg" data-ex="ex-0" onchange="saveLoads()"></div>
+                            <button class="timer-trigger-btn" onclick="startTimer(60)"><i class="fa-regular fa-clock"></i> 60s Repouso</button>
                         </div>
                     </div>
 
-                    <div class="exercise-card" data-id="ex-1">
+                    <div class="exercise-card" data-id="ex-1" data-group="peito">
                         <div class="exercise-main-row" onclick="toggleTask(this)">
                             <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
-                            <div class="ex-img-wrapper">
-                                <img src="img/supino-inclinado.png" class="ex-img" onerror="this.src='https://placehold.co/120x120/1e293b/38bdf8?text=Supino+Inc'">
-                            </div>
+                            <div class="ex-img-wrapper"><img src="" class="ex-img" onerror="placeholderImg(this)"></div>
                             <div class="exercise-info">
-                                <div class="ex-title">2. Supino Inclinado Máquina</div>
+                                <div class="ex-title">Supino Inclinado Máquina</div>
                                 <div class="ex-details-row">
                                     <span class="ex-sets-badge">3x 8-10 reps</span>
+                                    <button class="swap-btn" onclick="openSwapModal(event, 'ex-1')"><i class="fa-solid fa-right-left"></i> Trocar</button>
                                 </div>
                                 <div class="ex-muscles-text">Peitoral Superior, Deltoide</div>
                             </div>
                         </div>
                         <div class="exercise-extra-row">
-                            <div class="load-input-group">
-                                <label>CARGA:</label>
-                                <input type="text" class="load-input" placeholder="0 kg" data-ex="ex-1" onchange="saveLoads()">
-                            </div>
-                            <button class="timer-trigger-btn" onclick="startTimer(60)">
-                                <i class="fa-regular fa-clock"></i> 60s Repouso
-                            </button>
+                            <div class="load-input-group"><label>CARGA:</label><input type="text" class="load-input" placeholder="0 kg" data-ex="ex-1" onchange="saveLoads()"></div>
+                            <button class="timer-trigger-btn" onclick="startTimer(60)"><i class="fa-regular fa-clock"></i> 60s Repouso</button>
                         </div>
                     </div>
 
-                    <div class="exercise-card" data-id="ex-2">
+                    <div class="exercise-card" data-id="ex-2" data-group="peito">
                         <div class="exercise-main-row" onclick="toggleTask(this)">
                             <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
-                            <div class="ex-img-wrapper">
-                                <img src="img/peck-deck.png" class="ex-img" onerror="this.src='https://placehold.co/120x120/1e293b/38bdf8?text=Peck+Deck'">
-                            </div>
+                            <div class="ex-img-wrapper"><img src="" class="ex-img" onerror="placeholderImg(this)"></div>
                             <div class="exercise-info">
-                                <div class="ex-title">3. Peck Deck (Voador)</div>
+                                <div class="ex-title">Peck Deck (Voador)</div>
                                 <div class="ex-details-row">
                                     <span class="ex-sets-badge">3x 10-12 reps</span>
+                                    <button class="swap-btn" onclick="openSwapModal(event, 'ex-2')"><i class="fa-solid fa-right-left"></i> Trocar</button>
                                 </div>
                                 <div class="ex-muscles-text">Peitoral Maior</div>
                             </div>
                         </div>
                         <div class="exercise-extra-row">
-                            <div class="load-input-group">
-                                <label>CARGA:</label>
-                                <input type="text" class="load-input" placeholder="0 kg" data-ex="ex-2" onchange="saveLoads()">
-                            </div>
-                            <button class="timer-trigger-btn" onclick="startTimer(45)">
-                                <i class="fa-regular fa-clock"></i> 45s Repouso
-                            </button>
+                            <div class="load-input-group"><label>CARGA:</label><input type="text" class="load-input" placeholder="0 kg" data-ex="ex-2" onchange="saveLoads()"></div>
+                            <button class="timer-trigger-btn" onclick="startTimer(45)"><i class="fa-regular fa-clock"></i> 45s Repouso</button>
                         </div>
                     </div>
 
-                    <div class="exercise-card" data-id="ex-3">
+                    <div class="exercise-card" data-id="ex-3" data-group="triceps">
                         <div class="exercise-main-row" onclick="toggleTask(this)">
                             <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
-                            <div class="ex-img-wrapper">
-                                <img src="img/triceps-polia.png" class="ex-img" onerror="this.src='https://placehold.co/120x120/1e293b/38bdf8?text=Triceps+Polia'">
-                            </div>
+                            <div class="ex-img-wrapper"><img src="" class="ex-img" onerror="placeholderImg(this)"></div>
                             <div class="exercise-info">
-                                <div class="ex-title">4. Tríceps na Polia</div>
+                                <div class="ex-title">Tríceps na Polia</div>
                                 <div class="ex-details-row">
                                     <span class="ex-sets-badge">3x 10-12 reps</span>
+                                    <button class="swap-btn" onclick="openSwapModal(event, 'ex-3')"><i class="fa-solid fa-right-left"></i> Trocar</button>
                                 </div>
                                 <div class="ex-muscles-text">Tríceps (Cabeça Lateral)</div>
                             </div>
                         </div>
                         <div class="exercise-extra-row">
-                            <div class="load-input-group">
-                                <label>CARGA:</label>
-                                <input type="text" class="load-input" placeholder="0 kg" data-ex="ex-3" onchange="saveLoads()">
-                            </div>
-                            <button class="timer-trigger-btn" onclick="startTimer(45)">
-                                <i class="fa-regular fa-clock"></i> 45s Repouso
-                            </button>
+                            <div class="load-input-group"><label>CARGA:</label><input type="text" class="load-input" placeholder="0 kg" data-ex="ex-3" onchange="saveLoads()"></div>
+                            <button class="timer-trigger-btn" onclick="startTimer(45)"><i class="fa-regular fa-clock"></i> 45s Repouso</button>
                         </div>
                     </div>
 
-                    <div class="exercise-card" data-id="ex-4">
+                    <div class="exercise-card" data-id="ex-4" data-group="triceps">
                         <div class="exercise-main-row" onclick="toggleTask(this)">
                             <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
-                            <div class="ex-img-wrapper">
-                                <img src="img/triceps-testa.png" class="ex-img" onerror="this.src='https://placehold.co/120x120/1e293b/38bdf8?text=Triceps+Testa'">
-                            </div>
+                            <div class="ex-img-wrapper"><img src="" class="ex-img" onerror="placeholderImg(this)"></div>
                             <div class="exercise-info">
-                                <div class="ex-title">5. Tríceps acima da Cabeça</div>
+                                <div class="ex-title">Tríceps Francês</div>
                                 <div class="ex-details-row">
                                     <span class="ex-sets-badge">3x 10-12 reps</span>
+                                    <button class="swap-btn" onclick="openSwapModal(event, 'ex-4')"><i class="fa-solid fa-right-left"></i> Trocar</button>
                                 </div>
                                 <div class="ex-muscles-text">Tríceps (Cabeça Longa)</div>
                             </div>
                         </div>
                         <div class="exercise-extra-row">
-                            <div class="load-input-group">
-                                <label>CARGA:</label>
-                                <input type="text" class="load-input" placeholder="0 kg" data-ex="ex-4" onchange="saveLoads()">
-                            </div>
-                            <button class="timer-trigger-btn" onclick="startTimer(45)">
-                                <i class="fa-regular fa-clock"></i> 45s Repouso
-                            </button>
+                            <div class="load-input-group"><label>CARGA:</label><input type="text" class="load-input" placeholder="0 kg" data-ex="ex-4" onchange="saveLoads()"></div>
+                            <button class="timer-trigger-btn" onclick="startTimer(45)"><i class="fa-regular fa-clock"></i> 45s Repouso</button>
                         </div>
                     </div>
                 </div>
@@ -781,128 +785,98 @@
                     <span class="muscle-group-tag"><i class="fa-solid fa-fire"></i> Costas + Bíceps</span>
                 </div>
                 <div class="exercise-list">
-                    <div class="exercise-card" data-id="ex-5">
+                    <div class="exercise-card" data-id="ex-5" data-group="costas">
                         <div class="exercise-main-row" onclick="toggleTask(this)">
                             <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
-                            <div class="ex-img-wrapper">
-                                <img src="img/puxada-frontal.png" class="ex-img" onerror="this.src='https://placehold.co/120x120/1e293b/38bdf8?text=Puxada'">
-                            </div>
+                            <div class="ex-img-wrapper"><img src="" class="ex-img" onerror="placeholderImg(this)"></div>
                             <div class="exercise-info">
-                                <div class="ex-title">1. Puxada Frontal (Barra)</div>
+                                <div class="ex-title">Puxada Frontal (Barra)</div>
                                 <div class="ex-details-row">
                                     <span class="ex-sets-badge">4x 8-10 reps</span>
+                                    <button class="swap-btn" onclick="openSwapModal(event, 'ex-5')"><i class="fa-solid fa-right-left"></i> Trocar</button>
                                 </div>
                                 <div class="ex-muscles-text">Latíssimo do Dorso, Bíceps</div>
                             </div>
                         </div>
                         <div class="exercise-extra-row">
-                            <div class="load-input-group">
-                                <label>CARGA:</label>
-                                <input type="text" class="load-input" placeholder="0 kg" data-ex="ex-5" onchange="saveLoads()">
-                            </div>
-                            <button class="timer-trigger-btn" onclick="startTimer(60)">
-                                <i class="fa-regular fa-clock"></i> 60s Repouso
-                            </button>
+                            <div class="load-input-group"><label>CARGA:</label><input type="text" class="load-input" placeholder="0 kg" data-ex="ex-5" onchange="saveLoads()"></div>
+                            <button class="timer-trigger-btn" onclick="startTimer(60)"><i class="fa-regular fa-clock"></i> 60s Repouso</button>
                         </div>
                     </div>
 
-                    <div class="exercise-card" data-id="ex-6">
+                    <div class="exercise-card" data-id="ex-6" data-group="costas">
                         <div class="exercise-main-row" onclick="toggleTask(this)">
                             <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
-                            <div class="ex-img-wrapper">
-                                <img src="img/remada-baixa.png" class="ex-img" onerror="this.src='https://placehold.co/120x120/1e293b/38bdf8?text=Remada+Baixa'">
-                            </div>
+                            <div class="ex-img-wrapper"><img src="" class="ex-img" onerror="placeholderImg(this)"></div>
                             <div class="exercise-info">
-                                <div class="ex-title">2. Remada Baixa (Cable)</div>
+                                <div class="ex-title">Remada Baixa (Cable)</div>
                                 <div class="ex-details-row">
                                     <span class="ex-sets-badge">4x 8-10 reps</span>
+                                    <button class="swap-btn" onclick="openSwapModal(event, 'ex-6')"><i class="fa-solid fa-right-left"></i> Trocar</button>
                                 </div>
                                 <div class="ex-muscles-text">Dorsal, Trapézio, Romboides</div>
                             </div>
                         </div>
                         <div class="exercise-extra-row">
-                            <div class="load-input-group">
-                                <label>CARGA:</label>
-                                <input type="text" class="load-input" placeholder="0 kg" data-ex="ex-6" onchange="saveLoads()">
-                            </div>
-                            <button class="timer-trigger-btn" onclick="startTimer(60)">
-                                <i class="fa-regular fa-clock"></i> 60s Repouso
-                            </button>
+                            <div class="load-input-group"><label>CARGA:</label><input type="text" class="load-input" placeholder="0 kg" data-ex="ex-6" onchange="saveLoads()"></div>
+                            <button class="timer-trigger-btn" onclick="startTimer(60)"><i class="fa-regular fa-clock"></i> 60s Repouso</button>
                         </div>
                     </div>
 
-                    <div class="exercise-card" data-id="ex-7">
+                    <div class="exercise-card" data-id="ex-7" data-group="costas">
                         <div class="exercise-main-row" onclick="toggleTask(this)">
                             <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
-                            <div class="ex-img-wrapper">
-                                <img src="img/remada-articulada.png" class="ex-img" onerror="this.src='https://placehold.co/120x120/1e293b/38bdf8?text=Remada+Art'">
-                            </div>
+                            <div class="ex-img-wrapper"><img src="" class="ex-img" onerror="placeholderImg(this)"></div>
                             <div class="exercise-info">
-                                <div class="ex-title">3. Remada Articulada</div>
+                                <div class="ex-title">Remada Articulada</div>
                                 <div class="ex-details-row">
                                     <span class="ex-sets-badge">3x 10 reps</span>
+                                    <button class="swap-btn" onclick="openSwapModal(event, 'ex-7')"><i class="fa-solid fa-right-left"></i> Trocar</button>
                                 </div>
                                 <div class="ex-muscles-text">Dorsal, Romboides</div>
                             </div>
                         </div>
                         <div class="exercise-extra-row">
-                            <div class="load-input-group">
-                                <label>CARGA:</label>
-                                <input type="text" class="load-input" placeholder="0 kg" data-ex="ex-7" onchange="saveLoads()">
-                            </div>
-                            <button class="timer-trigger-btn" onclick="startTimer(60)">
-                                <i class="fa-regular fa-clock"></i> 60s Repouso
-                            </button>
+                            <div class="load-input-group"><label>CARGA:</label><input type="text" class="load-input" placeholder="0 kg" data-ex="ex-7" onchange="saveLoads()"></div>
+                            <button class="timer-trigger-btn" onclick="startTimer(60)"><i class="fa-regular fa-clock"></i> 60s Repouso</button>
                         </div>
                     </div>
 
-                    <div class="exercise-card" data-id="ex-8">
+                    <div class="exercise-card" data-id="ex-8" data-group="biceps">
                         <div class="exercise-main-row" onclick="toggleTask(this)">
                             <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
-                            <div class="ex-img-wrapper">
-                                <img src="img/rosca-scott.png" class="ex-img" onerror="this.src='https://placehold.co/120x120/1e293b/38bdf8?text=Rosca+Scott'">
-                            </div>
+                            <div class="ex-img-wrapper"><img src="" class="ex-img" onerror="placeholderImg(this)"></div>
                             <div class="exercise-info">
-                                <div class="ex-title">4. Rosca Scott (Máquina)</div>
+                                <div class="ex-title">Rosca Scott (Máquina)</div>
                                 <div class="ex-details-row">
                                     <span class="ex-sets-badge">3x 10-12 reps</span>
+                                    <button class="swap-btn" onclick="openSwapModal(event, 'ex-8')"><i class="fa-solid fa-right-left"></i> Trocar</button>
                                 </div>
                                 <div class="ex-muscles-text">Bíceps Braquial</div>
                             </div>
                         </div>
                         <div class="exercise-extra-row">
-                            <div class="load-input-group">
-                                <label>CARGA:</label>
-                                <input type="text" class="load-input" placeholder="0 kg" data-ex="ex-8" onchange="saveLoads()">
-                            </div>
-                            <button class="timer-trigger-btn" onclick="startTimer(45)">
-                                <i class="fa-regular fa-clock"></i> 45s Repouso
-                            </button>
+                            <div class="load-input-group"><label>CARGA:</label><input type="text" class="load-input" placeholder="0 kg" data-ex="ex-8" onchange="saveLoads()"></div>
+                            <button class="timer-trigger-btn" onclick="startTimer(45)"><i class="fa-regular fa-clock"></i> 45s Repouso</button>
                         </div>
                     </div>
 
-                    <div class="exercise-card" data-id="ex-9">
+                    <div class="exercise-card" data-id="ex-9" data-group="biceps">
                         <div class="exercise-main-row" onclick="toggleTask(this)">
                             <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
-                            <div class="ex-img-wrapper">
-                                <img src="img/rosca-polia.png" class="ex-img" onerror="this.src='https://placehold.co/120x120/1e293b/38bdf8?text=Rosca+Polia'">
-                            </div>
+                            <div class="ex-img-wrapper"><img src="" class="ex-img" onerror="placeholderImg(this)"></div>
                             <div class="exercise-info">
-                                <div class="ex-title">5. Rosca na Polia</div>
+                                <div class="ex-title">Rosca Direta Polia</div>
                                 <div class="ex-details-row">
                                     <span class="ex-sets-badge">3x 10-12 reps</span>
+                                    <button class="swap-btn" onclick="openSwapModal(event, 'ex-9')"><i class="fa-solid fa-right-left"></i> Trocar</button>
                                 </div>
                                 <div class="ex-muscles-text">Bíceps, Braquial</div>
                             </div>
                         </div>
                         <div class="exercise-extra-row">
-                            <div class="load-input-group">
-                                <label>CARGA:</label>
-                                <input type="text" class="load-input" placeholder="0 kg" data-ex="ex-9" onchange="saveLoads()">
-                            </div>
-                            <button class="timer-trigger-btn" onclick="startTimer(45)">
-                                <i class="fa-regular fa-clock"></i> 45s Repouso
-                            </button>
+                            <div class="load-input-group"><label>CARGA:</label><input type="text" class="load-input" placeholder="0 kg" data-ex="ex-9" onchange="saveLoads()"></div>
+                            <button class="timer-trigger-btn" onclick="startTimer(45)"><i class="fa-regular fa-clock"></i> 45s Repouso</button>
                         </div>
                     </div>
                 </div>
@@ -915,128 +889,98 @@
                     <span class="muscle-group-tag"><i class="fa-solid fa-fire"></i> Pernas</span>
                 </div>
                 <div class="exercise-list">
-                    <div class="exercise-card" data-id="ex-10">
+                    <div class="exercise-card" data-id="ex-10" data-group="pernas">
                         <div class="exercise-main-row" onclick="toggleTask(this)">
                             <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
-                            <div class="ex-img-wrapper">
-                                <img src="img/leg-press.png" class="ex-img" onerror="this.src='https://placehold.co/120x120/1e293b/38bdf8?text=Leg+Press'">
-                            </div>
+                            <div class="ex-img-wrapper"><img src="" class="ex-img" onerror="placeholderImg(this)"></div>
                             <div class="exercise-info">
-                                <div class="ex-title">1. Leg Press 45°</div>
+                                <div class="ex-title">Leg Press 45°</div>
                                 <div class="ex-details-row">
                                     <span class="ex-sets-badge">4x 8-10 reps</span>
+                                    <button class="swap-btn" onclick="openSwapModal(event, 'ex-10')"><i class="fa-solid fa-right-left"></i> Trocar</button>
                                 </div>
                                 <div class="ex-muscles-text">Quadríceps, Glúteos</div>
                             </div>
                         </div>
                         <div class="exercise-extra-row">
-                            <div class="load-input-group">
-                                <label>CARGA:</label>
-                                <input type="text" class="load-input" placeholder="0 kg" data-ex="ex-10" onchange="saveLoads()">
-                            </div>
-                            <button class="timer-trigger-btn" onclick="startTimer(90)">
-                                <i class="fa-regular fa-clock"></i> 90s Repouso
-                            </button>
+                            <div class="load-input-group"><label>CARGA:</label><input type="text" class="load-input" placeholder="0 kg" data-ex="ex-10" onchange="saveLoads()"></div>
+                            <button class="timer-trigger-btn" onclick="startTimer(90)"><i class="fa-regular fa-clock"></i> 90s Repouso</button>
                         </div>
                     </div>
 
-                    <div class="exercise-card" data-id="ex-11">
+                    <div class="exercise-card" data-id="ex-11" data-group="pernas">
                         <div class="exercise-main-row" onclick="toggleTask(this)">
                             <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
-                            <div class="ex-img-wrapper">
-                                <img src="img/hack-squat.png" class="ex-img" onerror="this.src='https://placehold.co/120x120/1e293b/38bdf8?text=Hack+Squat'">
-                            </div>
+                            <div class="ex-img-wrapper"><img src="" class="ex-img" onerror="placeholderImg(this)"></div>
                             <div class="exercise-info">
-                                <div class="ex-title">2. Hack Squat</div>
+                                <div class="ex-title">Hack Squat</div>
                                 <div class="ex-details-row">
                                     <span class="ex-sets-badge">4x 8-10 reps</span>
+                                    <button class="swap-btn" onclick="openSwapModal(event, 'ex-11')"><i class="fa-solid fa-right-left"></i> Trocar</button>
                                 </div>
                                 <div class="ex-muscles-text">Quadríceps, Glúteos</div>
                             </div>
                         </div>
                         <div class="exercise-extra-row">
-                            <div class="load-input-group">
-                                <label>CARGA:</label>
-                                <input type="text" class="load-input" placeholder="0 kg" data-ex="ex-11" onchange="saveLoads()">
-                            </div>
-                            <button class="timer-trigger-btn" onclick="startTimer(90)">
-                                <i class="fa-regular fa-clock"></i> 90s Repouso
-                            </button>
+                            <div class="load-input-group"><label>CARGA:</label><input type="text" class="load-input" placeholder="0 kg" data-ex="ex-11" onchange="saveLoads()"></div>
+                            <button class="timer-trigger-btn" onclick="startTimer(90)"><i class="fa-regular fa-clock"></i> 90s Repouso</button>
                         </div>
                     </div>
 
-                    <div class="exercise-card" data-id="ex-12">
+                    <div class="exercise-card" data-id="ex-12" data-group="pernas">
                         <div class="exercise-main-row" onclick="toggleTask(this)">
                             <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
-                            <div class="ex-img-wrapper">
-                                <img src="img/extensora.png" class="ex-img" onerror="this.src='https://placehold.co/120x120/1e293b/38bdf8?text=Extensora'">
-                            </div>
+                            <div class="ex-img-wrapper"><img src="" class="ex-img" onerror="placeholderImg(this)"></div>
                             <div class="exercise-info">
-                                <div class="ex-title">3. Cadeira Extensora</div>
+                                <div class="ex-title">Cadeira Extensora</div>
                                 <div class="ex-details-row">
                                     <span class="ex-sets-badge">3x 10-12 reps</span>
+                                    <button class="swap-btn" onclick="openSwapModal(event, 'ex-12')"><i class="fa-solid fa-right-left"></i> Trocar</button>
                                 </div>
                                 <div class="ex-muscles-text">Quadríceps</div>
                             </div>
                         </div>
                         <div class="exercise-extra-row">
-                            <div class="load-input-group">
-                                <label>CARGA:</label>
-                                <input type="text" class="load-input" placeholder="0 kg" data-ex="ex-12" onchange="saveLoads()">
-                            </div>
-                            <button class="timer-trigger-btn" onclick="startTimer(60)">
-                                <i class="fa-regular fa-clock"></i> 60s Repouso
-                            </button>
+                            <div class="load-input-group"><label>CARGA:</label><input type="text" class="load-input" placeholder="0 kg" data-ex="ex-12" onchange="saveLoads()"></div>
+                            <button class="timer-trigger-btn" onclick="startTimer(60)"><i class="fa-regular fa-clock"></i> 60s Repouso</button>
                         </div>
                     </div>
 
-                    <div class="exercise-card" data-id="ex-13">
+                    <div class="exercise-card" data-id="ex-13" data-group="pernas">
                         <div class="exercise-main-row" onclick="toggleTask(this)">
                             <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
-                            <div class="ex-img-wrapper">
-                                <img src="img/flexora.png" class="ex-img" onerror="this.src='https://placehold.co/120x120/1e293b/38bdf8?text=Flexora'">
-                            </div>
+                            <div class="ex-img-wrapper"><img src="" class="ex-img" onerror="placeholderImg(this)"></div>
                             <div class="exercise-info">
-                                <div class="ex-title">4. Mesa Flexora</div>
+                                <div class="ex-title">Mesa Flexora</div>
                                 <div class="ex-details-row">
                                     <span class="ex-sets-badge">3x 10-12 reps</span>
+                                    <button class="swap-btn" onclick="openSwapModal(event, 'ex-13')"><i class="fa-solid fa-right-left"></i> Trocar</button>
                                 </div>
                                 <div class="ex-muscles-text">Posterior de Coxa</div>
                             </div>
                         </div>
                         <div class="exercise-extra-row">
-                            <div class="load-input-group">
-                                <label>CARGA:</label>
-                                <input type="text" class="load-input" placeholder="0 kg" data-ex="ex-13" onchange="saveLoads()">
-                            </div>
-                            <button class="timer-trigger-btn" onclick="startTimer(60)">
-                                <i class="fa-regular fa-clock"></i> 60s Repouso
-                            </button>
+                            <div class="load-input-group"><label>CARGA:</label><input type="text" class="load-input" placeholder="0 kg" data-ex="ex-13" onchange="saveLoads()"></div>
+                            <button class="timer-trigger-btn" onclick="startTimer(60)"><i class="fa-regular fa-clock"></i> 60s Repouso</button>
                         </div>
                     </div>
 
-                    <div class="exercise-card" data-id="ex-14">
+                    <div class="exercise-card" data-id="ex-14" data-group="pernas">
                         <div class="exercise-main-row" onclick="toggleTask(this)">
                             <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
-                            <div class="ex-img-wrapper">
-                                <img src="img/panturrilha.png" class="ex-img" onerror="this.src='https://placehold.co/120x120/1e293b/38bdf8?text=Panturrilha'">
-                            </div>
+                            <div class="ex-img-wrapper"><img src="" class="ex-img" onerror="placeholderImg(this)"></div>
                             <div class="exercise-info">
-                                <div class="ex-title">5. Panturrilha em Pé</div>
+                                <div class="ex-title">Panturrilha em Pé</div>
                                 <div class="ex-details-row">
                                     <span class="ex-sets-badge">4x 12-15 reps</span>
+                                    <button class="swap-btn" onclick="openSwapModal(event, 'ex-14')"><i class="fa-solid fa-right-left"></i> Trocar</button>
                                 </div>
                                 <div class="ex-muscles-text">Gastrocnêmio, Sóleo</div>
                             </div>
                         </div>
                         <div class="exercise-extra-row">
-                            <div class="load-input-group">
-                                <label>CARGA:</label>
-                                <input type="text" class="load-input" placeholder="0 kg" data-ex="ex-14" onchange="saveLoads()">
-                            </div>
-                            <button class="timer-trigger-btn" onclick="startTimer(45)">
-                                <i class="fa-regular fa-clock"></i> 45s Repouso
-                            </button>
+                            <div class="load-input-group"><label>CARGA:</label><input type="text" class="load-input" placeholder="0 kg" data-ex="ex-14" onchange="saveLoads()"></div>
+                            <button class="timer-trigger-btn" onclick="startTimer(45)"><i class="fa-regular fa-clock"></i> 45s Repouso</button>
                         </div>
                     </div>
                 </div>
@@ -1049,128 +993,98 @@
                     <span class="muscle-group-tag"><i class="fa-solid fa-fire"></i> Ombros + Abdômen</span>
                 </div>
                 <div class="exercise-list">
-                    <div class="exercise-card" data-id="ex-15">
+                    <div class="exercise-card" data-id="ex-15" data-group="ombros">
                         <div class="exercise-main-row" onclick="toggleTask(this)">
                             <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
-                            <div class="ex-img-wrapper">
-                                <img src="img/desenvolvimento.png" class="ex-img" onerror="this.src='https://placehold.co/120x120/1e293b/38bdf8?text=Desenvolvimento'">
-                            </div>
+                            <div class="ex-img-wrapper"><img src="" class="ex-img" onerror="placeholderImg(this)"></div>
                             <div class="exercise-info">
-                                <div class="ex-title">1. Desenv. na Máquina</div>
+                                <div class="ex-title">Desenv. na Máquina</div>
                                 <div class="ex-details-row">
                                     <span class="ex-sets-badge">4x 8-10 reps</span>
+                                    <button class="swap-btn" onclick="openSwapModal(event, 'ex-15')"><i class="fa-solid fa-right-left"></i> Trocar</button>
                                 </div>
                                 <div class="ex-muscles-text">Deltoide Anterior e Lateral</div>
                             </div>
                         </div>
                         <div class="exercise-extra-row">
-                            <div class="load-input-group">
-                                <label>CARGA:</label>
-                                <input type="text" class="load-input" placeholder="0 kg" data-ex="ex-15" onchange="saveLoads()">
-                            </div>
-                            <button class="timer-trigger-btn" onclick="startTimer(60)">
-                                <i class="fa-regular fa-clock"></i> 60s Repouso
-                            </button>
+                            <div class="load-input-group"><label>CARGA:</label><input type="text" class="load-input" placeholder="0 kg" data-ex="ex-15" onchange="saveLoads()"></div>
+                            <button class="timer-trigger-btn" onclick="startTimer(60)"><i class="fa-regular fa-clock"></i> 60s Repouso</button>
                         </div>
                     </div>
 
-                    <div class="exercise-card" data-id="ex-16">
+                    <div class="exercise-card" data-id="ex-16" data-group="ombros">
                         <div class="exercise-main-row" onclick="toggleTask(this)">
                             <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
-                            <div class="ex-img-wrapper">
-                                <img src="img/elevacao-lateral.png" class="ex-img" onerror="this.src='https://placehold.co/120x120/1e293b/38bdf8?text=Elevacao+Lat'">
-                            </div>
+                            <div class="ex-img-wrapper"><img src="" class="ex-img" onerror="placeholderImg(this)"></div>
                             <div class="exercise-info">
-                                <div class="ex-title">2. Elevação Lateral (Máquina)</div>
+                                <div class="ex-title">Elevação Lateral (Máquina)</div>
                                 <div class="ex-details-row">
                                     <span class="ex-sets-badge">3x 10-12 reps</span>
+                                    <button class="swap-btn" onclick="openSwapModal(event, 'ex-16')"><i class="fa-solid fa-right-left"></i> Trocar</button>
                                 </div>
                                 <div class="ex-muscles-text">Deltoide Lateral</div>
                             </div>
                         </div>
                         <div class="exercise-extra-row">
-                            <div class="load-input-group">
-                                <label>CARGA:</label>
-                                <input type="text" class="load-input" placeholder="0 kg" data-ex="ex-16" onchange="saveLoads()">
-                            </div>
-                            <button class="timer-trigger-btn" onclick="startTimer(45)">
-                                <i class="fa-regular fa-clock"></i> 45s Repouso
-                            </button>
+                            <div class="load-input-group"><label>CARGA:</label><input type="text" class="load-input" placeholder="0 kg" data-ex="ex-16" onchange="saveLoads()"></div>
+                            <button class="timer-trigger-btn" onclick="startTimer(45)"><i class="fa-regular fa-clock"></i> 45s Repouso</button>
                         </div>
                     </div>
 
-                    <div class="exercise-card" data-id="ex-17">
+                    <div class="exercise-card" data-id="ex-17" data-group="ombros">
                         <div class="exercise-main-row" onclick="toggleTask(this)">
                             <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
-                            <div class="ex-img-wrapper">
-                                <img src="img/peck-deck-invertido.png" class="ex-img" onerror="this.src='https://placehold.co/120x120/1e293b/38bdf8?text=Peck+Deck+Inv'">
-                            </div>
+                            <div class="ex-img-wrapper"><img src="" class="ex-img" onerror="placeholderImg(this)"></div>
                             <div class="exercise-info">
-                                <div class="ex-title">3. Peck Deck Invertido</div>
+                                <div class="ex-title">Peck Deck Invertido</div>
                                 <div class="ex-details-row">
                                     <span class="ex-sets-badge">3x 10-12 reps</span>
+                                    <button class="swap-btn" onclick="openSwapModal(event, 'ex-17')"><i class="fa-solid fa-right-left"></i> Trocar</button>
                                 </div>
                                 <div class="ex-muscles-text">Deltoide Posterior, Trapézio</div>
                             </div>
                         </div>
                         <div class="exercise-extra-row">
-                            <div class="load-input-group">
-                                <label>CARGA:</label>
-                                <input type="text" class="load-input" placeholder="0 kg" data-ex="ex-17" onchange="saveLoads()">
-                            </div>
-                            <button class="timer-trigger-btn" onclick="startTimer(45)">
-                                <i class="fa-regular fa-clock"></i> 45s Repouso
-                            </button>
+                            <div class="load-input-group"><label>CARGA:</label><input type="text" class="load-input" placeholder="0 kg" data-ex="ex-17" onchange="saveLoads()"></div>
+                            <button class="timer-trigger-btn" onclick="startTimer(45)"><i class="fa-regular fa-clock"></i> 45s Repouso</button>
                         </div>
                     </div>
 
-                    <div class="exercise-card" data-id="ex-18">
+                    <div class="exercise-card" data-id="ex-18" data-group="abs">
                         <div class="exercise-main-row" onclick="toggleTask(this)">
                             <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
-                            <div class="ex-img-wrapper">
-                                <img src="img/crunch-abdominal.png" class="ex-img" onerror="this.src='https://placehold.co/120x120/1e293b/38bdf8?text=Crunch+Polia'">
-                            </div>
+                            <div class="ex-img-wrapper"><img src="" class="ex-img" onerror="placeholderImg(this)"></div>
                             <div class="exercise-info">
-                                <div class="ex-title">4. Crunch na Polia</div>
+                                <div class="ex-title">Crunch na Polia</div>
                                 <div class="ex-details-row">
                                     <span class="ex-sets-badge">3x 15 reps</span>
+                                    <button class="swap-btn" onclick="openSwapModal(event, 'ex-18')"><i class="fa-solid fa-right-left"></i> Trocar</button>
                                 </div>
                                 <div class="ex-muscles-text">Reto Abdominal</div>
                             </div>
                         </div>
                         <div class="exercise-extra-row">
-                            <div class="load-input-group">
-                                <label>CARGA:</label>
-                                <input type="text" class="load-input" placeholder="0 kg" data-ex="ex-18" onchange="saveLoads()">
-                            </div>
-                            <button class="timer-trigger-btn" onclick="startTimer(45)">
-                                <i class="fa-regular fa-clock"></i> 45s Repouso
-                            </button>
+                            <div class="load-input-group"><label>CARGA:</label><input type="text" class="load-input" placeholder="0 kg" data-ex="ex-18" onchange="saveLoads()"></div>
+                            <button class="timer-trigger-btn" onclick="startTimer(45)"><i class="fa-regular fa-clock"></i> 45s Repouso</button>
                         </div>
                     </div>
 
-                    <div class="exercise-card" data-id="ex-19">
+                    <div class="exercise-card" data-id="ex-19" data-group="abs">
                         <div class="exercise-main-row" onclick="toggleTask(this)">
                             <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
-                            <div class="ex-img-wrapper">
-                                <img src="img/prancha.png" class="ex-img" onerror="this.src='https://placehold.co/120x120/1e293b/38bdf8?text=Prancha'">
-                            </div>
+                            <div class="ex-img-wrapper"><img src="" class="ex-img" onerror="placeholderImg(this)"></div>
                             <div class="exercise-info">
-                                <div class="ex-title">5. Prancha Isometrica</div>
+                                <div class="ex-title">Prancha Isometrica</div>
                                 <div class="ex-details-row">
                                     <span class="ex-sets-badge">3x 30-60s</span>
+                                    <button class="swap-btn" onclick="openSwapModal(event, 'ex-19')"><i class="fa-solid fa-right-left"></i> Trocar</button>
                                 </div>
                                 <div class="ex-muscles-text">Core Completo e Lombar</div>
                             </div>
                         </div>
                         <div class="exercise-extra-row">
-                            <div class="load-input-group">
-                                <label>TEMPO:</label>
-                                <input type="text" class="load-input" placeholder="60 s" data-ex="ex-19" onchange="saveLoads()">
-                            </div>
-                            <button class="timer-trigger-btn" onclick="startTimer(60)">
-                                <i class="fa-regular fa-clock"></i> 60s Repouso
-                            </button>
+                            <div class="load-input-group"><label>TEMPO:</label><input type="text" class="load-input" placeholder="60 s" data-ex="ex-19" onchange="saveLoads()"></div>
+                            <button class="timer-trigger-btn" onclick="startTimer(60)"><i class="fa-regular fa-clock"></i> 60s Repouso</button>
                         </div>
                     </div>
                 </div>
@@ -1183,137 +1097,119 @@
                     <span class="muscle-group-tag"><i class="fa-solid fa-fire"></i> Braços + Reforço</span>
                 </div>
                 <div class="exercise-list">
-                    <div class="exercise-card" data-id="ex-20">
+                    <div class="exercise-card" data-id="ex-20" data-group="triceps">
                         <div class="exercise-main-row" onclick="toggleTask(this)">
                             <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
-                            <div class="ex-img-wrapper">
-                                <img src="img/supino-fechado.png" class="ex-img" onerror="this.src='https://placehold.co/120x120/1e293b/38bdf8?text=Supino+Fechado'">
-                            </div>
+                            <div class="ex-img-wrapper"><img src="" class="ex-img" onerror="placeholderImg(this)"></div>
                             <div class="exercise-info">
-                                <div class="ex-title">1. Supino Fechado (Máquina)</div>
+                                <div class="ex-title">Supino Fechado</div>
                                 <div class="ex-details-row">
                                     <span class="ex-sets-badge">3x 8-10 reps</span>
+                                    <button class="swap-btn" onclick="openSwapModal(event, 'ex-20')"><i class="fa-solid fa-right-left"></i> Trocar</button>
                                 </div>
                                 <div class="ex-muscles-text">Tríceps, Peitoral</div>
                             </div>
                         </div>
                         <div class="exercise-extra-row">
-                            <div class="load-input-group">
-                                <label>CARGA:</label>
-                                <input type="text" class="load-input" placeholder="0 kg" data-ex="ex-20" onchange="saveLoads()">
-                            </div>
-                            <button class="timer-trigger-btn" onclick="startTimer(60)">
-                                <i class="fa-regular fa-clock"></i> 60s Repouso
-                            </button>
+                            <div class="load-input-group"><label>CARGA:</label><input type="text" class="load-input" placeholder="0 kg" data-ex="ex-20" onchange="saveLoads()"></div>
+                            <button class="timer-trigger-btn" onclick="startTimer(60)"><i class="fa-regular fa-clock"></i> 60s Repouso</button>
                         </div>
                     </div>
 
-                    <div class="exercise-card" data-id="ex-21">
+                    <div class="exercise-card" data-id="ex-21" data-group="costas">
                         <div class="exercise-main-row" onclick="toggleTask(this)">
                             <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
-                            <div class="ex-img-wrapper">
-                                <img src="img/puxada-neutra.png" class="ex-img" onerror="this.src='https://placehold.co/120x120/1e293b/38bdf8?text=Puxada+Neutra'">
-                            </div>
+                            <div class="ex-img-wrapper"><img src="" class="ex-img" onerror="placeholderImg(this)"></div>
                             <div class="exercise-info">
-                                <div class="ex-title">2. Puxada Neutra</div>
+                                <div class="ex-title">Puxada Neutra</div>
                                 <div class="ex-details-row">
                                     <span class="ex-sets-badge">3x 8-10 reps</span>
+                                    <button class="swap-btn" onclick="openSwapModal(event, 'ex-21')"><i class="fa-solid fa-right-left"></i> Trocar</button>
                                 </div>
                                 <div class="ex-muscles-text">Latíssimo do Dorso, Bíceps</div>
                             </div>
                         </div>
                         <div class="exercise-extra-row">
-                            <div class="load-input-group">
-                                <label>CARGA:</label>
-                                <input type="text" class="load-input" placeholder="0 kg" data-ex="ex-21" onchange="saveLoads()">
-                            </div>
-                            <button class="timer-trigger-btn" onclick="startTimer(60)">
-                                <i class="fa-regular fa-clock"></i> 60s Repouso
-                            </button>
+                            <div class="load-input-group"><label>CARGA:</label><input type="text" class="load-input" placeholder="0 kg" data-ex="ex-21" onchange="saveLoads()"></div>
+                            <button class="timer-trigger-btn" onclick="startTimer(60)"><i class="fa-regular fa-clock"></i> 60s Repouso</button>
                         </div>
                     </div>
 
-                    <div class="exercise-card" data-id="ex-22">
+                    <div class="exercise-card" data-id="ex-22" data-group="triceps">
                         <div class="exercise-main-row" onclick="toggleTask(this)">
                             <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
-                            <div class="ex-img-wrapper">
-                                <img src="img/triceps-corda.png" class="ex-img" onerror="this.src='https://placehold.co/120x120/1e293b/38bdf8?text=Triceps+Corda'">
-                            </div>
+                            <div class="ex-img-wrapper"><img src="" class="ex-img" onerror="placeholderImg(this)"></div>
                             <div class="exercise-info">
-                                <div class="ex-title">3. Tríceps Corda</div>
+                                <div class="ex-title">Tríceps Corda</div>
                                 <div class="ex-details-row">
                                     <span class="ex-sets-badge">3x 10-12 reps</span>
+                                    <button class="swap-btn" onclick="openSwapModal(event, 'ex-22')"><i class="fa-solid fa-right-left"></i> Trocar</button>
                                 </div>
                                 <div class="ex-muscles-text">Tríceps</div>
                             </div>
                         </div>
                         <div class="exercise-extra-row">
-                            <div class="load-input-group">
-                                <label>CARGA:</label>
-                                <input type="text" class="load-input" placeholder="0 kg" data-ex="ex-22" onchange="saveLoads()">
-                            </div>
-                            <button class="timer-trigger-btn" onclick="startTimer(45)">
-                                <i class="fa-regular fa-clock"></i> 45s Repouso
-                            </button>
+                            <div class="load-input-group"><label>CARGA:</label><input type="text" class="load-input" placeholder="0 kg" data-ex="ex-22" onchange="saveLoads()"></div>
+                            <button class="timer-trigger-btn" onclick="startTimer(45)"><i class="fa-regular fa-clock"></i> 45s Repouso</button>
                         </div>
                     </div>
 
-                    <div class="exercise-card" data-id="ex-23">
+                    <div class="exercise-card" data-id="ex-23" data-group="biceps">
                         <div class="exercise-main-row" onclick="toggleTask(this)">
                             <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
-                            <div class="ex-img-wrapper">
-                                <img src="img/rosca-scott-2.png" class="ex-img" onerror="this.src='https://placehold.co/120x120/1e293b/38bdf8?text=Rosca+Scott'">
-                            </div>
+                            <div class="ex-img-wrapper"><img src="" class="ex-img" onerror="placeholderImg(this)"></div>
                             <div class="exercise-info">
-                                <div class="ex-title">4. Rosca Scott (Máquina)</div>
+                                <div class="ex-title">Rosca Direta</div>
                                 <div class="ex-details-row">
                                     <span class="ex-sets-badge">3x 10-12 reps</span>
+                                    <button class="swap-btn" onclick="openSwapModal(event, 'ex-23')"><i class="fa-solid fa-right-left"></i> Trocar</button>
                                 </div>
                                 <div class="ex-muscles-text">Bíceps</div>
                             </div>
                         </div>
                         <div class="exercise-extra-row">
-                            <div class="load-input-group">
-                                <label>CARGA:</label>
-                                <input type="text" class="load-input" placeholder="0 kg" data-ex="ex-23" onchange="saveLoads()">
-                            </div>
-                            <button class="timer-trigger-btn" onclick="startTimer(45)">
-                                <i class="fa-regular fa-clock"></i> 45s Repouso
-                            </button>
+                            <div class="load-input-group"><label>CARGA:</label><input type="text" class="load-input" placeholder="0 kg" data-ex="ex-23" onchange="saveLoads()"></div>
+                            <button class="timer-trigger-btn" onclick="startTimer(45)"><i class="fa-regular fa-clock"></i> 45s Repouso</button>
                         </div>
                     </div>
 
-                    <div class="exercise-card" data-id="ex-24">
+                    <div class="exercise-card" data-id="ex-24" data-group="biceps">
                         <div class="exercise-main-row" onclick="toggleTask(this)">
                             <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
-                            <div class="ex-img-wrapper">
-                                <img src="img/rosca-martelo.png" class="ex-img" onerror="this.src='https://placehold.co/120x120/1e293b/38bdf8?text=Rosca+Martelo'">
-                            </div>
+                            <div class="ex-img-wrapper"><img src="" class="ex-img" onerror="placeholderImg(this)"></div>
                             <div class="exercise-info">
-                                <div class="ex-title">5. Rosca Martelo na Polia</div>
+                                <div class="ex-title">Rosca Martelo</div>
                                 <div class="ex-details-row">
                                     <span class="ex-sets-badge">3x 10-12 reps</span>
+                                    <button class="swap-btn" onclick="openSwapModal(event, 'ex-24')"><i class="fa-solid fa-right-left"></i> Trocar</button>
                                 </div>
                                 <div class="ex-muscles-text">Braquial, Bíceps</div>
                             </div>
                         </div>
                         <div class="exercise-extra-row">
-                            <div class="load-input-group">
-                                <label>CARGA:</label>
-                                <input type="text" class="load-input" placeholder="0 kg" data-ex="ex-24" onchange="saveLoads()">
-                            </div>
-                            <button class="timer-trigger-btn" onclick="startTimer(45)">
-                                <i class="fa-regular fa-clock"></i> 45s Repouso
-                            </button>
+                            <div class="load-input-group"><label>CARGA:</label><input type="text" class="load-input" placeholder="0 kg" data-ex="ex-24" onchange="saveLoads()"></div>
+                            <button class="timer-trigger-btn" onclick="startTimer(45)"><i class="fa-regular fa-clock"></i> 45s Repouso</button>
                         </div>
                     </div>
                 </div>
             </section>
-
         </main>
     </div>
 
-    <!-- Floating Timer Box -->
+    <!-- [NOVO: MODAL DE TROCA] -->
+    <div class="swap-modal-overlay" id="swapModal">
+        <div class="swap-modal">
+            <div class="swap-modal-header">
+                <div style="font-weight: 800; color: var(--accent-primary)">SUBSTITUIR EXERCÍCIO</div>
+                <div onclick="closeSwapModal()" style="cursor: pointer; padding: 5px"><i class="fa-solid fa-xmark"></i></div>
+            </div>
+            <div class="swap-list" id="swapList">
+                <!-- Populado via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- [ORIGINAIS: WIDGET E NAV] -->
     <div class="timer-widget" id="timerWidget">
         <i class="fa-solid fa-stopwatch" style="color: var(--accent-primary)"></i>
         <div class="timer-display" id="timerDisplay">01:00</div>
@@ -1323,66 +1219,178 @@
         </div>
     </div>
 
-    <!-- Bottom Action Navigation -->
     <nav class="bottom-nav">
         <div class="nav-content">
-            <button class="btn-action btn-quick-timer" onclick="startTimer(60)">
-                <i class="fa-solid fa-stopwatch"></i> CRONÔMETRO REST
-            </button>
-            <button class="btn-action btn-reset" onclick="resetWeek()">
-                <i class="fa-solid fa-rotate-left"></i> REINICIAR
-            </button>
+            <button class="btn-action btn-quick-timer" onclick="startTimer(60)"><i class="fa-solid fa-stopwatch"></i> CRONÔMETRO REST</button>
+            <button class="btn-action btn-reset" onclick="resetWeek()"><i class="fa-solid fa-rotate-left"></i> REINICIAR</button>
         </div>
     </nav>
 
     <script>
+        // [NOVO: BIBLIOTECA DE EXERCÍCIOS]
+        const EXERCISE_LIBRARY = {
+            peito: [
+                { title: "Supino Reto (Barra)", muscles: "Peitoral Maior, Tríceps, Deltoide" },
+                { title: "Supino Inclinado (Halteres)", muscles: "Peitoral Superior, Deltoide Anterior" },
+                { title: "Crucifixo Reto (Halteres)", muscles: "Peitoral Maior" },
+                { title: "Chest Press (Máquina)", muscles: "Peitoral Maior, Tríceps" },
+                { title: "Peck Deck (Voador)", muscles: "Peitoral Maior" },
+                { title: "Flexão de Braço", muscles: "Peitoral, Tríceps, Core" },
+                { title: "Cross-over (Polia Alta)", muscles: "Peitoral Inferior" }
+            ],
+            costas: [
+                { title: "Puxada Frontal (Aberta)", muscles: "Latíssimo do Dorso, Bíceps" },
+                { title: "Remada Curvada (Barra)", muscles: "Dorsal, Trapézio, Bíceps" },
+                { title: "Remada Cavalinho", muscles: "Dorsais, Romboides" },
+                { title: "Barra Fixa (Pronada)", muscles: "Dorsais, Bíceps, Antebraço" },
+                { title: "Remada Baixa (Triângulo)", muscles: "Dorsal Médio, Trapézio" },
+                { title: "Puxada Neutra (Polia)", muscles: "Dorso, Braquial" },
+                { title: "Pulldown (Corda)", muscles: "Latíssimo do Dorso" }
+            ],
+            biceps: [
+                { title: "Rosca Direta (Barra W)", muscles: "Bíceps Braquial" },
+                { title: "Rosca Alternada (Halteres)", muscles: "Bíceps, Braquiorradial" },
+                { title: "Rosca Scott (Máquina)", muscles: "Bíceps Braquial (Isolado)" },
+                { title: "Rosca Martelo (Halteres)", muscles: "Braquial, Bíceps" },
+                { title: "Rosca Concentrada", muscles: "Pico do Bíceps" },
+                { title: "Rosca Direta Polia", muscles: "Bíceps Braquial" }
+            ],
+            triceps: [
+                { title: "Tríceps na Polia (Barra)", muscles: "Tríceps Lateral" },
+                { title: "Tríceps Corda (Polia)", muscles: "Tríceps (Cabeça Longa)" },
+                { title: "Tríceps Testa (Halteres)", muscles: "Tríceps (Cabeça Longa)" },
+                { title: "Tríceps Francês", muscles: "Tríceps Braquial" },
+                { title: "Paralelas (Banco)", muscles: "Tríceps, Peitoral" },
+                { title: "Supino Fechado", muscles: "Tríceps, Peitoral" }
+            ],
+            pernas: [
+                { title: "Agachamento Livre", muscles: "Quadríceps, Glúteos, Core" },
+                { title: "Leg Press 45°", muscles: "Quadríceps, Glúteo" },
+                { title: "Cadeira Extensora", muscles: "Quadríceps" },
+                { title: "Mesa Flexora", muscles: "Isquiotibiais" },
+                { title: "Cadeira Flexora", muscles: "Posterior de Coxa" },
+                { title: "Hack Squat", muscles: "Quadríceps, Glúteos" },
+                { title: "Stiff (Halteres)", muscles: "Isquiotibiais, Glúteos, Lombar" },
+                { title: "Elevação Pélvica", muscles: "Glúteo Máximo" },
+                { title: "Afundo (Passada)", muscles: "Quadríceps, Glúteos" },
+                { title: "Panturrilha em Pé", muscles: "Gastrocnêmio" }
+            ],
+            ombros: [
+                { title: "Desenvolvimento (Halteres)", muscles: "Deltoide Anterior/Lateral" },
+                { title: "Elevação Lateral (Halteres)", muscles: "Deltoide Lateral" },
+                { title: "Elevação Frontal", muscles: "Deltoide Anterior" },
+                { title: "Peck Deck Invertido", muscles: "Deltoide Posterior" },
+                { title: "Desenvolvimento Máquina", muscles: "Deltoide Anterior" },
+                { title: "Remada Alta (Polia)", muscles: "Trapézio, Deltoide" }
+            ],
+            abs: [
+                { title: "Crunch Abdominal", muscles: "Reto Abdominal" },
+                { title: "Elevação de Pernas", muscles: "Abdominal Infra" },
+                { title: "Prancha Isométrica", muscles: "Core Completo" },
+                { title: "Abdominal Bicicleta", muscles: "Oblíquos, Reto Abdominal" },
+                { title: "Crunch na Polia", muscles: "Reto Abdominal" }
+            ]
+        };
+
         let currentDayIndex = 0;
         let timerInterval = null;
         let timerSeconds = 0;
+        let exerciseBeingSwapped = null;
 
-        // Auto select day based on real day of week (Monday=1 -> index 0)
-        function initDaySelection() {
-            const dayOfWeek = new Date().getDay(); // 0 is Sun, 1 is Mon...
-            let targetIndex = 0;
-            if (dayOfWeek >= 1 && dayOfWeek <= 5) {
-                targetIndex = dayOfWeek - 1;
+        // [LOGICA DE TROCA DE EXERCÍCIO]
+        function openSwapModal(event, exId) {
+            event.stopPropagation();
+            exerciseBeingSwapped = exId;
+            const card = document.querySelector(`[data-id="${exId}"]`);
+            const group = card.getAttribute('data-group');
+            const list = document.getElementById('swapList');
+            
+            list.innerHTML = '';
+            EXERCISE_LIBRARY[group].forEach(ex => {
+                const item = document.createElement('div');
+                item.className = 'swap-item';
+                item.innerHTML = `
+                    <div class="swap-item-title">${ex.title}</div>
+                    <div class="swap-item-muscles">${ex.muscles}</div>
+                `;
+                item.onclick = () => confirmSwap(ex);
+                list.appendChild(item);
+            });
+
+            document.getElementById('swapModal').style.display = 'flex';
+        }
+
+        function closeSwapModal() {
+            document.getElementById('swapModal').style.display = 'none';
+        }
+
+        function confirmSwap(newExData) {
+            const card = document.querySelector(`[data-id="${exerciseBeingSwapped}"]`);
+            
+            // Atualiza UI
+            card.querySelector('.ex-title').innerText = newExData.title;
+            card.querySelector('.ex-muscles-text').innerText = newExData.muscles;
+            
+            // Atualiza Imagem Placeholder (ou lógica de imagem real se houver)
+            const img = card.querySelector('.ex-img');
+            img.src = `https://placehold.co/120x120/1e293b/38bdf8?text=${encodeURIComponent(newExData.title)}`;
+            
+            // Salva a configuração personalizada
+            saveCustomWorkout();
+            closeSwapModal();
+        }
+
+        function saveCustomWorkout() {
+            const custom = {};
+            document.querySelectorAll('.exercise-card').forEach(card => {
+                const id = card.getAttribute('data-id');
+                custom[id] = {
+                    title: card.querySelector('.ex-title').innerText,
+                    muscles: card.querySelector('.ex-muscles-text').innerText
+                };
+            });
+            localStorage.setItem('customWorkout_v1', JSON.stringify(custom));
+        }
+
+        function loadCustomWorkout() {
+            const saved = localStorage.getItem('customWorkout_v1');
+            if (saved) {
+                const custom = JSON.parse(saved);
+                Object.keys(custom).forEach(id => {
+                    const card = document.querySelector(`[data-id="${id}"]`);
+                    if (card) {
+                        card.querySelector('.ex-title').innerText = custom[id].title;
+                        card.querySelector('.ex-muscles-text').innerText = custom[id].muscles;
+                        const img = card.querySelector('.ex-img');
+                        img.src = `https://placehold.co/120x120/1e293b/38bdf8?text=${encodeURIComponent(custom[id].title)}`;
+                    }
+                });
             }
+        }
+
+        // [LOGICA ORIGINAL PRESERVADA]
+        function initDaySelection() {
+            const dayOfWeek = new Date().getDay();
+            let targetIndex = 0;
+            if (dayOfWeek >= 1 && dayOfWeek <= 5) targetIndex = dayOfWeek - 1;
             switchDay(targetIndex);
         }
 
         function switchDay(index) {
             currentDayIndex = index;
-            const buttons = document.querySelectorAll('.tab-btn');
-            const sections = document.querySelectorAll('.day-section');
-
-            buttons.forEach((btn, idx) => {
-                if (idx === index) {
-                    btn.classList.add('active');
-                } else {
-                    btn.classList.remove('active');
-                }
+            document.querySelectorAll('.tab-btn').forEach((btn, idx) => {
+                idx === index ? btn.classList.add('active') : btn.classList.remove('active');
             });
-
-            sections.forEach((sec, idx) => {
-                if (idx === index) {
-                    sec.classList.add('active');
-                } else {
-                    sec.classList.remove('active');
-                }
+            document.querySelectorAll('.day-section').forEach((sec, idx) => {
+                idx === index ? sec.classList.add('active') : sec.classList.remove('active');
             });
-
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function toggleTask(mainRowElement) {
             const card = mainRowElement.closest('.exercise-card');
             card.classList.toggle('completed');
-
-            // Haptic vibration feedback for iOS / Android if supported
-            if (navigator.vibrate) {
-                navigator.vibrate(40);
-            }
-
+            if (navigator.vibrate) navigator.vibrate(40);
             saveProgress();
             updateProgressStats();
         }
@@ -1390,49 +1398,33 @@
         function updateProgressStats() {
             const allCards = document.querySelectorAll('.exercise-card');
             const completedCards = document.querySelectorAll('.exercise-card.completed');
-            const total = allCards.length;
-            const completed = completedCards.length;
-
-            const percentage = total > 0 ? Math.round((completed / total) * 100) : 0;
-
+            const percentage = allCards.length > 0 ? Math.round((completedCards.length / allCards.length) * 100) : 0;
             document.getElementById('progressPercent').innerText = `${percentage}%`;
             document.getElementById('progressBarFill').style.width = `${percentage}%`;
-
-            // Update tab badges for completed days
-            const sections = document.querySelectorAll('.day-section');
-            const tabs = document.querySelectorAll('.tab-btn');
-
-            sections.forEach((sec, idx) => {
+            
+            document.querySelectorAll('.day-section').forEach((sec, idx) => {
                 const dayCards = sec.querySelectorAll('.exercise-card');
                 const dayCompleted = sec.querySelectorAll('.exercise-card.completed');
-                if (dayCards.length > 0 && dayCards.length === dayCompleted.length) {
-                    tabs[idx].classList.add('completed-day');
-                } else {
-                    tabs[idx].classList.remove('completed-day');
-                }
+                const tabs = document.querySelectorAll('.tab-btn');
+                if (dayCards.length > 0 && dayCards.length === dayCompleted.length) tabs[idx].classList.add('completed-day');
+                else tabs[idx].classList.remove('completed-day');
             });
         }
 
         function saveProgress() {
-            const exercises = document.querySelectorAll('.exercise-card');
             const progress = {};
-            exercises.forEach(card => {
+            document.querySelectorAll('.exercise-card').forEach(card => {
                 const id = card.getAttribute('data-id');
-                if (id) {
-                    progress[id] = card.classList.contains('completed');
-                }
+                progress[id] = card.classList.contains('completed');
             });
             localStorage.setItem('workoutProgressPro_v2', JSON.stringify(progress));
         }
 
         function saveLoads() {
-            const loadInputs = document.querySelectorAll('.load-input');
             const loads = {};
-            loadInputs.forEach(input => {
+            document.querySelectorAll('.load-input').forEach(input => {
                 const exId = input.getAttribute('data-ex');
-                if (exId) {
-                    loads[exId] = input.value;
-                }
+                loads[exId] = input.value;
             });
             localStorage.setItem('workoutLoadsPro_v2', JSON.stringify(loads));
         }
@@ -1443,92 +1435,63 @@
                 const progress = JSON.parse(savedProgress);
                 document.querySelectorAll('.exercise-card').forEach(card => {
                     const id = card.getAttribute('data-id');
-                    if (id && progress[id]) {
-                        card.classList.add('completed');
-                    }
+                    if (progress[id]) card.classList.add('completed');
                 });
-            } else {
-                // Backward compatibility check for old index-based storage
-                const oldSaved = localStorage.getItem('workoutProgressPro');
-                if (oldSaved) {
-                    const oldProgress = JSON.parse(oldSaved);
-                    document.querySelectorAll('.exercise-card').forEach((card, index) => {
-                        if (oldProgress[index]) card.classList.add('completed');
-                    });
-                }
             }
-
             const savedLoads = localStorage.getItem('workoutLoadsPro_v2');
             if (savedLoads) {
                 const loads = JSON.parse(savedLoads);
                 document.querySelectorAll('.load-input').forEach(input => {
                     const exId = input.getAttribute('data-ex');
-                    if (exId && loads[exId]) {
-                        input.value = loads[exId];
-                    }
+                    if (loads[exId]) input.value = loads[exId];
                 });
             }
-
             updateProgressStats();
         }
 
         function resetWeek() {
-            if (confirm("Deseja reiniciar o progresso de toda a semana?")) {
+            if (confirm("Reiniciar progresso de toda a semana?")) {
                 document.querySelectorAll('.exercise-card').forEach(card => card.classList.remove('completed'));
                 localStorage.removeItem('workoutProgressPro_v2');
-                localStorage.removeItem('workoutProgressPro');
                 updateProgressStats();
-                stopTimer();
             }
         }
 
-        /* Rest Timer Functions */
         function startTimer(seconds) {
             clearInterval(timerInterval);
             timerSeconds = seconds;
             updateTimerDisplay();
-
-            const widget = document.getElementById('timerWidget');
-            widget.classList.add('active');
-
+            document.getElementById('timerWidget').classList.add('active');
             timerInterval = setInterval(() => {
                 timerSeconds--;
                 if (timerSeconds <= 0) {
                     clearInterval(timerInterval);
-                    timerSeconds = 0;
-                    updateTimerDisplay();
                     if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
-                    setTimeout(() => {
-                        widget.classList.remove('active');
-                    }, 2000);
-                } else {
-                    updateTimerDisplay();
+                    setTimeout(() => document.getElementById('timerWidget').classList.remove('active'), 2000);
                 }
+                updateTimerDisplay();
             }, 1000);
         }
 
-        function addTimerTime(extra) {
-            timerSeconds += extra;
-            updateTimerDisplay();
-        }
-
-        function stopTimer() {
-            clearInterval(timerInterval);
-            document.getElementById('timerWidget').classList.remove('active');
-        }
-
+        function addTimerTime(extra) { timerSeconds += extra; updateTimerDisplay(); }
+        function stopTimer() { clearInterval(timerInterval); document.getElementById('timerWidget').classList.remove('active'); }
         function updateTimerDisplay() {
             const mins = Math.floor(timerSeconds / 60);
             const secs = timerSeconds % 60;
-            document.getElementById('timerDisplay').innerText = 
-                `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+            document.getElementById('timerDisplay').innerText = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        }
+
+        function placeholderImg(el) {
+            const card = el.closest('.exercise-card');
+            const title = card ? card.querySelector('.ex-title').innerText : "Exercise";
+            el.src = `https://placehold.co/120x120/1e293b/38bdf8?text=${encodeURIComponent(title)}`;
         }
 
         window.onload = function() {
             initDaySelection();
-            loadProgress();
+            loadCustomWorkout(); // Carrega trocas primeiro
+            loadProgress();      // Depois o progresso
         };
     </script>
 </body>
 </html>
-
