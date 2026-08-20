@@ -617,6 +617,165 @@
             .exercise-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
             .exercise-card { height: 100%; justify-content: space-between; }
         }
+            /* ESTILOS DE ANIMAÃ‡ÃƒO DE EXERCÃCIO ZERO-BUG */
+        .ex-img-wrapper {
+            cursor: pointer;
+            position: relative;
+            background: #0f172a !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .ex-img-wrapper::after {
+            content: '\f144';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            inset: 0;
+            background: rgba(9, 13, 22, 0.4);
+            color: var(--accent-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            opacity: 0;
+            transition: all 0.2s ease;
+            backdrop-filter: blur(2px);
+        }
+        .ex-img-wrapper:hover::after {
+            opacity: 1;
+        }
+        .gif-badge {
+            position: absolute;
+            bottom: 3px;
+            right: 3px;
+            background: rgba(15, 23, 42, 0.85);
+            color: var(--accent-primary);
+            font-size: 9px;
+            font-weight: 800;
+            padding: 1px 5px;
+            border-radius: 4px;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            z-index: 5;
+        }
+        .gif-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(5, 8, 15, 0.88);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 3000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            animation: fadeInModal 0.25s ease-out forwards;
+        }
+        .gif-modal-overlay.active {
+            display: flex;
+        }
+        @keyframes fadeInModal {
+            from { opacity: 0; transform: scale(0.96); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .gif-modal-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-xl);
+            width: 100%;
+            max-width: 480px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.9);
+            display: flex;
+            flex-direction: column;
+            max-height: 90vh;
+        }
+        .gif-modal-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--card-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(9, 13, 22, 0.6);
+        }
+        .gif-modal-title {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .gif-modal-close {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--card-border);
+            color: var(--text-muted);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .gif-modal-close:hover {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+            border-color: rgba(239, 68, 68, 0.4);
+        }
+        .gif-display-box {
+            width: 100%;
+            height: 280px;
+            background: #0a0f1d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid var(--card-border);
+        }
+        .gif-display-img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+        .gif-modal-body {
+            padding: 18px 20px;
+            overflow-y: auto;
+        }
+        .gif-info-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+            background: rgba(56, 189, 248, 0.12);
+            padding: 4px 12px;
+            border-radius: 20px;
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            margin-bottom: 10px;
+        }
+        .gif-instruction-title {
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .gif-instruction-text {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
     </style>
 </head>
 <body>
@@ -1491,8 +1650,165 @@
             loadProgress();      // Depois o progresso
         };
     </script>
-    <!-- Registro do Service Worker PWA -->
+    <!-- GERENCIADOR DE ANIMAÃ‡ÃƒO DE EXERCÃCIOS ZERO-BUG E SERVICE WORKER -->
     <script>
+        const CDN_BASE = 'https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises/';
+
+        // Mapeamento direto de cada exercÃ­cio do aplicativo para IDs do banco pÃºblico de animaÃ§Ã£o
+        const EXERCISES_ANIM_MAP = {
+            'Chest Press (MÃ¡quina)': { id: 'Lever_Chest_Press', tips: 'Ajuste a altura do banco. Empurre a barra estufando o peito sem travar os cotovelos.' },
+            'Supino Inclinado MÃ¡quina': { id: 'Lever_Incline_Chest_Press', tips: 'Foco na porÃ§Ã£o clavicular do peitoral. Controle a descida lenta.' },
+            'Peck Deck (Voador)': { id: 'Butterfly', tips: 'Mantenha cotovelos levemente flexionados. Esmague o peitoral no centro por 1 segundo.' },
+            'TrÃ­ceps na Polia': { id: 'Triceps_Pushdown', tips: 'Cotovelos fixos ao lado do corpo. Estenda os braÃ§os focando no trÃ­ceps.' },
+            'TrÃ­ceps FrancÃªs': { id: 'Seated_Triceps_Press', tips: 'Cotovelos apontados para cima. DesÃ§a o peso sentindo o alongamento da cabeÃ§a longa.' },
+            'Puxada Frontal (Barra)': { id: 'Wide-Grip_Lat_Pulldown', tips: 'Puxe a barra em direÃ§Ã£o ao peitoral com os cotovelos direcionados para baixo.' },
+            'Remada Baixa (Cable)': { id: 'Seated_Cable_Rows', tips: 'Coluna ereta, puxada direcionada ao umbigo contraindo as dorsais.' },
+            'Remada Articulada': { id: 'Lever_Seated_Row', tips: 'ApÃ³ie bem o peito na almofada e puxe esmagando as escÃ¡pulas.' },
+            'Rosca Scott (MÃ¡quina)': { id: 'Preacher_Curl', tips: 'BraÃ§os bem apoiados. Flexione os cotovelos focando no pico do bÃ­ceps.' },
+            'Rosca Direta Polia': { id: 'Cable_Curl', tips: 'TensÃ£o constante da polia. Evite balanÃ§ar o tronco.' },
+            'Leg Press 45Â°': { id: 'Leg_Press', tips: 'PÃ©s na largura dos ombros. DesÃ§a atÃ© 90Â° mantendo a lombar colada no banco.' },
+            'Hack Squat': { id: 'Hack_Squat', tips: 'DesÃ§a atÃ© formar 90Â° nos joelhos mantendo pÃ©s apoiados na plataforma.' },
+            'Cadeira Extensora': { id: 'Leg_Extensions', tips: 'ExtensÃ£o completa da perna com contraÃ§Ã£o de 1s no topo dos quadrÃ­ceps.' },
+            'Mesa Flexora': { id: 'Lying_Leg_Curls', tips: 'Deitado de bruÃ§os, flexione o joelho trazendo o rolo em direÃ§Ã£o aos glÃºteos.' },
+            'Panturrilha em PÃ©': { id: 'Standing_Calf_Raise', tips: 'Suba o mÃ¡ximo na ponta dos pÃ©s e desÃ§a atÃ© alongar o calcanhar.' },
+            'Desenv. na MÃ¡quina': { id: 'Lever_Shoulder_Press', tips: 'Empurre a carga verticalmente sem arquear a coluna.' },
+            'ElevaÃ§Ã£o Lateral (MÃ¡quina)': { id: 'Lever_Lateral_Raise', tips: 'Eleve atÃ© a linha dos ombros focando na porÃ§Ã£o lateral do deltoide.' },
+            'Peck Deck Invertido': { id: 'Reverse_Flyes', tips: 'De frente para o aparelho, abra os braÃ§os focando no deltoide posterior.' },
+            'Crunch na Polia': { id: 'Cable_Crunch', tips: 'Ajoelhado, enrole o tronco trazendo os cotovelos em direÃ§Ã£o Ã s coxas.' },
+            'Prancha Isometrica': { id: 'Plank', tips: 'Corpo alinhado e abdÃ´men totalmente contraÃ­do durante o tempo estipulado.' },
+            'Supino Reto (Barra)': { id: 'Barbell_Bench_Press', tips: 'Barra na linha mÃ©dia do peito, escÃ¡pulas travadas e descida controlada.' },
+            'Supino Inclinado (Halteres)': { id: 'Incline_Dumbbell_Bench_Press', tips: 'Banco a 30Â°-45Â°. Empurre os halteres verticalmente.' },
+            'Crucifixo Reto (Halteres)': { id: 'Dumbbell_Flyes', tips: 'Abra os braÃ§os em arco sentindo o peitoral alongar.' },
+            'FlexÃ£o de BraÃ§o': { id: 'Push-up', tips: 'MÃ£os na largura dos ombros, desÃ§a o peito atÃ© prÃ³ximo ao solo.' },
+            'Cross-over (Polia Alta)': { id: 'Cable_Crossover', tips: 'Puxe os cabos cruzando na frente da linha da cintura.' },
+            'Puxada Frontal (Aberta)': { id: 'Wide-Grip_Lat_Pulldown', tips: 'Pegada aberta. Puxe a barra atÃ© a altura da clavÃ­cula.' },
+            'Remada Curvada (Barra)': { id: 'Bent_Over_Barbell_Row', tips: 'Tronco inclinado a 45Â°, puxe a barra na direÃ§Ã£o do umbigo.' },
+            'Remada Cavalinho': { id: 'T-Bar_Row', tips: 'Puxe a barra T mantendo as costas retas e o peito estufado.' },
+            'Barra Fixa (Pronada)': { id: 'Pull-up', tips: 'Eleve o corpo atÃ© o queixo ultrapassar a linha da barra.' },
+            'Remada Baixa (TriÃ¢ngulo)': { id: 'Seated_Cable_Rows', tips: 'Puxe o triÃ¢ngulo colado ao corpo e esmague a dorsal.' },
+            'Pulldown (Corda)': { id: 'Straight-Arm_Pulldown', tips: 'BraÃ§os semi-estendidos, puxe a corda em direÃ§Ã£o Ã s coxas.' },
+            'Rosca Direta (Barra W)': { id: 'EZ-Bar_Curl', tips: 'Barra W para alÃ­vio dos punhos. Suba com cotovelos colados no corpo.' },
+            'Rosca Alternada (Halteres)': { id: 'Alternate_Dumbbell_Curl', tips: 'Alterne os braÃ§os girando a palma da mÃ£o para cima no topo.' },
+            'Rosca Martelo (Halteres)': { id: 'Alternate_Hammer_Curl', tips: 'Pegada neutra (palmas viradas para dentro), foco no braquiorradial.' },
+            'Rosca Concentrada': { id: 'Concentration_Curl', tips: 'Cotovelo apoiado na coxa. Suba isolando o bÃ­ceps.' },
+            'TrÃ­ceps Corda (Polia)': { id: 'Cable_Pushdown', tips: 'Abra as pontas da corda no final da extensÃ£o.' },
+            'TrÃ­ceps Testa (Halteres)': { id: 'Lying_Dumbbell_Triceps-Extension', tips: 'Deitado, desÃ§a os halteres ao lado da cabeÃ§a mantendo cotovelos fixos.' },
+            'Paralelas (Banco)': { id: 'Bench_Dips', tips: 'MÃ£os no banco atrÃ¡s de vocÃª, desÃ§a flexionando os cotovelos.' },
+            'Agachamento Livre': { id: 'Barbell_Full_Squat', tips: 'Agache projetando o quadril para trÃ¡s como se fosse sentar.' },
+            'Cadeira Flexora': { id: 'Seated_Leg_Curl', tips: 'Flexione os joelhos trazendo o rolo para baixo e para trÃ¡s.' },
+            'Stiff (Halteres)': { id: 'Stiff-Legged_Dumbbell_Deadlift', tips: 'Incline o tronco para a frente com pernas semi-estendidas.' },
+            'ElevaÃ§Ã£o PÃ©lvica': { id: 'Barbell_Hip_Thrust', tips: 'Eleve o quadril esmagando os glÃºteos no topo por 1s.' },
+            'Afundo (Passada)': { id: 'Dumbbell_Lunges', tips: 'Passo largo Ã  frente, desÃ§a o joelho de trÃ¡s perto do chÃ£o.' },
+            'Desenvolvimento (Halteres)': { id: 'Dumbbell_Shoulder_Press', tips: 'Empurre os halteres acima da cabeÃ§a com controle.' },
+            'ElevaÃ§Ã£o Lateral (Halteres)': { id: 'Side_Lateral_Raise', tips: 'Suba os halteres lateralmente atÃ© a altura dos ombros.' },
+            'ElevaÃ§Ã£o Frontal': { id: 'Front_Dumbbell_Raise', tips: 'Suba o peso Ã  frente atÃ© a linha dos olhos.' },
+            'Remada Alta (Polia)': { id: 'Upright_Cable_Row', tips: 'Puxe a barra reta elevando os cotovelos acima das mÃ£os.' },
+            'Crunch Abdominal': { id: 'Ab_Crunch_Machine', tips: 'Flexione o abdÃ´men aproximando as costelas do quadril.' },
+            'ElevaÃ§Ã£o de Pernas': { id: 'Hanging_Leg_Raise', tips: 'Suspenso, eleve os joelhos ou pernas retas atÃ© 90Â°.' },
+            'Abdominal Bicicleta': { id: 'Air_Bike', tips: 'Alterne cotovelos no joelho oposto com movimento contÃ­nuo.' }
+        };
+
+        let modalAnimInterval = null;
+
+        function getExerciseMediaUrls(exTitle) {
+            const data = EXERCISES_ANIM_MAP[exTitle];
+            if (!data) {
+                const encoded = encodeURIComponent(exTitle);
+                return {
+                    frame0: `https://placehold.co/300x300/0f172a/38bdf8?text=${encoded}`,
+                    frame1: `https://placehold.co/300x300/0f172a/38bdf8?text=${encoded}`,
+                    tips: 'Mantenha a postura alinhada e controle o movimento.'
+                };
+            }
+            return {
+                frame0: `${CDN_BASE}${data.id}/0.jpg`,
+                frame1: `${CDN_BASE}${data.id}/1.jpg`,
+                tips: data.tips
+            };
+        }
+
+        function openGifModal(name, muscles) {
+            const overlay = document.getElementById('gifModalOverlay');
+            const titleEl = document.getElementById('gifModalTitle');
+            const imgEl = document.getElementById('gifModalImage');
+            const musclesEl = document.getElementById('gifModalMuscles');
+            const tipsEl = document.getElementById('gifModalTips');
+
+            const media = getExerciseMediaUrls(name);
+
+            titleEl.innerHTML = `<i class="fa-solid fa-circle-play text-accent"></i> ${name}`;
+            musclesEl.innerHTML = `<i class="fa-solid fa-bullseye"></i> MÃºsculos: ${muscles || 'Geral'}`;
+            tipsEl.innerText = media.tips;
+
+            // Iniciar animaÃ§Ã£o fluida entre o frame 0 e frame 1
+            if (modalAnimInterval) clearInterval(modalAnimInterval);
+            let frameToggle = false;
+            imgEl.src = media.frame0;
+
+            modalAnimInterval = setInterval(() => {
+                frameToggle = !frameToggle;
+                imgEl.src = frameToggle ? media.frame1 : media.frame0;
+            }, 600);
+
+            overlay.classList.add('active');
+        }
+
+        function closeGifModal() {
+            if (modalAnimInterval) {
+                clearInterval(modalAnimInterval);
+                modalAnimInterval = null;
+            }
+            document.getElementById('gifModalOverlay').classList.remove('active');
+            document.getElementById('gifModalImage').src = '';
+        }
+
+        function closeGifModalOnOverlay(e) {
+            if (e.target.id === 'gifModalOverlay') {
+                closeGifModal();
+            }
+        }
+
+        function handleGifError(img) {
+            img.onerror = null;
+            const card = img.closest('.exercise-card');
+            const title = card ? card.querySelector('.ex-title')?.innerText : 'ExercÃ­cio';
+            img.src = `https://placehold.co/300x300/0f172a/38bdf8?text=${encodeURIComponent(title || 'Meu Treino')}`;
+        }
+
+        // APLICAR ANIMAÃ‡Ã•ES E BADGES NAS IMAGENS DOS CARDS
+        function initExerciseGifEvents() {
+            document.querySelectorAll('.exercise-card').forEach(card => {
+                const wrapper = card.querySelector('.ex-img-wrapper');
+                const title = card.querySelector('.ex-title')?.innerText || '';
+                const muscles = card.querySelector('.ex-muscles-text')?.innerText || '';
+                const img = card.querySelector('.ex-img');
+
+                if (wrapper) {
+                    if (!wrapper.querySelector('.gif-badge')) {
+                        const badge = document.createElement('div');
+                        badge.className = 'gif-badge';
+                        badge.innerHTML = '<i class="fa-solid fa-play" style="font-size: 7px;"></i> GIF';
+                        wrapper.appendChild(badge);
+                    }
+
+                    const media = getExerciseMediaUrls(title);
+                    if (img && media.frame0) {
+                        img.src = media.frame0;
+                        img.onerror = function() { handleGifError(this); };
+                    }
+
+                    wrapper.onclick = (e) => {
+                        e.stopPropagation();
+                        openGifModal(title, muscles);
+                    };
+                }
+            });
+        }
+
+        window.addEventListener('load', function() {
+            initExerciseGifEvents();
+        });
+
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
                 navigator.serviceWorker.register('./sw.js')
