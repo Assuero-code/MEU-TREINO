@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
@@ -1490,6 +1490,20 @@
             loadCustomWorkout(); // Carrega trocas primeiro
             loadProgress();      // Depois o progresso
         };
+    </script>
+    <!-- Registro do Service Worker PWA -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(function(reg) {
+                        console.log('Service Worker PWA registrado:', reg.scope);
+                    })
+                    .catch(function(err) {
+                        console.log('Erro ao registrar Service Worker PWA:', err);
+                    });
+            });
+        }
     </script>
 </body>
 </html>
