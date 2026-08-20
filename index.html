@@ -7,6 +7,8 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Meu Treino">
     <meta name="theme-color" content="#0b0f19">
+    <link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
     <title>Meu Treino Diário | Pro Workout</title>
     
     <!-- Google Fonts & Font Awesome Icons -->
@@ -1505,5 +1507,11 @@
             });
         }
     </script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('./sw.js');
+    });
+  }
+</script>
 </body>
 </html>
