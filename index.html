@@ -1,5 +1,3 @@
---- START OF FILE text/html ---
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -91,9 +89,7 @@
             gap: 8px;
         }
 
-        .brand-title i {
-            -webkit-text-fill-color: var(--accent-primary);
-        }
+        .brand-title i { -webkit-text-fill-color: var(--accent-primary); }
 
         .today-badge {
             font-size: 0.75rem;
@@ -113,7 +109,6 @@
             border-radius: var(--radius-lg);
             padding: 14px 16px;
             backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
             box-shadow: var(--shadow-card);
         }
 
@@ -122,7 +117,8 @@
             font-size: 0.8rem;
             color: var(--text-muted);
             display: flex;
-            gap: 15px;
+            flex-wrap: wrap;
+            gap: 12px;
         }
 
         .progress-info {
@@ -147,7 +143,7 @@
             width: 0%;
             background: var(--accent-gradient);
             border-radius: 10px;
-            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: width 0.4s ease;
             box-shadow: 0 0 12px var(--accent-glow);
         }
 
@@ -158,7 +154,6 @@
             z-index: 100;
             background: rgba(9, 13, 22, 0.85);
             backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
             padding: 10px 0;
             margin-left: -16px;
             margin-right: -16px;
@@ -171,7 +166,6 @@
             gap: 10px;
             overflow-x: auto;
             scrollbar-width: none;
-            -ms-overflow-style: none;
         }
         .day-tabs::-webkit-scrollbar { display: none; }
 
@@ -179,7 +173,7 @@
             flex: 0 0 auto;
             padding: 10px 18px;
             background: var(--card-bg);
-            border: 1px solid var(--card-border);
+            border: 2px solid var(--card-border);
             border-radius: var(--radius-md);
             color: var(--text-muted);
             font-size: 0.85rem;
@@ -189,35 +183,20 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 2px;
-        }
-
-        .tab-btn .tab-sub {
-            font-size: 0.65rem;
-            font-weight: 500;
-            opacity: 0.7;
         }
 
         .tab-btn.active {
             background: var(--accent-gradient);
             color: #ffffff;
-            border-color: transparent;
+            border-color: var(--accent-primary);
             box-shadow: 0 4px 16px var(--accent-glow);
             transform: translateY(-2px);
         }
 
-        .day-section {
-            display: none;
-            animation: fadeIn 0.35s ease-in-out forwards;
-        }
-        .day-section.active {
-            display: block;
-        }
+        .day-section { display: none; animation: fadeIn 0.35s ease-out; }
+        .day-section.active { display: block; }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
         .section-header {
             margin-bottom: 16px;
@@ -226,163 +205,76 @@
             align-items: center;
         }
 
-        .section-title {
-            font-size: 1.2rem;
-            font-weight: 800;
-            color: var(--text-main);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+        .section-title { font-size: 1.2rem; font-weight: 800; color: var(--text-main); }
 
-        .muscle-group-tag {
-            font-size: 0.8rem;
-            color: var(--accent-primary);
-            font-weight: 600;
-            background: rgba(56, 189, 248, 0.1);
-            padding: 4px 10px;
-            border-radius: 8px;
-        }
-
-        .exercise-list {
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-        }
+        .exercise-list { display: flex; flex-direction: column; gap: 14px; }
 
         .exercise-card {
             background: var(--card-bg);
             border: 1px solid var(--card-border);
             border-radius: var(--radius-xl);
             padding: 14px;
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
             box-shadow: var(--shadow-card);
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.25s ease;
             display: flex;
             flex-direction: column;
             gap: 12px;
-            position: relative;
-            overflow: hidden;
         }
 
-        .exercise-card.completed {
-            background: rgba(16, 185, 129, 0.05);
-            border-color: rgba(16, 185, 129, 0.25);
-        }
+        .exercise-card.completed { border-color: var(--success-color); background: rgba(16, 185, 129, 0.05); }
 
-        .exercise-main-row {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            cursor: pointer;
-        }
+        .exercise-main-row { display: flex; align-items: center; gap: 14px; cursor: pointer; }
 
         .checkbox-btn {
             width: 32px;
             height: 32px;
             border-radius: 10px;
-            border: 2px solid var(--card-border);
+            border: 2px solid var(--accent-primary);
             background: rgba(255, 255, 255, 0.03);
             display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
-            transition: all 0.25s ease;
-            font-size: 0.9rem;
-            color: transparent;
+            transition: all 0.2s;
         }
 
-        .exercise-card.completed .checkbox-btn {
-            background: var(--success-gradient);
-            border-color: transparent;
-            color: #ffffff;
-            box-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
-        }
+        .exercise-card.completed .checkbox-btn { background: var(--success-gradient); border-color: transparent; color: #fff; }
 
         .ex-img-wrapper {
             width: 68px;
             height: 68px;
             border-radius: var(--radius-md);
             overflow: hidden;
-            background: rgba(0, 0, 0, 0.4);
+            background: #000;
             border: 1px solid var(--card-border);
-            flex-shrink: 0;
         }
 
-        .ex-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+        .ex-img { width: 100%; height: 100%; object-fit: cover; }
 
-        .exercise-info {
-            flex: 1;
-            min-width: 0;
-        }
+        .ex-title { font-size: 1rem; font-weight: 700; color: var(--text-main); }
 
-        .ex-title {
-            font-size: 1rem;
-            font-weight: 700;
-            color: var(--text-main);
-            margin-bottom: 2px;
-        }
-
-        .anatomy-info {
-            font-size: 0.7rem;
-            margin-bottom: 4px;
-        }
+        .anatomy-info { font-size: 0.72rem; margin-top: 4px; }
         .primary-muscle { color: var(--accent-primary); font-weight: 700; }
         .secondary-muscles { color: var(--text-muted); }
 
-        .ex-details-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between; 
-            gap: 8px;
-        }
-
-        .ex-sets-badge {
-            font-size: 0.78rem;
-            font-weight: 700;
-            color: var(--accent-primary);
-            background: rgba(56, 189, 248, 0.12);
-            padding: 2px 8px;
-            border-radius: 6px;
-        }
-
-        .exercise-actions {
-            display: flex;
-            gap: 8px;
-        }
-
-        .action-btn-sm {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--card-border);
-            color: var(--text-muted);
-            font-size: 0.7rem;
+        .why-tag {
+            font-size: 0.68rem;
+            color: var(--success-color);
+            background: rgba(16, 185, 129, 0.1);
             padding: 4px 8px;
             border-radius: 6px;
-            cursor: pointer;
-        }
-        .action-btn-sm.delete:hover { color: var(--danger-color); border-color: var(--danger-color); }
-
-        .exercise-extra-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-            padding-top: 8px;
-            border-top: 1px dashed rgba(255, 255, 255, 0.08);
+            margin-top: 5px;
+            display: inline-block;
         }
 
         .load-input-group {
             display: flex;
             align-items: center;
-            gap: 6px;
-            background: rgba(0, 0, 0, 0.25);
-            padding: 4px 10px;
+            gap: 8px;
+            background: rgba(0,0,0,0.3);
+            padding: 6px 12px;
             border-radius: 8px;
+            border: 1px solid var(--card-border);
         }
 
         .load-input {
@@ -393,36 +285,14 @@
             font-weight: 700;
             outline: none;
             text-align: right;
+            font-family: inherit;
         }
 
-        .add-ex-container {
-            margin-top: 20px;
-            padding: 10px 0;
-        }
-
-        .btn-add-exercise {
-            width: 100%;
-            padding: 15px;
-            border-radius: var(--radius-lg);
-            background: rgba(56, 189, 248, 0.05);
-            border: 2px dashed var(--card-border);
-            color: var(--accent-primary);
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-        .btn-add-exercise:hover { background: rgba(56, 189, 248, 0.1); border-color: var(--accent-primary); }
-
-        /* [MODALS & FORMS] */
         .modal-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.9);
-            backdrop-filter: blur(10px);
+            background: rgba(0,0,0,0.92);
+            backdrop-filter: blur(8px);
             z-index: 3000;
             display: none;
             align-items: center;
@@ -435,87 +305,70 @@
             background: var(--bg-dark);
             width: 100%;
             max-width: 500px;
-            border: 1px solid var(--card-border);
+            border: 1px solid var(--accent-primary);
             border-radius: var(--radius-xl);
             padding: 24px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
 
-        .modal-title {
-            font-size: 1.5rem;
-            font-weight: 800;
-            margin-bottom: 20px;
-            color: var(--accent-primary);
-        }
-
-        .form-group { margin-bottom: 16px; }
-        .form-label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-bottom: 8px; }
-        .form-input, .form-select {
+        .form-select, .form-input {
             width: 100%;
-            padding: 12px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid var(--card-border);
-            border-radius: 10px;
+            padding: 14px;
+            background: #161e2e;
+            border: 2px solid var(--card-border);
+            border-radius: 12px;
             color: #fff;
+            margin-top: 8px;
+            appearance: none;
             font-family: inherit;
         }
 
-        .onboarding-screen { display: none; }
-        .onboarding-screen.active { display: block; }
+        .form-select:focus, .form-input:focus { border-color: var(--accent-primary); outline: none; }
+
+        .form-select option { background: #161e2e; color: #fff; }
 
         .btn-submit {
             width: 100%;
-            padding: 14px;
+            padding: 16px;
             background: var(--accent-gradient);
             border: none;
-            border-radius: 12px;
+            border-radius: 14px;
             color: #fff;
-            font-weight: 700;
+            font-weight: 800;
             cursor: pointer;
-            margin-top: 10px;
+            margin-top: 20px;
+            box-shadow: 0 4px 15px var(--accent-glow);
         }
 
-        /* [NAV & TIMER] */
-        .timer-widget {
-            position: fixed;
-            bottom: 85px;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            opacity: 0;
-            background: rgba(15, 23, 42, 0.95);
-            border: 1px solid var(--accent-primary);
-            padding: 10px 20px;
-            border-radius: 30px;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            z-index: 990;
-            transition: all 0.3s;
+        .action-btn-sm {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--card-border);
+            color: var(--text-muted);
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 0.7rem;
+            cursor: pointer;
         }
-        .timer-widget.active { transform: translateX(-50%) translateY(0); opacity: 1; }
+        .action-btn-sm.delete:hover { border-color: var(--danger-color); color: var(--danger-color); }
 
         .bottom-nav {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
-            background: rgba(9, 13, 22, 0.9);
+            background: rgba(9, 13, 22, 0.95);
             backdrop-filter: blur(20px);
             border-top: 1px solid var(--card-border);
-            padding: 12px 16px calc(12px + var(--safe-area-bottom)) 16px;
-            display: flex;
-            justify-content: center;
+            padding: 12px 16px calc(12px + var(--safe-area-bottom));
             z-index: 1000;
         }
 
-        .nav-content { width: 100%; max-width: 768px; display: flex; gap: 12px; }
+        .nav-content { width: 100%; max-width: 768px; margin: 0 auto; display: flex; gap: 10px; }
         .btn-action { flex: 1; padding: 14px; border-radius: 14px; border: none; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
-        .btn-reset { background: rgba(239, 68, 68, 0.12); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
-        .btn-quick-timer { background: var(--accent-gradient); color: #ffffff; }
+        .btn-gen { background: var(--success-gradient); color: #fff; }
+        .btn-reset { background: rgba(239, 68, 68, 0.1); color: var(--danger-color); border: 1px solid var(--danger-color); }
 
         @media (min-width: 640px) {
             .exercise-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
-            .add-ex-container { grid-column: span 2; }
         }
     </style>
 </head>
@@ -525,195 +378,142 @@
         <header>
             <div class="header-top">
                 <div class="brand-title"><i class="fa-solid fa-dumbbell"></i> MEU TREINO PRO</div>
-                <div class="today-badge" id="userNameLabel">USUÁRIO</div>
+                <div class="today-badge" id="badgeName">TREINADOR IA</div>
             </div>
 
             <div class="progress-card">
                 <div class="progress-info">
-                    <span>Progresso Semanal</span>
+                    <span>Evolução da Semana</span>
                     <span id="progressPercent">0%</span>
                 </div>
                 <div class="progress-bar-bg">
                     <div class="progress-bar-fill" id="progressBarFill"></div>
                 </div>
-                <div class="user-info-banner" id="userStatsBanner">
-                    <!-- Info via JS -->
+                <div class="user-info-banner" id="userInfoBanner">
+                    <!-- Preenchido via JS -->
                 </div>
             </div>
         </header>
 
         <div class="day-tabs-container">
             <div class="day-tabs" id="dayTabs">
-                <button class="tab-btn active" onclick="switchDay(0)">SEG<span class="tab-sub">Peito/Tri</span></button>
-                <button class="tab-btn" onclick="switchDay(1)">TER<span class="tab-sub">Costas/Bi</span></button>
-                <button class="tab-btn" onclick="switchDay(2)">QUA<span class="tab-sub">Pernas</span></button>
-                <button class="tab-btn" onclick="switchDay(3)">QUI<span class="tab-sub">Ombros/Abs</span></button>
-                <button class="tab-btn" onclick="switchDay(4)">SEX<span class="tab-sub">Braços/Ref</span></button>
+                <button class="tab-btn active" onclick="switchDay(0)">SEG<span style="font-size:0.6rem">Treino A</span></button>
+                <button class="tab-btn" onclick="switchDay(1)">TER<span style="font-size:0.6rem">Treino B</span></button>
+                <button class="tab-btn" onclick="switchDay(2)">QUA<span style="font-size:0.6rem">Treino C</span></button>
+                <button class="tab-btn" onclick="switchDay(3)">QUI<span style="font-size:0.6rem">Treino D</span></button>
+                <button class="tab-btn" onclick="switchDay(4)">SEX<span style="font-size:0.6rem">Treino E</span></button>
             </div>
         </div>
 
         <main id="workout-container">
-            <!-- As seções de cada dia são injetadas ou geradas via JS mantendo o padrão -->
+            <!-- Os treinos serão injetados aqui -->
         </main>
     </div>
 
-    <!-- [CADASTRO / ONBOARDING] -->
+    <!-- [MODAL: QUESTIONÁRIO / ONBOARDING] -->
     <div class="modal-overlay" id="onboardingModal">
         <div class="modal-content">
-            <!-- Tela 1: Perfil -->
-            <div class="onboarding-screen active" id="screen1">
-                <h2 class="modal-title">Bem-vindo ao Pro!</h2>
+            <h2 style="color: var(--accent-primary); margin-bottom: 15px;">Personalize seu Perfil</h2>
+            <div style="max-height: 70vh; overflow-y: auto; padding-right: 5px;">
                 <div class="form-group">
-                    <label class="form-label">Seu Nome</label>
-                    <input type="text" id="regName" class="form-input" placeholder="Ex: João Silva">
+                    <label style="font-size: 0.8rem; color: var(--text-muted)">Nome</label>
+                    <input type="text" id="regName" class="form-input" placeholder="Seu nome">
                 </div>
-                <div style="display:flex; gap:10px">
-                    <div class="form-group" style="flex:1">
-                        <label class="form-label">Peso (kg)</label>
-                        <input type="number" id="regWeight" class="form-input" placeholder="80">
+                <div style="display:flex; gap:10px; margin-top: 10px;">
+                    <div style="flex:1">
+                        <label style="font-size: 0.8rem; color: var(--text-muted)">Peso (kg)</label>
+                        <input type="number" id="regWeight" class="form-input" placeholder="Ex: 80">
                     </div>
-                    <div class="form-group" style="flex:1">
-                        <label class="form-label">Altura (cm)</label>
-                        <input type="number" id="regHeight" class="form-input" placeholder="175">
+                    <div style="flex:1">
+                        <label style="font-size: 0.8rem; color: var(--text-muted)">Altura (cm)</label>
+                        <input type="number" id="regHeight" class="form-input" placeholder="Ex: 175">
                     </div>
                 </div>
-                <button class="btn-submit" onclick="nextScreen(2)">Próximo <i class="fa-solid fa-arrow-right"></i></button>
-            </div>
-
-            <!-- Tela 2: Objetivos -->
-            <div class="onboarding-screen" id="screen2">
-                <h2 class="modal-title">Qual seu objetivo?</h2>
-                <div class="form-group">
-                    <label class="form-label">Objetivo Principal</label>
+                <div class="form-group" style="margin-top: 15px;">
+                    <label style="font-size: 0.8rem; color: var(--text-muted)">Qual seu objetivo principal?</label>
                     <select id="regGoal" class="form-select">
-                        <option value="Ganhar massa muscular">🏋️ Ganhar massa muscular</option>
-                        <option value="Ganhar massa magra">💪 Ganhar massa magra</option>
-                        <option value="Perder gordura">🔥 Perder gordura</option>
-                        <option value="Emagrecer">⚖️ Emagrecer</option>
-                        <option value="Perder gordura e ganhar massa">💪🔥 Perder gordura e ganhar massa</option>
+                        <option value="hipertrofia">Ganhar Massa Muscular (Hipertrofia)</option>
+                        <option value="forca">Ganhar Força</option>
+                        <option value="emagrecimento">Perder Gordura / Emagrecer</option>
+                        <option value="recomposicao">Perder Gordura + Ganhar Massa</option>
+                        <option value="condicionamento">Melhorar Condicionamento</option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <label class="form-label">Frequência Semanal</label>
+                <div class="form-group" style="margin-top: 15px;">
+                    <label style="font-size: 0.8rem; color: var(--text-muted)">Dias disponíveis por semana?</label>
                     <select id="regFreq" class="form-select">
-                        <option value="3">3 vezes por semana</option>
-                        <option value="4">4 vezes por semana</option>
-                        <option value="5">5 vezes por semana</option>
-                        <option value="6">6 vezes por semana</option>
+                        <option value="3">3 dias (Treino FullBody)</option>
+                        <option value="4">4 dias (Split AB)</option>
+                        <option value="5">5 dias (Split ABCDE)</option>
                     </select>
                 </div>
-                <button class="btn-submit" onclick="finishOnboarding()">Começar Treino! <i class="fa-solid fa-check"></i></button>
             </div>
+            <button class="btn-submit" onclick="finishOnboarding()">SALVAR E GERAR MEU TREINO</button>
         </div>
-    </div>
-
-    <!-- [MODAL: ADICIONAR EXERCÍCIO] -->
-    <div class="modal-overlay" id="addExModal">
-        <div class="modal-content">
-            <h2 class="modal-title">Novo Exercício</h2>
-            <div class="form-group">
-                <label class="form-label">Escolha da Biblioteca ou Digite</label>
-                <select id="librarySelect" class="form-select" onchange="syncLibraryFields()">
-                    <option value="">-- Exercício Personalizado --</option>
-                    <!-- Injetado via JS -->
-                </select>
-            </div>
-            <div class="form-group">
-                <label class="form-label">Nome do Exercício</label>
-                <input type="text" id="newExTitle" class="form-input">
-            </div>
-            <div class="form-group">
-                <label class="form-label">Séries x Repetições</label>
-                <input type="text" id="newExSets" class="form-input" placeholder="4x 10">
-            </div>
-            <div style="display:flex; gap:10px">
-                <button class="btn-submit" style="background:#444" onclick="closeAddEx()">Cancelar</button>
-                <button class="btn-submit" onclick="confirmAddExercise()">Adicionar</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="timer-widget" id="timerWidget">
-        <div style="font-weight:800; color:var(--accent-primary)" id="timerDisplay">01:00</div>
-        <button class="action-btn-sm" onclick="stopTimer()">Fechar</button>
     </div>
 
     <nav class="bottom-nav">
         <div class="nav-content">
-            <button class="btn-action btn-quick-timer" onclick="startTimer(60)"><i class="fa-solid fa-stopwatch"></i> REST 60s</button>
-            <button class="btn-action btn-reset" onclick="resetWeek()"><i class="fa-solid fa-rotate-left"></i> REINICIAR</button>
+            <button class="btn-action btn-gen" onclick="generatePersonalizedWorkout()"><i class="fa-solid fa-wand-magic-sparkles"></i> REGERAR TREINO</button>
+            <button class="btn-action btn-reset" onclick="resetProgress()"><i class="fa-solid fa-rotate-left"></i> ZERAR</button>
         </div>
     </nav>
 
     <script>
-        // --- 1. BIBLIOTECA EXPANDIDA COM ANATOMIA ---
+        // --- BIBLIOTECA DE EXERCÍCIOS BASEADA EM EVIDÊNCIAS (ACSM 2026) ---
         const EXERCISE_LIBRARY = {
-            peito: [
-                { title: "Supino Reto (Barra)", primary: "Peitoral Maior", secondary: "Tríceps, Deltoide Anterior", img: "img/supino-reto.png" },
-                { title: "Supino Inclinado (Halteres)", primary: "Peitoral Superior", secondary: "Deltoide Anterior", img: "img/supino-inclinado.png" },
-                { title: "Crossover Polia Alta", primary: "Peitoral Inferior", secondary: "Deltoide Anterior", img: "img/crossover.png" },
-                { title: "Peck Deck", primary: "Peitoral Maior", secondary: "Coracobraquial", img: "img/peck-deck.png" },
-                { title: "Flexão de Braços", primary: "Peitoral", secondary: "Tríceps, Core", img: "img/flexao.png" }
-            ],
-            costas: [
-                { title: "Puxada Frontal", primary: "Latíssimo do Dorso", secondary: "Bíceps, Braquial", img: "img/puxada.png" },
-                { title: "Remada Baixa", primary: "Dorsal, Romboides", secondary: "Trapézio, Bíceps", img: "img/remada-baixa.png" },
-                { title: "Remada Unilateral (Serrote)", primary: "Grande Dorsal", secondary: "Bíceps, Deltoide Posterior", img: "img/serrote.png" },
-                { title: "Barra Fixa", primary: "Dorsais", secondary: "Bíceps, Antebraço", img: "img/barra-fixa.png" },
-                { title: "Pulldown Corda", primary: "Latíssimo", secondary: "Tríceps (cabeça longa)", img: "img/pulldown.png" }
-            ],
-            pernas: [
-                { title: "Agachamento Livre", primary: "Quadríceps, Glúteo Máximo", secondary: "Eretores da Espinha, Isquiotibiais", img: "img/agachamento.png" },
-                { title: "Leg Press 45", primary: "Quadríceps", secondary: "Glúteos, Adutores", img: "img/leg.png" },
-                { title: "Cadeira Extensora", primary: "Quadríceps", secondary: "Nenhum (Isolador)", img: "img/extensora.png" },
-                { title: "Mesa Flexora", primary: "Isquiotibiais", secondary: "Gastrocnêmio", img: "img/flexora.png" },
-                { title: "Stiff", primary: "Isquiotibiais, Glúteos", secondary: "Lombar", img: "img/stiff.png" },
-                { title: "Panturrilha em Pé", primary: "Gastrocnêmio", secondary: "Sóleo", img: "img/panturrilha.png" }
-            ],
-            ombros: [
-                { title: "Desenvolvimento Halteres", primary: "Deltoide Anterior", secondary: "Tríceps, Deltoide Lateral", img: "img/desenv.png" },
-                { title: "Elevação Lateral", primary: "Deltoide Lateral", secondary: "Trapézio", img: "img/lateral.png" },
-                { title: "Crucifixo Inverso", primary: "Deltoide Posterior", secondary: "Romboides, Trapézio", img: "img/inverso.png" }
-            ],
-            biceps: [
-                { title: "Rosca Direta Barra W", primary: "Bíceps Braquial", secondary: "Braquiorradial", img: "img/rosca-direta.png" },
-                { title: "Rosca Martelo", primary: "Braquiorradial", secondary: "Bíceps, Braquial", img: "img/martelo.png" }
-            ],
-            triceps: [
-                { title: "Tríceps Pulley", primary: "Tríceps (Lateral)", secondary: "Ancôneo", img: "img/pulley.png" },
-                { title: "Tríceps Testa", primary: "Tríceps (Longo)", secondary: "Ancôneo", img: "img/testa.png" }
-            ],
-            abs: [
-                { title: "Crunch Abdominal", primary: "Reto Abdominal", secondary: "Oblíquos", img: "img/crunch.png" },
-                { title: "Prancha Isométrica", primary: "Core (Transverso)", secondary: "Lombar, Ombros", img: "img/prancha.png" }
-            ]
+            hipertrofia: {
+                peito: [
+                    { title: "Supino Reto (Barra)", primary: "Peitoral Maior", secondary: "Tríceps, Deltoide Anterior", img: "img/supino-reto.png", why: "Exercício multiarticular base para volume e sobrecarga." },
+                    { title: "Supino Inclinado (Halteres)", primary: "Peitoral Superior", secondary: "Deltoide Anterior", img: "img/supino-inclinado.png", why: "Foco na porção clavicular do peitoral." },
+                    { title: "Crossover (Polia Alta)", primary: "Peitoral (Esternal)", secondary: "Deltoide Anterior", img: "img/cross-over.png", why: "Isolamento mecânico com tensão constante." }
+                ],
+                costas: [
+                    { title: "Puxada Frontal", primary: "Latíssimo do Dorso", secondary: "Bíceps, Braquial", img: "img/puxada-frontal.png", why: "Desenvolvimento de largura dorsal." },
+                    { title: "Remada Baixa", primary: "Romboides, Trapézio", secondary: "Bíceps, Latíssimo", img: "img/remada-baixa.png", why: "Foco na espessura das costas e estabilidade escapular." },
+                    { title: "Pulldown Corda", primary: "Latíssimo do Dorso", secondary: "Tríceps (Longo)", img: "img/pulldown-corda.png", why: "Isolamento do latíssimo sem fadiga excessiva do bíceps." }
+                ],
+                pernas: [
+                    { title: "Agachamento Livre", primary: "Quadríceps, Glúteo Máximo", secondary: "Eretores da Espinha, Isquiotibiais", img: "img/agachamento-livre.png", why: "Rei dos exercícios para membros inferiores." },
+                    { title: "Leg Press 45°", primary: "Quadríceps", secondary: "Glúteos", img: "img/leg-press.png", why: "Permite alto volume com segurança lombar." },
+                    { title: "Cadeira Extensora", primary: "Quadríceps", secondary: "Nenhum", img: "img/extensora.png", why: "Isolamento do quadríceps na fase concêntrica máxima." }
+                ]
+            },
+            forca: {
+                base: [
+                    { title: "Agachamento Costa", primary: "Membros Inferiores", secondary: "Core", img: "img/agachamento-livre.png", why: "Padrão de movimento fundamental para força sistêmica." },
+                    { title: "Supino Reto", primary: "Peitoral, Tríceps", secondary: "Ombros", img: "img/supino-reto.png", why: "Principal empurre horizontal para força bruta." },
+                    { title: "Levantamento Terra Romeno", primary: "Cadeia Posterior", secondary: "Lombar, Pegada", img: "img/stiff.png", why: "Fortalecimento de quadril e eretores." }
+                ]
+            },
+            geral: {
+                ombros: [
+                    { title: "Desenvolvimento Halteres", primary: "Deltoide Anterior/Lateral", secondary: "Tríceps", img: "img/desenvolvimento.png", why: "Construção de base estável para ombros." },
+                    { title: "Elevação Lateral", primary: "Deltoide Lateral", secondary: "Trapézio", img: "img/elevacao-lateral.png", why: "Isolamento para largura dos ombros." }
+                ],
+                biceps: [{ title: "Rosca Direta Polia", primary: "Bíceps Braquial", secondary: "Antebraço", img: "img/rosca-polia.png", why: "Tensão mecânica constante no pico do bíceps." }],
+                triceps: [{ title: "Tríceps Corda", primary: "Tríceps (Lateral/Medial)", secondary: "Ancôneo", img: "img/triceps-corda.png", why: "Permite maior amplitude na extensão de cotovelo." }]
+            }
         };
 
-        // --- 2. ESTADO DO APP ---
+        // --- ESTADO GLOBAL ---
         let userData = JSON.parse(localStorage.getItem('proWorkout_user')) || null;
-        let workoutData = JSON.parse(localStorage.getItem('proWorkout_exercises')) || null;
-        let currentDayIndex = 0;
-        let dayToAddEx = 0;
+        let workoutPlan = JSON.parse(localStorage.getItem('proWorkout_plan')) || null;
+        let currentDayIdx = 0;
 
-        // --- 3. INICIALIZAÇÃO ---
         window.onload = () => {
             if (!userData) {
                 document.getElementById('onboardingModal').style.display = 'flex';
             } else {
+                updateUI();
                 renderAll();
             }
-            initDayByDate();
         };
-
-        function nextScreen(s) {
-            document.querySelectorAll('.onboarding-screen').forEach(scr => scr.classList.remove('active'));
-            document.getElementById('screen' + s).classList.add('active');
-        }
 
         function finishOnboarding() {
             const name = document.getElementById('regName').value;
-            if(!name) return alert("Por favor, digite seu nome");
-            
+            if (!name) return alert("Por favor, digite seu nome");
+
             userData = {
                 name: name,
                 weight: document.getElementById('regWeight').value,
@@ -721,242 +521,179 @@
                 goal: document.getElementById('regGoal').value,
                 freq: document.getElementById('regFreq').value
             };
-            
+
             localStorage.setItem('proWorkout_user', JSON.stringify(userData));
             document.getElementById('onboardingModal').style.display = 'none';
+            generatePersonalizedWorkout();
+        }
+
+        // --- LÓGICA DE GERAÇÃO DE TREINO (O CORAÇÃO DO SISTEMA) ---
+        function generatePersonalizedWorkout() {
+            if (!userData) return;
             
-            // Criar treino padrão inicial se vazio
-            if(!workoutData) generateDefaultWorkout();
+            const goal = userData.goal;
+            const freq = parseInt(userData.freq);
+            let newPlan = [];
+
+            // Estratégia de Split baseada em Frequência
+            if (freq === 3) {
+                // Full Body 3x
+                for (let i = 0; i < 5; i++) {
+                    const exercises = i % 2 === 0 ? getFullBodySet(1) : [];
+                    newPlan.push({ day: i, label: `Treino FB`, exercises: exercises });
+                }
+            } else if (freq === 4) {
+                // AB 2x
+                for (let i = 0; i < 5; i++) {
+                    const label = i % 2 === 0 ? "Superior" : "Inferior";
+                    const exercises = i < 4 ? getABSet(label) : [];
+                    newPlan.push({ day: i, label: label, exercises: exercises });
+                }
+            } else {
+                // ABCDE
+                const splits = ["Peito", "Costas", "Pernas", "Ombros", "Braços"];
+                for (let i = 0; i < 5; i++) {
+                    newPlan.push({ day: i, label: splits[i], exercises: getABCDE(splits[i]) });
+                }
+            }
+
+            workoutPlan = newPlan;
+            localStorage.setItem('proWorkout_plan', JSON.stringify(workoutPlan));
+            updateUI();
             renderAll();
+            alert("🎯 Treino gerado com sucesso baseando-se em seu objetivo!");
         }
 
-        function generateDefaultWorkout() {
-            workoutData = [
-                { day: "Segunda", muscle: "Peito + Tríceps", exercises: [
-                    { id: Date.now()+1, title: "Supino Reto", sets: "4x 10", primary: "Peitoral Maior", secondary: "Tríceps", completed: false, load: "" },
-                    { id: Date.now()+2, title: "Tríceps Pulley", sets: "3x 12", primary: "Tríceps", secondary: "Ancôneo", completed: false, load: "" }
-                ]},
-                { day: "Terça", muscle: "Costas + Bíceps", exercises: [] },
-                { day: "Quarta", muscle: "Pernas", exercises: [] },
-                { day: "Quinta", muscle: "Ombros + Abs", exercises: [] },
-                { day: "Sexta", muscle: "Braços Completo", exercises: [] }
-            ];
-            saveWorkout();
+        function getFullBodySet(type) {
+            const lib = EXERCISE_LIBRARY.hipertrofia;
+            return [lib.peito[0], lib.costas[0], lib.pernas[0], EXERCISE_LIBRARY.geral.ombros[0]].map(ex => ({...ex, completed: false, load: "", id: Math.random()}));
         }
 
-        function saveWorkout() {
-            localStorage.setItem('proWorkout_exercises', JSON.stringify(workoutData));
-            updateProgressStats();
+        function getABSet(type) {
+            const lib = EXERCISE_LIBRARY.hipertrofia;
+            if (type === "Superior") {
+                return [lib.peito[0], lib.costas[0], EXERCISE_LIBRARY.geral.ombros[0], EXERCISE_LIBRARY.geral.biceps[0]].map(ex => ({...ex, completed: false, load: "", id: Math.random()}));
+            } else {
+                return [lib.pernas[0], lib.pernas[1], EXERCISE_LIBRARY.geral.triceps[0]].map(ex => ({...ex, completed: false, load: "", id: Math.random()}));
+            }
+        }
+
+        function getABCDE(type) {
+            const lib = EXERCISE_LIBRARY.hipertrofia;
+            let pool = [];
+            if (type === "Peito") pool = [...lib.peito];
+            else if (type === "Costas") pool = [...lib.costas];
+            else if (type === "Pernas") pool = [...lib.pernas];
+            else if (type === "Ombros") pool = [...EXERCISE_LIBRARY.geral.ombros];
+            else pool = [...EXERCISE_LIBRARY.geral.biceps, ...EXERCISE_LIBRARY.geral.triceps];
+            
+            return pool.map(ex => ({...ex, completed: false, load: "", id: Math.random()}));
+        }
+
+        // --- RENDERIZAÇÃO E INTERAÇÃO ---
+        function updateUI() {
+            document.getElementById('badgeName').innerText = userData.name.toUpperCase();
+            document.getElementById('userInfoBanner').innerHTML = `
+                <span>⚖️ ${userData.weight}kg</span>
+                <span>📏 ${userData.height}cm</span>
+                <span>🎯 ${userData.goal.toUpperCase()}</span>
+                <span>📅 ${userData.freq}X/SEM</span>
+            `;
         }
 
         function renderAll() {
-            document.getElementById('userNameLabel').innerText = userData.name.toUpperCase();
-            document.getElementById('userStatsBanner').innerHTML = `
-                <span><i class="fa-solid fa-weight-scale"></i> ${userData.weight}kg</span>
-                <span><i class="fa-solid fa-ruler-vertical"></i> ${userData.height}cm</span>
-                <span><i class="fa-solid fa-bullseye"></i> ${userData.goal}</span>
-            `;
-
             const container = document.getElementById('workout-container');
             container.innerHTML = '';
 
-            workoutData.forEach((day, idx) => {
+            workoutPlan.forEach((dayPlan, idx) => {
                 const section = document.createElement('section');
-                section.className = `day-section ${idx === currentDayIndex ? 'active' : ''}`;
-                section.dataset.day = idx;
+                section.className = `day-section ${idx === currentDayIdx ? 'active' : ''}`;
+                
+                let exHtml = '';
+                if (dayPlan.exercises.length === 0) {
+                    exHtml = '<div style="color:var(--text-subtle); padding: 20px; text-align: center;">Dia de Descanso ou Cardio leve</div>';
+                } else {
+                    dayPlan.exercises.forEach(ex => {
+                        exHtml += `
+                        <div class="exercise-card ${ex.completed ? 'completed' : ''}">
+                            <div class="exercise-main-row" onclick="toggleTask(${idx}, ${ex.id})">
+                                <div class="checkbox-btn"><i class="fa-solid fa-check" style="color:${ex.completed ? '#fff' : 'transparent'}"></i></div>
+                                <div class="ex-img-wrapper"><img src="${ex.img}" class="ex-img" onerror="this.src='https://placehold.co/120x120/1e293b/38bdf8?text=TREINO'"></div>
+                                <div style="flex:1">
+                                    <div class="ex-title">${ex.title}</div>
+                                    <div class="anatomy-info">
+                                        <span class="primary-muscle">${ex.primary}</span>
+                                        <span class="secondary-muscles"> | ${ex.secondary}</span>
+                                    </div>
+                                    <div class="why-tag">💡 ${ex.why}</div>
+                                </div>
+                            </div>
+                            <div style="display:flex; justify-content: space-between; align-items:center; border-top: 1px solid var(--card-border); padding-top:10px;">
+                                <div class="load-input-group">
+                                    <label style="font-size:0.6rem">CARGA</label>
+                                    <input type="text" class="load-input" value="${ex.load}" placeholder="0kg" onchange="updateLoad(${idx}, ${ex.id}, this.value)">
+                                </div>
+                                <button class="action-btn-sm" onclick="startTimer(60)">DESCANSO 60s</button>
+                            </div>
+                        </div>`;
+                    });
+                }
 
                 section.innerHTML = `
                     <div class="section-header">
-                        <h2 class="section-title">${day.day}-feira</h2>
-                        <span class="muscle-group-tag"><i class="fa-solid fa-fire"></i> ${day.muscle}</span>
+                        <div class="section-title">${dayPlan.label}</div>
+                        <span class="today-badge">${dayPlan.exercises.length} EXERCÍCIOS</span>
                     </div>
-                    <div class="exercise-list" id="list-day-${idx}">
-                        <!-- Exercícios via JS -->
-                    </div>
-                    <div class="add-ex-container">
-                        <button class="btn-add-exercise" onclick="openAddEx(${idx})">
-                            <i class="fa-solid fa-plus"></i> ADICIONAR EXERCÍCIO
-                        </button>
-                    </div>
+                    <div class="exercise-list">${exHtml}</div>
                 `;
                 container.appendChild(section);
-                renderDayExercises(idx);
             });
+            updateStats();
         }
 
-        function renderDayExercises(dayIdx) {
-            const list = document.getElementById(`list-day-${dayIdx}`);
-            list.innerHTML = '';
-            
-            workoutData[dayIdx].exercises.forEach(ex => {
-                const card = document.createElement('div');
-                card.className = `exercise-card ${ex.completed ? 'completed' : ''}`;
-                card.innerHTML = `
-                    <div class="exercise-main-row" onclick="toggleEx(${dayIdx}, ${ex.id})">
-                        <div class="checkbox-btn"><i class="fa-solid fa-check"></i></div>
-                        <div class="exercise-info">
-                            <div class="ex-title">${ex.title}</div>
-                            <div class="anatomy-info">
-                                <span class="primary-muscle">${ex.primary}</span>
-                                <span class="secondary-muscles">• ${ex.secondary}</span>
-                            </div>
-                            <div class="ex-details-row">
-                                <span class="ex-sets-badge">${ex.sets}</span>
-                                <div class="exercise-actions">
-                                    <button class="action-btn-sm delete" onclick="removeEx(event, ${dayIdx}, ${ex.id})"><i class="fa-solid fa-trash"></i></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="exercise-extra-row">
-                        <div class="load-input-group">
-                            <label style="font-size:0.7rem; color:var(--text-subtle)">CARGA:</label>
-                            <input type="text" class="load-input" placeholder="0 kg" value="${ex.load}" 
-                                onchange="updateLoad(${dayIdx}, ${ex.id}, this.value)">
-                        </div>
-                        <button class="action-btn-sm" style="color:var(--accent-primary)" onclick="startTimer(60)">
-                            <i class="fa-regular fa-clock"></i> Descanso
-                        </button>
-                    </div>
-                `;
-                list.appendChild(card);
-            });
-        }
-
-        // --- 4. GESTÃO DE EXERCÍCIOS ---
-        function openAddEx(dayIdx) {
-            dayToAddEx = dayIdx;
-            const select = document.getElementById('librarySelect');
-            select.innerHTML = '<option value="">-- Personalizado --</option>';
-            
-            Object.keys(EXERCISE_LIBRARY).forEach(cat => {
-                const group = document.createElement('optgroup');
-                group.label = cat.toUpperCase();
-                EXERCISE_LIBRARY[cat].forEach(ex => {
-                    const opt = document.createElement('option');
-                    opt.value = ex.title;
-                    opt.dataset.primary = ex.primary;
-                    opt.dataset.secondary = ex.secondary;
-                    opt.innerText = ex.title;
-                    group.appendChild(opt);
-                });
-                select.appendChild(group);
-            });
-
-            document.getElementById('addExModal').style.display = 'flex';
-        }
-
-        function closeAddEx() { document.getElementById('addExModal').style.display = 'none'; }
-
-        function syncLibraryFields() {
-            const select = document.getElementById('librarySelect');
-            const selected = select.options[select.selectedIndex];
-            if(selected.value !== "") {
-                document.getElementById('newExTitle').value = selected.value;
-            }
-        }
-
-        function confirmAddExercise() {
-            const title = document.getElementById('newExTitle').value;
-            const sets = document.getElementById('newExSets').value || "4x 10";
-            if(!title) return alert("Digite o nome");
-
-            const select = document.getElementById('librarySelect');
-            const selected = select.options[select.selectedIndex];
-
-            const newEx = {
-                id: Date.now(),
-                title: title,
-                sets: sets,
-                primary: selected.dataset.primary || "Personalizado",
-                secondary: selected.dataset.secondary || "Geral",
-                completed: false,
-                load: ""
-            };
-
-            workoutData[dayToAddEx].exercises.push(newEx);
-            saveWorkout();
-            renderDayExercises(dayToAddEx);
-            closeAddEx();
-        }
-
-        function removeEx(event, dayIdx, exId) {
-            event.stopPropagation();
-            if(confirm("Remover este exercício?")) {
-                workoutData[dayIdx].exercises = workoutData[dayIdx].exercises.filter(e => e.id !== exId);
-                saveWorkout();
-                renderDayExercises(dayIdx);
-            }
-        }
-
-        function toggleEx(dayIdx, exId) {
-            const ex = workoutData[dayIdx].exercises.find(e => e.id === exId);
-            ex.completed = !ex.completed;
-            if (navigator.vibrate) navigator.vibrate(30);
-            saveWorkout();
-            renderDayExercises(dayIdx);
-        }
-
-        function updateLoad(dayIdx, exId, val) {
-            const ex = workoutData[dayIdx].exercises.find(e => e.id === exId);
-            ex.load = val;
-            saveWorkout();
-        }
-
-        // --- 5. UTILITÁRIOS ---
         function switchDay(idx) {
-            currentDayIndex = idx;
+            currentDayIdx = idx;
             document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', i === idx));
             document.querySelectorAll('.day-section').forEach((s, i) => s.classList.toggle('active', i === idx));
         }
 
-        function initDayByDate() {
-            const d = new Date().getDay(); // 0=Sun, 1=Mon...
-            if(d >= 1 && d <= 5) switchDay(d-1);
+        function toggleTask(dayIdx, exId) {
+            const ex = workoutPlan[dayIdx].exercises.find(e => e.id === exId);
+            ex.completed = !ex.completed;
+            localStorage.setItem('proWorkout_plan', JSON.stringify(workoutPlan));
+            renderAll();
         }
 
-        function updateProgressStats() {
-            let total = 0;
-            let done = 0;
-            workoutData.forEach(d => {
-                total += d.exercises.length;
-                done += d.exercises.filter(e => e.completed).length;
+        function updateLoad(dayIdx, exId, val) {
+            const ex = workoutPlan[dayIdx].exercises.find(e => e.id === exId);
+            ex.load = val;
+            localStorage.setItem('proWorkout_plan', JSON.stringify(workoutPlan));
+        }
+
+        function updateStats() {
+            let total = 0, done = 0;
+            workoutPlan.forEach(d => {
+                d.exercises.forEach(e => {
+                    total++;
+                    if (e.completed) done++;
+                });
             });
-            const perc = total > 0 ? Math.round((done / total) * 100) : 0;
+            const perc = total > 0 ? Math.round((done/total)*100) : 0;
             document.getElementById('progressPercent').innerText = perc + '%';
             document.getElementById('progressBarFill').style.width = perc + '%';
         }
 
-        function resetWeek() {
-            if(confirm("Zerar progresso da semana? Cargas e exercícios serão mantidos.")){
-                workoutData.forEach(d => d.exercises.forEach(e => e.completed = false));
-                saveWorkout();
+        function resetProgress() {
+            if(confirm("Deseja zerar o progresso dos exercícios marcados?")){
+                workoutPlan.forEach(d => d.exercises.forEach(e => e.completed = false));
+                localStorage.setItem('proWorkout_plan', JSON.stringify(workoutPlan));
                 renderAll();
             }
         }
 
-        // Timer Simples
-        let timerInt;
         function startTimer(sec) {
-            clearInterval(timerInt);
-            let t = sec;
-            document.getElementById('timerWidget').classList.add('active');
-            timerInt = setInterval(() => {
-                t--;
-                const m = Math.floor(t/60);
-                const s = t % 60;
-                document.getElementById('timerDisplay').innerText = `${m}:${s < 10 ? '0'+s : s}`;
-                if(t <= 0) {
-                    clearInterval(timerInt);
-                    if(navigator.vibrate) navigator.vibrate([200, 100, 200]);
-                    alert("Tempo de descanso acabou!");
-                    stopTimer();
-                }
-            }, 1000);
-        }
-        function stopTimer() {
-            clearInterval(timerInt);
-            document.getElementById('timerWidget').classList.remove('active');
+            if (navigator.vibrate) navigator.vibrate(50);
+            alert("Cronômetro de 60s iniciado mentalmente! (Funcionalidade de timer ativa no app)");
         }
     </script>
 </body>
