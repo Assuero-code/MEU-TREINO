@@ -34,6 +34,7 @@
             --radius-md: 12px;
             --shadow-card: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
             --safe-area-bottom: env(safe-area-inset-bottom, 20px);
+            --safe-area-top: env(safe-area-inset-top, 0px);
         }
 
         * {
@@ -58,6 +59,58 @@
             flex-direction: column;
             align-items: center;
         }
+
+        /* --- ESTILO DO CRONÔMETRO FIXO NO TOPO --- */
+        .timer-panel {
+            position: fixed;
+            top: var(--safe-area-top);
+            left: 50%;
+            transform: translateX(-50%);
+            width: 95%;
+            max-width: 500px;
+            background: rgba(11, 15, 25, 0.95);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--accent-primary);
+            border-top: none;
+            border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+            z-index: 5000;
+            padding: 12px 20px;
+            display: none; /* Ativado via JS */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 15px var(--accent-glow);
+            flex-direction: column;
+            align-items: center;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown { from { transform: translate(-50%, -100%); } to { transform: translate(-50%, 0); } }
+
+        .timer-display {
+            font-size: 2rem;
+            font-weight: 800;
+            font-variant-numeric: tabular-nums;
+            color: var(--accent-primary);
+            margin: 5px 0;
+            text-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        .timer-controls {
+            display: flex;
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .timer-btn {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--card-border);
+            color: var(--text-main);
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .timer-btn.stop { color: var(--danger-color); border-color: rgba(239,68,68,0.3); }
 
         .app-wrapper {
             width: 100%;
@@ -130,6 +183,7 @@
         .progress-info {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             font-size: 0.85rem;
             font-weight: 600;
             color: var(--text-muted);
@@ -422,6 +476,17 @@
 </head>
 <body>
 
+    <!-- PAINEL DO CRONÔMETRO -->
+    <div class="timer-panel" id="timerPanel">
+        <div style="font-size: 0.7rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">⏱️ Descanso Ativo</div>
+        <div class="timer-display" id="timerDisplay">01:00</div>
+        <div class="timer-controls">
+            <button class="timer-btn" id="timerPauseBtn" onclick="toggleTimerPause()"><i class="fa-solid fa-pause"></i> Pausar</button>
+            <button class="timer-btn" onclick="resetTimer()"><i class="fa-solid fa-rotate-left"></i> Reiniciar</button>
+            <button class="timer-btn stop" onclick="closeTimer()"><i class="fa-solid fa-xmark"></i> Fechar</button>
+        </div>
+    </div>
+
     <div class="app-wrapper">
         <header>
             <div class="header-top">
@@ -431,7 +496,12 @@
 
             <div class="progress-card">
                 <div class="progress-info">
-                    <span>Evolução da Semana</span>
+                    <div style="display:flex; align-items:center; gap:8px;">
+                        <span>Evolução da Semana</span>
+                        <button class="action-btn-sm" style="background:rgba(239, 68, 68, 0.1); color:var(--danger-color); border:none; padding: 4px 8px;" onclick="resetWeekProgress()">
+                            <i class="fa-solid fa-rotate-left"></i> Resetar Semana
+                        </button>
+                    </div>
                     <span id="progressPercent">0%</span>
                 </div>
                 <div class="progress-bar-bg">
@@ -588,6 +658,7 @@
         const EXERCISE_LIBRARY = {
             peito: [
                 { title: "Supino Reto (Barra)", primary: "Peitoral Maior (Esternal)", secondary: "Tríceps Braquial, Deltoide Anterior", img: "img/supino-reto.png", why: "Exercício multiarticular base para volume e sobrecarga progressiva." },
+                { title: "Supino Reto na Máquina", primary: "Peitoral Maior", secondary: "Tríceps Braquial, Deltoide Anterior", img: "img/supino-maquina.png", why: "Excelente para isolamento mecânico e segurança na falha concêntrica." },
                 { title: "Supino Inclinado (Halteres)", primary: "Peitoral Superior (Clavicular)", secondary: "Deltoide Anterior, Tríceps Braquial", img: "img/supino-inclinado.png", why: "Foco no preenchimento da porção superior do peitoral." },
                 { title: "Supino Declinado (Barra/Halter)", primary: "Peitoral Inferior", secondary: "Tríceps Braquial, Deltoide Anterior", img: "img/supino-declinado.png", why: "Ênfase na porção inferior e definição da linha peitoral." },
                 { title: "Crossover Polia Alta", primary: "Peitoral Inferior / Esternal", secondary: "Deltoide Anterior", img: "img/cross-over.png", why: "Isolamento com pico de contração e tensão mecânica constante." },
@@ -597,6 +668,7 @@
                 { title: "Peck Deck / Voador", primary: "Peitoral Maior", secondary: "Deltoide Anterior", img: "img/voador.png", why: "Isolamento seguro sem sobrecarga excessiva nos punhos." }
             ],
             costas: [
+                { title: "Puxada Neutra", primary: "Latíssimo do Dorso", secondary: "Bíceps Braquial, Braquial, Braquiorradial, Redondo Maior", img: "img/puxada-neutra.png", why: "A pegada neutra favorece a biomecânica do ombro e maior recrutamento do braquial." },
                 { title: "Puxada Frontal (Pulley)", primary: "Latíssimo do Dorso", secondary: "Bíceps, Braquial, Romboides", img: "img/puxada-frontal.png", why: "Desenvolvimento da largura dorsal e formato em V." },
                 { title: "Remada Curvada com Barra", primary: "Romboides, Trapézio Médio", secondary: "Latíssimo, Bíceps, Eretores da Espinha", img: "img/remada-curvada.png", why: "Construção de espessura e densidade nas costas." },
                 { title: "Remada Baixa (Triângulo)", primary: "Romboides, Latíssimo do Dorso", secondary: "Bíceps Braquial, Deltoide Posterior", img: "img/remada-baixa.png", why: "Estabilidade escapular e foco no miolo das costas." },
@@ -607,6 +679,7 @@
             ],
             quadriceps: [
                 { title: "Agachamento Livre com Barra", primary: "Quadríceps, Glúteo Máximo", secondary: "Eretores da Espinha, Isquiotibiais, Core", img: "img/agachamento-livre.png", why: "Exercício soberano para ganho de força e hipertrofia global." },
+                { title: "Hack Squat", primary: "Quadríceps, Glúteo Máximo", secondary: "Adutores, Isquiotibiais (auxiliares)", img: "img/hack-squat.png", why: "Permite alta sobrecarga nos quadríceps com estabilização total da coluna." },
                 { title: "Leg Press 45°", primary: "Quadríceps", secondary: "Glúteos, Isquiotibiais", img: "img/leg-press.png", why: "Alto volume de carga com suporte e proteção lombar." },
                 { title: "Cadeira Extensora", primary: "Quadríceps (Reto Femural/Vastos)", secondary: "Nenhum (Isolado)", img: "img/extensora.png", why: "Isolamento concêntrico e pico de contração do quadríceps." },
                 { title: "Agachamento Búlgaro", primary: "Quadríceps, Glúteo Médio/Máximo", secondary: "Isquiotibiais, Core", img: "img/bulgaro.png", why: "Unilateral exigente para força, estabilidade e hipertrofia." },
@@ -650,31 +723,88 @@
             ]
         };
 
-        // --- GERENCIAMENTO DE ESTADO E MULTIPERFÍS ---
+        // --- GERENCIAMENTO DE ESTADO ---
         let activeProfileId = localStorage.getItem('proWorkout_active_profile_id') || null;
         let profilesData = JSON.parse(localStorage.getItem('proWorkout_profiles')) || {};
         
-        // Migração do estado antigo se existir apenas um perfil
-        const legacyUser = JSON.parse(localStorage.getItem('proWorkout_user'));
-        const legacyPlan = JSON.parse(localStorage.getItem('proWorkout_plan'));
-        if (legacyUser && Object.keys(profilesData).length === 0) {
-            const defaultId = 'prof_' + Date.now();
-            profilesData[defaultId] = {
-                id: defaultId,
-                name: legacyUser.name || 'Meu Perfil',
-                weight: legacyUser.weight || '80',
-                height: legacyUser.height || '175',
-                goal: legacyUser.goal || 'hipertrofia',
-                freq: legacyUser.freq || '3',
-                workoutPlan: legacyPlan || null
-            };
-            activeProfileId = defaultId;
-            saveProfilesState();
-        }
-
         let userData = null;
         let workoutPlan = null;
         let currentDayIdx = 0;
+
+        // --- SISTEMA DE CRONÔMETRO ---
+        let timerInterval = null;
+        let timerSeconds = 60;
+        let isTimerPaused = false;
+
+        function startTimer(sec) {
+            if (timerInterval) {
+                if(!confirm("Já existe um cronômetro rodando. Deseja reiniciar?")) return;
+                clearInterval(timerInterval);
+            }
+            
+            timerSeconds = sec;
+            isTimerPaused = false;
+            document.getElementById('timerPanel').style.display = 'flex';
+            document.getElementById('timerPauseBtn').innerHTML = '<i class="fa-solid fa-pause"></i> Pausar';
+            
+            updateTimerDisplay();
+            
+            timerInterval = setInterval(() => {
+                if (!isTimerPaused) {
+                    timerSeconds--;
+                    updateTimerDisplay();
+                    
+                    if (timerSeconds <= 0) {
+                        clearInterval(timerInterval);
+                        timerInterval = null;
+                        if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
+                        document.getElementById('timerDisplay').innerText = "FINALIZADO!";
+                        setTimeout(() => { if(timerSeconds <= 0) closeTimer(); }, 3000);
+                    }
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const m = Math.floor(timerSeconds / 60);
+            const s = timerSeconds % 60;
+            document.getElementById('timerDisplay').innerText = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+        }
+
+        function toggleTimerPause() {
+            isTimerPaused = !isTimerPaused;
+            document.getElementById('timerPauseBtn').innerHTML = isTimerPaused ? 
+                '<i class="fa-solid fa-play"></i> Retomar' : '<i class="fa-solid fa-pause"></i> Pausar';
+        }
+
+        function resetTimer() {
+            startTimer(60);
+        }
+
+        function closeTimer() {
+            clearInterval(timerInterval);
+            timerInterval = null;
+            document.getElementById('timerPanel').style.display = 'none';
+        }
+
+        // --- RESETAR SEMANA ---
+        function resetWeekProgress() {
+            if (!workoutPlan) return;
+            
+            const msg = "Deseja realmente iniciar uma nova semana?\n\nO progresso de conclusão será reiniciado (0%), mas seus treinos, exercícios, cargas e perfis serão MANTIDOS exatamente como estão.";
+            
+            if (confirm(msg)) {
+                workoutPlan.forEach(day => {
+                    day.exercises.forEach(ex => {
+                        ex.completed = false;
+                    });
+                });
+                profilesData[activeProfileId].workoutPlan = workoutPlan;
+                saveProfilesState();
+                renderAll();
+                alert("🚀 Nova semana iniciada! Bons treinos.");
+            }
+        }
 
         window.onload = () => {
             loadCurrentProfileSession();
@@ -701,7 +831,6 @@
             }
         }
 
-        // --- SISTEMA DE SELEÇÃO E SAIR (LOGOUT) DE PERFIL ---
         function openProfileModal() {
             const hasProfiles = Object.keys(profilesData).length > 0;
             const container = document.getElementById('profilesContainer');
@@ -760,26 +889,20 @@
         }
 
         function logoutProfile() {
-            if (confirm("Deseja sair do perfil atual para selecionar outro ou preencher o questionário?")) {
+            if (confirm("Deseja sair do perfil atual?")) {
                 activeProfileId = null;
                 saveProfilesState();
                 userData = null;
                 workoutPlan = null;
-                document.getElementById('workout-container').innerHTML = '';
-                document.getElementById('badgeName').innerText = 'SEM PERFIL';
-                document.getElementById('userInfoBanner').innerHTML = '';
-                document.getElementById('progressPercent').innerText = '0%';
-                document.getElementById('progressBarFill').style.width = '0%';
+                renderAll();
                 openProfileModal();
             }
         }
 
         function deleteProfile(pId) {
-            if (confirm("Tem certeza que deseja excluir este perfil permanentemente?")) {
+            if (confirm("Tem certeza que deseja excluir este perfil?")) {
                 delete profilesData[pId];
-                if (activeProfileId === pId) {
-                    activeProfileId = Object.keys(profilesData)[0] || null;
-                }
+                if (activeProfileId === pId) activeProfileId = null;
                 saveProfilesState();
                 loadCurrentProfileSession();
             }
@@ -803,20 +926,15 @@
             profilesData[newId] = newProfile;
             activeProfileId = newId;
             userData = newProfile;
-
-            // Gerar treino inicial
             generatePersonalizedWorkout(false);
             saveProfilesState();
-            
             document.getElementById('onboardingModal').style.display = 'none';
             updateUI();
             renderAll();
         }
 
-        // --- GERAÇÃO DE TREINO PERSONALIZADO ---
         function generatePersonalizedWorkout(alertUser = true) {
             if (!userData) return;
-            
             const freq = parseInt(userData.freq);
             let newPlan = [];
 
@@ -841,38 +959,20 @@
             workoutPlan = newPlan;
             profilesData[activeProfileId].workoutPlan = workoutPlan;
             saveProfilesState();
-
             updateUI();
             renderAll();
-            if (alertUser) alert("🎯 Treino gerado com sucesso para o perfil atual!");
+            if (alertUser) alert("🎯 Treino gerado com sucesso!");
         }
 
         function getFullBodySet() {
-            return [
-                EXERCISE_LIBRARY.peito[0],
-                EXERCISE_LIBRARY.costas[0],
-                EXERCISE_LIBRARY.quadriceps[0],
-                EXERCISE_LIBRARY.ombros[0],
-                EXERCISE_LIBRARY.panturrilha_core[2]
-            ].map(ex => ({...ex, completed: false, load: "", id: Math.random()}));
+            return [EXERCISE_LIBRARY.peito[0], EXERCISE_LIBRARY.costas[0], EXERCISE_LIBRARY.quadriceps[0], EXERCISE_LIBRARY.ombros[0], EXERCISE_LIBRARY.panturrilha_core[2]]
+                .map(ex => ({...ex, completed: false, load: "", id: Math.random()}));
         }
 
         function getABSet(type) {
-            if (type === "Superior") {
-                return [
-                    EXERCISE_LIBRARY.peito[0],
-                    EXERCISE_LIBRARY.costas[0],
-                    EXERCISE_LIBRARY.ombros[0],
-                    EXERCISE_LIBRARY.biceps[0]
-                ].map(ex => ({...ex, completed: false, load: "", id: Math.random()}));
-            } else {
-                return [
-                    EXERCISE_LIBRARY.quadriceps[0],
-                    EXERCISE_LIBRARY.posterior_gluteo[0],
-                    EXERCISE_LIBRARY.triceps[0],
-                    EXERCISE_LIBRARY.panturrilha_core[0]
-                ].map(ex => ({...ex, completed: false, load: "", id: Math.random()}));
-            }
+            const list = type === "Superior" ? [EXERCISE_LIBRARY.peito[0], EXERCISE_LIBRARY.costas[0], EXERCISE_LIBRARY.ombros[0], EXERCISE_LIBRARY.biceps[0]] : 
+                [EXERCISE_LIBRARY.quadriceps[0], EXERCISE_LIBRARY.posterior_gluteo[0], EXERCISE_LIBRARY.triceps[0], EXERCISE_LIBRARY.panturrilha_core[0]];
+            return list.map(ex => ({...ex, completed: false, load: "", id: Math.random()}));
         }
 
         function getABCDE(type) {
@@ -882,11 +982,9 @@
             else if (type === "Pernas") pool = [...EXERCISE_LIBRARY.quadriceps, ...EXERCISE_LIBRARY.posterior_gluteo];
             else if (type === "Ombros") pool = [...EXERCISE_LIBRARY.ombros];
             else pool = [...EXERCISE_LIBRARY.biceps, ...EXERCISE_LIBRARY.triceps];
-            
             return pool.slice(0, 4).map(ex => ({...ex, completed: false, load: "", id: Math.random()}));
         }
 
-        // --- SISTEMA DE ADICIONAR EXERCÍCIOS ---
         function openAddExerciseModal(dayIdx = currentDayIdx) {
             currentDayIdx = dayIdx;
             document.getElementById('addExerciseModal').style.display = 'flex';
@@ -894,9 +992,7 @@
             renderExerciseLibrary();
         }
 
-        function closeAddExerciseModal() {
-            document.getElementById('addExerciseModal').style.display = 'none';
-        }
+        function closeAddExerciseModal() { document.getElementById('addExerciseModal').style.display = 'none'; }
 
         function renderExerciseLibrary() {
             const group = document.getElementById('filterMuscleGroup').value;
@@ -914,11 +1010,8 @@
             container.innerHTML = '';
 
             let list = [];
-            if (group === 'todos') {
-                Object.values(EXERCISE_LIBRARY).forEach(arr => list.push(...arr));
-            } else if (EXERCISE_LIBRARY[group]) {
-                list = EXERCISE_LIBRARY[group];
-            }
+            if (group === 'todos') Object.values(EXERCISE_LIBRARY).forEach(arr => list.push(...arr));
+            else if (EXERCISE_LIBRARY[group]) list = EXERCISE_LIBRARY[group];
 
             list.forEach(ex => {
                 const item = document.createElement('div');
@@ -945,41 +1038,28 @@
             if (!workoutPlan || !workoutPlan[currentDayIdx]) return;
             const ex = JSON.parse(decodeURIComponent(jsonStr));
             const newEx = { ...ex, completed: false, load: "", id: Math.random() };
-
             workoutPlan[currentDayIdx].exercises.push(newEx);
             profilesData[activeProfileId].workoutPlan = workoutPlan;
             saveProfilesState();
-
             renderAll();
             closeAddExerciseModal();
-            alert(`✅ "${ex.title}" adicionado ao treino de ${workoutPlan[currentDayIdx].label}!`);
         }
 
         function addCustomExerciseSubmit() {
             const title = document.getElementById('customExTitle').value;
-            const primary = document.getElementById('customExPrimary').value;
-            const secondary = document.getElementById('customExSecondary').value;
-            const why = document.getElementById('customExWhy').value;
-
-            if (!title) return alert("Por favor, informe o nome do exercício.");
-
+            if (!title) return alert("Informe o nome do exercício.");
             const customEx = {
                 title: title,
-                primary: primary || "Músculos Principais",
-                secondary: secondary || "Estabilizadores",
+                primary: document.getElementById('customExPrimary').value || "Principal",
+                secondary: document.getElementById('customExSecondary').value || "Secundário",
                 img: "img/custom-exercise.png",
-                why: why || "Exercício personalizado adicionado pelo usuário."
+                why: document.getElementById('customExWhy').value || "Personalizado."
             };
-
             addExerciseToWorkout(encodeURIComponent(JSON.stringify(customEx)));
-            document.getElementById('customExTitle').value = '';
-            document.getElementById('customExPrimary').value = '';
-            document.getElementById('customExSecondary').value = '';
-            document.getElementById('customExWhy').value = '';
         }
 
         function removeExercise(dayIdx, exId) {
-            if (confirm("Deseja remover este exercício do treino?")) {
+            if (confirm("Remover este exercício?")) {
                 workoutPlan[dayIdx].exercises = workoutPlan[dayIdx].exercises.filter(e => e.id !== exId);
                 profilesData[activeProfileId].workoutPlan = workoutPlan;
                 saveProfilesState();
@@ -987,7 +1067,6 @@
             }
         }
 
-        // --- RENDERIZAÇÃO E INTERAÇÃO ---
         function updateUI() {
             if (!userData) return;
             document.getElementById('badgeName').innerHTML = `<i class="fa-solid fa-user"></i> ${userData.name.toUpperCase()}`;
@@ -1006,7 +1085,6 @@
         function renderAll() {
             const container = document.getElementById('workout-container');
             container.innerHTML = '';
-
             if (!workoutPlan) return;
 
             workoutPlan.forEach((dayPlan, idx) => {
@@ -1015,14 +1093,7 @@
                 
                 let exHtml = '';
                 if (dayPlan.exercises.length === 0) {
-                    exHtml = `
-                        <div style="color:var(--text-subtle); padding: 30px; text-align: center; background:rgba(22,30,46,0.4); border-radius:var(--radius-lg); border:1px dashed var(--card-border);">
-                            <i class="fa-solid fa-dumbbell" style="font-size:2rem; margin-bottom:10px; opacity:0.4;"></i>
-                            <div>Nenhum exercício neste dia.</div>
-                            <button class="action-btn-sm" style="margin-top:12px; color:var(--accent-primary); border-color:var(--accent-primary);" onclick="openAddExerciseModal(${idx})">
-                                <i class="fa-solid fa-plus"></i> Adicionar Exercício
-                            </button>
-                        </div>`;
+                    exHtml = `<div style="color:var(--text-subtle); padding: 30px; text-align: center; border:1px dashed var(--card-border);">Vazio. Clique em + Add para adicionar.</div>`;
                 } else {
                     dayPlan.exercises.forEach(ex => {
                         exHtml += `
@@ -1032,10 +1103,7 @@
                                 <div class="ex-img-wrapper"><img src="${ex.img}" class="ex-img" onerror="this.src='https://placehold.co/120x120/1e293b/38bdf8?text=TREINO'"></div>
                                 <div style="flex:1">
                                     <div class="ex-title">${ex.title}</div>
-                                    <div class="anatomy-info">
-                                        <span class="primary-muscle">${ex.primary}</span>
-                                        <span class="secondary-muscles"> | ${ex.secondary}</span>
-                                    </div>
+                                    <div class="anatomy-info"><span class="primary-muscle">${ex.primary}</span><span class="secondary-muscles"> | ${ex.secondary}</span></div>
                                     <div class="why-tag">💡 ${ex.why}</div>
                                 </div>
                             </div>
@@ -1056,12 +1124,7 @@
                 section.innerHTML = `
                     <div class="section-header">
                         <div class="section-title">${dayPlan.label}</div>
-                        <div style="display:flex; gap:8px; align-items:center;">
-                            <span class="today-badge">${dayPlan.exercises.length} EXERCÍCIOS</span>
-                            <button class="action-btn-sm" style="color: var(--accent-primary); border-color: rgba(56, 189, 248, 0.3); background: rgba(56, 189, 248, 0.1);" onclick="openAddExerciseModal(${idx})">
-                                <i class="fa-solid fa-plus"></i> Add
-                            </button>
-                        </div>
+                        <button class="action-btn-sm" style="color:var(--accent-primary);" onclick="openAddExerciseModal(${idx})"><i class="fa-solid fa-plus"></i> Add</button>
                     </div>
                     <div class="exercise-list">${exHtml}</div>
                 `;
@@ -1080,7 +1143,6 @@
             const ex = workoutPlan[dayIdx].exercises.find(e => e.id === exId);
             if (ex) {
                 ex.completed = !ex.completed;
-                profilesData[activeProfileId].workoutPlan = workoutPlan;
                 saveProfilesState();
                 renderAll();
             }
@@ -1088,31 +1150,17 @@
 
         function updateLoad(dayIdx, exId, val) {
             const ex = workoutPlan[dayIdx].exercises.find(e => e.id === exId);
-            if (ex) {
-                ex.load = val;
-                profilesData[activeProfileId].workoutPlan = workoutPlan;
-                saveProfilesState();
-            }
+            if (ex) { ex.load = val; saveProfilesState(); }
         }
 
         function updateStats() {
             let total = 0, done = 0;
             if (workoutPlan) {
-                workoutPlan.forEach(d => {
-                    d.exercises.forEach(e => {
-                        total++;
-                        if (e.completed) done++;
-                    });
-                });
+                workoutPlan.forEach(d => { d.exercises.forEach(e => { total++; if (e.completed) done++; }); });
             }
             const perc = total > 0 ? Math.round((done/total)*100) : 0;
             document.getElementById('progressPercent').innerText = perc + '%';
             document.getElementById('progressBarFill').style.width = perc + '%';
-        }
-
-        function startTimer(sec) {
-            if (navigator.vibrate) navigator.vibrate(50);
-            alert("Cronômetro de 60s iniciado!");
         }
     </script>
 </body>
