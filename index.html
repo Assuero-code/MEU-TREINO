@@ -469,6 +469,21 @@
         }
         .ex-lib-card:hover { border-color: var(--accent-primary); }
 
+        /* --- REORDENAR EXERCÍCIOS (CLICAR E SEGURAR) --- */
+        .exercise-card { -webkit-touch-callout: none; touch-action: pan-y; }
+        .ex-img { -webkit-user-drag: none; pointer-events: none; }
+        .exercise-card.press-ready { transform: scale(0.98); border-color: var(--accent-primary); }
+        .exercise-card.dragging {
+            transform: scale(1.03);
+            border-color: var(--accent-primary);
+            box-shadow: 0 18px 40px rgba(0,0,0,0.65), 0 0 22px var(--accent-glow);
+            background: rgba(30, 41, 62, 0.95);
+            z-index: 50;
+            transition: box-shadow 0.2s, transform 0.2s;
+        }
+        body.is-reordering { cursor: grabbing; }
+        .reorder-hint { font-size: 0.68rem; color: var(--text-subtle); margin: -8px 0 12px 2px; }
+
         @media (min-width: 640px) {
             .exercise-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
         }
@@ -520,6 +535,8 @@
                 <button class="tab-btn" onclick="switchDay(2)">QUA<span style="font-size:0.6rem">Treino C</span></button>
                 <button class="tab-btn" onclick="switchDay(3)">QUI<span style="font-size:0.6rem">Treino D</span></button>
                 <button class="tab-btn" onclick="switchDay(4)">SEX<span style="font-size:0.6rem">Treino E</span></button>
+                <button class="tab-btn" onclick="switchDay(5)">SÁB<span style="font-size:0.6rem">Treino F</span></button>
+                <button class="tab-btn" onclick="switchDay(6)">DOM<span style="font-size:0.6rem">Treino G</span></button>
             </div>
         </div>
 
@@ -675,7 +692,8 @@
                 { title: "Remada Unilateral com Halter (Serrote)", primary: "Latíssimo do Dorso, Romboides", secondary: "Bíceps, Core", img: "img/remada-unilateral.png", why: "Permite grande amplitude e correção de assimetrias." },
                 { title: "Pulldown na Polia Alta", primary: "Latíssimo do Dorso", secondary: "Tríceps (Cabeça Longa)", img: "img/pulldown-corda.png", why: "Isolamento do latíssimo sem fadiga precoce dos bíceps." },
                 { title: "Barra Fixa (Pull-up)", primary: "Latíssimo do Dorso, Romboides", secondary: "Bíceps Braquial, Antebraço", img: "img/barra-fixa.png", why: "Exercício corporal fundamental para força e massa dorsal." },
-                { title: "Remada Cavalinho (T-Bar)", primary: "Espessura de Costas (Trapézio/Romboides)", secondary: "Latíssimo, Bíceps, Lombar", img: "img/remada-cavalinho.png", why: "Trabalho com carga elevada para ganho de volume." }
+                { title: "Remada Cavalinho (T-Bar)", primary: "Espessura de Costas (Trapézio/Romboides)", secondary: "Latíssimo, Bíceps, Lombar", img: "img/remada-cavalinho.png", why: "Trabalho com carga elevada para ganho de volume." },
+                { title: "Remada Máquina Articulada", primary: "Latíssimo do Dorso, Romboides, Trapézio Médio", secondary: "Bíceps Braquial, Deltoide Posterior, Braquial", img: "img/remada-articulada.png", why: "Trajetória guiada com apoio de peito, permitindo foco total na contração das costas com segurança para a lombar." }
             ],
             quadriceps: [
                 { title: "Agachamento Livre com Barra", primary: "Quadríceps, Glúteo Máximo", secondary: "Eretores da Espinha, Isquiotibiais, Core", img: "img/agachamento-livre.png", why: "Exercício soberano para ganho de força e hipertrofia global." },
@@ -696,6 +714,7 @@
                 { title: "Desenvolvimento com Halteres", primary: "Deltoide Anterior e Lateral", secondary: "Tríceps, Trapézio Superior", img: "img/desenvolvimento.png", why: "Construção de base de ombros largos e fortes." },
                 { title: "Elevação Lateral com Halteres", primary: "Deltoide Lateral", secondary: "Trapézio Superior", img: "img/elevacao-lateral.png", why: "Foco exclusivo na largura e formato de 'V' nos ombros." },
                 { title: "Elevação Lateral na Polia", primary: "Deltoide Lateral", secondary: "Trapézio", img: "img/elevacao-lateral-polia.png", why: "Tensão constante do início ao fim do movimento." },
+                { title: "Elevação Lateral na Máquina", primary: "Deltoide Lateral", secondary: "Trapézio Superior, Supraespinhal", img: "img/elevacao-lateral-maquina.png", why: "Trajetória guiada com resistência constante, isolando o deltoide lateral com pouca interferência do trapézio." },
                 { title: "Elevação Frontal", primary: "Deltoide Anterior", secondary: "Peitoral Clavicular", img: "img/elevacao-frontal.png", why: "Isolamento da parte da frente dos ombros." },
                 { title: "Crucifixo Invertido / Face Pull", primary: "Deltoide Posterior, Romboides", secondary: "Trapézio, Manguito Rotador", img: "img/face-pull.png", why: "Saúde dos ombros, postura e densidade posterior." },
                 { title: "Encolhimento de Ombros", primary: "Trapézio Superior", secondary: "Elevador da Escápula", img: "img/encolhimento.png", why: "Desenvolvimento de volume e massa no trapézio." }
@@ -823,11 +842,29 @@
             if (activeProfileId && profilesData[activeProfileId]) {
                 userData = profilesData[activeProfileId];
                 workoutPlan = profilesData[activeProfileId].workoutPlan;
+                ensureWeekendDays();
                 document.getElementById('onboardingModal').style.display = 'none';
                 updateUI();
                 renderAll();
             } else {
                 openProfileModal();
+            }
+        }
+
+        // Perfis antigos têm só 5 dias: acrescenta Sábado e Domingo vazios, sem alterar nada do que já existe
+        function ensureWeekendDays() {
+            if (!workoutPlan || !Array.isArray(workoutPlan)) return;
+            const weekend = [
+                { day: 5, label: "Treino Sábado", exercises: [] },
+                { day: 6, label: "Treino Domingo", exercises: [] }
+            ];
+            let changed = false;
+            weekend.forEach((d, i) => {
+                if (!workoutPlan[5 + i]) { workoutPlan[5 + i] = d; changed = true; }
+            });
+            if (changed && profilesData[activeProfileId]) {
+                profilesData[activeProfileId].workoutPlan = workoutPlan;
+                saveProfilesState();
             }
         }
 
@@ -955,6 +992,11 @@
                     newPlan.push({ day: i, label: `Treino ${splits[i]}`, exercises: getABCDE(splits[i]) });
                 }
             }
+
+            // Sábado e Domingo: mantém o que já existia no perfil (se houver), senão cria vazios
+            const prevPlan = userData.workoutPlan;
+            newPlan.push(prevPlan && prevPlan[5] ? prevPlan[5] : { day: 5, label: "Treino Sábado", exercises: [] });
+            newPlan.push(prevPlan && prevPlan[6] ? prevPlan[6] : { day: 6, label: "Treino Domingo", exercises: [] });
 
             workoutPlan = newPlan;
             profilesData[activeProfileId].workoutPlan = workoutPlan;
@@ -1097,7 +1139,7 @@
                 } else {
                     dayPlan.exercises.forEach(ex => {
                         exHtml += `
-                        <div class="exercise-card ${ex.completed ? 'completed' : ''}">
+                        <div class="exercise-card ${ex.completed ? 'completed' : ''}" data-ex-id="${ex.id}" data-day="${idx}">
                             <div class="exercise-main-row" onclick="toggleTask(${idx}, ${ex.id})">
                                 <div class="checkbox-btn"><i class="fa-solid fa-check" style="color:${ex.completed ? '#fff' : 'transparent'}"></i></div>
                                 <div class="ex-img-wrapper"><img src="${ex.img}" class="ex-img" onerror="this.src='https://placehold.co/120x120/1e293b/38bdf8?text=TREINO'"></div>
@@ -1126,6 +1168,7 @@
                         <div class="section-title">${dayPlan.label}</div>
                         <button class="action-btn-sm" style="color:var(--accent-primary);" onclick="openAddExerciseModal(${idx})"><i class="fa-solid fa-plus"></i> Add</button>
                     </div>
+                    ${dayPlan.exercises.length > 1 ? '<div class="reorder-hint"><i class="fa-solid fa-hand-pointer"></i> Segure um exercício e arraste para reordenar</div>' : ''}
                     <div class="exercise-list">${exHtml}</div>
                 `;
                 container.appendChild(section);
@@ -1140,6 +1183,7 @@
         }
 
         function toggleTask(dayIdx, exId) {
+            if (Date.now() < suppressClickUntil) return; // ignora o clique gerado ao soltar o arraste
             const ex = workoutPlan[dayIdx].exercises.find(e => e.id === exId);
             if (ex) {
                 ex.completed = !ex.completed;
@@ -1162,6 +1206,150 @@
             document.getElementById('progressPercent').innerText = perc + '%';
             document.getElementById('progressBarFill').style.width = perc + '%';
         }
+
+        // --- REORDENAR EXERCÍCIOS: CLICAR/TOCAR E SEGURAR, DEPOIS ARRASTAR ---
+        let suppressClickUntil = 0;
+        (function setupLongPressReorder() {
+            const LONG_PRESS_MS = 450;
+            const MOVE_TOLERANCE = 10;
+            const container = document.getElementById('workout-container');
+
+            let pressTimer = null;
+            let card = null;        // card sendo pressionado/arrastado
+            let list = null;        // .exercise-list do card
+            let dragging = false;
+            let startX = 0, startY = 0, lastX = 0, lastY = 0;
+            let scrollRaf = null;
+
+            function cancelPress() {
+                clearTimeout(pressTimer);
+                pressTimer = null;
+                if (card && !dragging) card.classList.remove('press-ready');
+                if (!dragging) card = null;
+            }
+
+            container.addEventListener('pointerdown', (e) => {
+                if (e.pointerType === 'mouse' && e.button !== 0) return;
+                if (e.target.closest('input, button, select, textarea')) return;
+                const c = e.target.closest('.exercise-card');
+                if (!c) return;
+
+                card = c;
+                list = c.parentElement;
+                startX = lastX = e.clientX;
+                startY = lastY = e.clientY;
+                card.classList.add('press-ready');
+
+                pressTimer = setTimeout(() => {
+                    pressTimer = null;
+                    startDrag();
+                }, LONG_PRESS_MS);
+            });
+
+            function startDrag() {
+                if (!card) return;
+                dragging = true;
+                card.classList.remove('press-ready');
+                card.classList.add('dragging');
+                document.body.classList.add('is-reordering');
+                if (navigator.vibrate) navigator.vibrate(30);
+                autoScrollLoop();
+            }
+
+            document.addEventListener('pointermove', (e) => {
+                lastX = e.clientX;
+                lastY = e.clientY;
+                if (!card) return;
+
+                if (!dragging) {
+                    // Se mexeu antes do tempo, é rolagem normal da tela: cancela o "segurar"
+                    if (Math.abs(e.clientX - startX) > MOVE_TOLERANCE || Math.abs(e.clientY - startY) > MOVE_TOLERANCE) {
+                        cancelPress();
+                    }
+                    return;
+                }
+                moveDraggedCard();
+            });
+
+            // Enquanto arrasta, impede a página de rolar com o dedo
+            document.addEventListener('touchmove', (e) => {
+                if (dragging) e.preventDefault();
+            }, { passive: false });
+
+            function moveDraggedCard() {
+                if (!card || !list) return;
+                const others = [...list.querySelectorAll('.exercise-card')].filter(c => c !== card);
+                for (const other of others) {
+                    const r = other.getBoundingClientRect();
+                    if (lastX >= r.left && lastX <= r.right && lastY >= r.top && lastY <= r.bottom) {
+                        const cards = [...list.querySelectorAll('.exercise-card')];
+                        if (cards.indexOf(card) < cards.indexOf(other)) {
+                            other.after(card);   // arrastando para baixo
+                        } else {
+                            other.before(card);  // arrastando para cima
+                        }
+                        break;
+                    }
+                }
+            }
+
+            // Rola a tela automaticamente quando o dedo chega perto da borda
+            function autoScrollLoop() {
+                if (!dragging) return;
+                const topLimit = 150; // abaixo das abas fixas
+                const bottomLimit = window.innerHeight - 110; // acima da barra inferior
+                if (lastY < topLimit) {
+                    window.scrollBy(0, -12);
+                    moveDraggedCard();
+                } else if (lastY > bottomLimit) {
+                    window.scrollBy(0, 12);
+                    moveDraggedCard();
+                }
+                scrollRaf = requestAnimationFrame(autoScrollLoop);
+            }
+
+            function endDrag() {
+                clearTimeout(pressTimer);
+                pressTimer = null;
+                cancelAnimationFrame(scrollRaf);
+
+                if (dragging && card && list) {
+                    const dayIdx = parseInt(card.dataset.day, 10);
+                    const orderedIds = [...list.querySelectorAll('.exercise-card')].map(c => c.dataset.exId);
+                    const current = workoutPlan[dayIdx].exercises;
+                    const reordered = orderedIds
+                        .map(id => current.find(e => String(e.id) === id))
+                        .filter(Boolean);
+
+                    // Só aplica se nenhum exercício se perdeu no processo
+                    if (reordered.length === current.length) {
+                        workoutPlan[dayIdx].exercises = reordered;
+                        profilesData[activeProfileId].workoutPlan = workoutPlan;
+                        saveProfilesState();
+                    }
+                    suppressClickUntil = Date.now() + 400;
+                    document.body.classList.remove('is-reordering');
+                    dragging = false;
+                    card = null;
+                    list = null;
+                    renderAll();
+                    return;
+                }
+
+                if (card) card.classList.remove('press-ready');
+                dragging = false;
+                card = null;
+                list = null;
+            }
+
+            document.addEventListener('pointerup', endDrag);
+            document.addEventListener('pointercancel', () => { if (!dragging) cancelPress(); else endDrag(); });
+
+            // Evita o menu de contexto (pressionar e segurar) nos cards
+            container.addEventListener('contextmenu', (e) => {
+                if (e.target.closest('.exercise-card') && !e.target.closest('input')) e.preventDefault();
+            });
+        })();
     </script>
     <script>
   // Verifica se o navegador suporta Service Worker
