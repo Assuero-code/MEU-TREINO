@@ -804,6 +804,38 @@
                 </div>
             </div>
 
+            <!-- ANÁLISE CORPORAL / MUSCULAR POR MEDIDAS -->
+            <div class="section-card">
+                <div class="section-header">
+                    <span class="section-title" style="font-size:1rem;"><i class="fa-solid fa-person"></i> Evolução Corporal & Muscular</span>
+                </div>
+                <div id="bodyGoalSummary"></div>
+                <div id="bodyAnalysisContainer" class="dash-grid" style="margin-top:12px; margin-bottom:12px;"></div>
+                <select id="bodyMetricSelect" class="form-select" onchange="updateBodyMetricChart()" style="margin-bottom:12px;">
+                    <option value="weight">Peso Corporal</option>
+                    <option value="arm">Braço</option>
+                    <option value="chest">Peito</option>
+                    <option value="thigh">Coxa</option>
+                    <option value="waist">Cintura</option>
+                    <option value="hips">Quadril</option>
+                </select>
+                <div style="position: relative; height:200px; width:100%;">
+                    <canvas id="bodyMetricChart"></canvas>
+                </div>
+                <div style="font-size:0.75rem; font-weight:700; color:var(--text-muted); margin:16px 0 6px;">Variação desde o 1º registro (%)</div>
+                <div style="position: relative; height:200px; width:100%;">
+                    <canvas id="bodyDeltaChart"></canvas>
+                </div>
+            </div>
+
+            <!-- EVOLUÇÃO DAS CARGAS: ATUAL x ANTERIOR -->
+            <div class="section-card">
+                <div class="section-header">
+                    <span class="section-title" style="font-size:1rem;"><i class="fa-solid fa-weight-hanging"></i> Evolução das Cargas (atual x anterior)</span>
+                </div>
+                <div id="loadAnalysisContainer"></div>
+            </div>
+
             <!-- CONQUISTAS -->
             <div class="section-card">
                 <div class="section-header">
@@ -833,6 +865,10 @@
             <div class="section-card">
                 <div class="section-header">
                     <span class="section-title" style="font-size:1rem;"><i class="fa-solid fa-tape"></i> Registrar Novas Medidas</span>
+                </div>
+                <div style="margin-bottom:10px;">
+                    <label style="font-size:0.7rem; color:var(--text-muted)">Data da medição</label>
+                    <input type="date" id="bodyDateInput" class="form-input">
                 </div>
                 <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
                     <div>
@@ -870,6 +906,13 @@
                 <div style="position: relative; height:200px; width:100%;">
                     <canvas id="bodyWeightChart"></canvas>
                 </div>
+            </div>
+
+            <div class="section-card">
+                <div class="section-header">
+                    <span class="section-title" style="font-size:1rem;"><i class="fa-solid fa-calendar-check"></i> Histórico de Medições</span>
+                </div>
+                <div id="bodyHistoryList"></div>
             </div>
         </div>
 
@@ -1585,6 +1628,7 @@
                             </div>
 
                             ${suggestionHtml}
+                            ${getLoadChipHtml(ex)}
 
                             <div style="display:flex; justify-content: space-between; align-items:center; border-top: 1px solid var(--card-border); padding-top:10px;">
                                 <div class="load-input-group">
@@ -1635,7 +1679,7 @@
         }
 
         function logCompletedExercise(ex) {
-            const todayIso = new Date().toISOString().split('T')[0];
+            const todayIso = localISO();
             let maxLoad = 0;
             let maxReps = 0;
             let exVol = 0;
@@ -1778,7 +1822,7 @@
             for (let i = 0; i < 30; i++) {
                 const d = new Date();
                 d.setDate(today.getDate() - i);
-                const iso = d.toISOString().split('T')[0];
+                const iso = localISO(d);
                 if (completedDays.includes(iso)) streak++;
                 else if (i > 0) break;
             }
@@ -1808,6 +1852,9 @@
             updateExerciseChart();
             renderCalendar();
             renderMuscleVolume();
+            renderBodyAnalysis();
+            updateBodyMetricChart();
+            renderLoadAnalysis();
             renderAchievements();
         }
 
@@ -1982,12 +2029,85 @@
         }
 
         // --- ABA DE MEDIDAS CORPORAIS ---
+        function localISO(d = new Date()) {
+            return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+        }
+
+        function formatDateBR(iso) {
+            const p = String(iso).split('-');
+            return p.length === 3 ? `${p[2]}/${p[1]}/${p[0]}` : iso;
+        }
+
+        const BODY_METRICS = [
+            { key: 'weight', label: 'Peso Corporal', unit: 'kg', type: 'weight', inputId: 'bodyWeightInput' },
+            { key: 'arm',    label: 'Braço',   unit: 'cm', type: 'muscle', inputId: 'bodyArmInput' },
+            { key: 'chest',  label: 'Peito',   unit: 'cm', type: 'muscle', inputId: 'bodyChestInput' },
+            { key: 'thigh',  label: 'Coxa',    unit: 'cm', type: 'muscle', inputId: 'bodyThighInput' },
+            { key: 'waist',  label: 'Cintura', unit: 'cm', type: 'waist',  inputId: 'bodyWaistInput' },
+            { key: 'hips',   label: 'Quadril', unit: 'cm', type: 'hips',   inputId: 'bodyHipsInput' }
+        ];
+
+        const GOAL_LABELS = {
+            hipertrofia: 'Ganhar Massa Muscular',
+            forca: 'Ganhar Força',
+            emagrecimento: 'Perder Gordura',
+            recomposicao: 'Perder Gordura + Ganhar Massa',
+            condicionamento: 'Melhorar Condicionamento'
+        };
+
+        let bodyMetricChartInstance = null;
+        let bodyDeltaChartInstance = null;
+
+        // Série ordenada por data de uma medida (ignora campos não preenchidos = 0)
+        function getMetricSeries(key) {
+            const hist = (userData && userData.bodyHistory) ? userData.bodyHistory : [];
+            return hist
+                .filter(h => (parseFloat(h[key]) || 0) > 0)
+                .map(h => ({ date: h.date, value: parseFloat(h[key]) }))
+                .sort((a, b) => a.date.localeCompare(b.date));
+        }
+
+        // Avalia a variação em relação ao objetivo do perfil
+        function evaluateMetric(metric, pct, goal) {
+            const STABLE = 0.3; // abaixo disso consideramos estável
+            if (Math.abs(pct) < STABLE) return { status: 'neutral', text: 'Estável' };
+            const up = pct > 0;
+            const t = metric.type;
+
+            if (goal === 'hipertrofia' || goal === 'forca') {
+                if (t === 'muscle') return up ? { status: 'good', text: 'Crescendo, alinhado ao objetivo' } : { status: 'bad', text: 'Perda de medida, contra o objetivo' };
+                if (t === 'weight') return up ? { status: 'good', text: 'Ganho de peso, esperado no objetivo' } : { status: 'bad', text: 'Perda de peso, contra o objetivo' };
+                if (t === 'waist') return up ? { status: 'warn', text: 'Cintura subindo: monitore gordura' } : { status: 'neutral', text: 'Cintura reduzindo' };
+                return { status: 'neutral', text: up ? 'Quadril aumentando' : 'Quadril reduzindo' };
+            }
+            if (goal === 'emagrecimento') {
+                if (t === 'weight' || t === 'waist' || t === 'hips') return up ? { status: 'bad', text: 'Subindo, contra o objetivo' } : { status: 'good', text: 'Reduzindo, alinhado ao objetivo' };
+                return up ? { status: 'good', text: 'Massa preservada/crescendo' } : { status: 'warn', text: 'Redução leve: priorize proteína e carga' };
+            }
+            if (goal === 'recomposicao') {
+                if (t === 'muscle') return up ? { status: 'good', text: 'Ganho muscular, alinhado ao objetivo' } : { status: 'bad', text: 'Perda de massa, contra o objetivo' };
+                if (t === 'waist') return up ? { status: 'bad', text: 'Cintura subindo, contra o objetivo' } : { status: 'good', text: 'Cintura reduzindo, alinhado' };
+                if (t === 'weight') return { status: 'neutral', text: 'Peso varia na recomposição; veja cintura e músculos' };
+                return { status: 'neutral', text: up ? 'Quadril aumentando' : 'Quadril reduzindo' };
+            }
+            // condicionamento
+            if (t === 'waist') return up ? { status: 'warn', text: 'Cintura subindo' } : { status: 'good', text: 'Cintura reduzindo, positivo' };
+            if (t === 'muscle') return up ? { status: 'good', text: 'Ganho de massa, positivo' } : { status: 'neutral', text: 'Leve redução' };
+            return { status: 'neutral', text: up ? 'Aumentou' : 'Reduziu' };
+        }
+
+        function statusColor(s) {
+            return s === 'good' ? 'var(--success-color)' : s === 'bad' ? 'var(--danger-color)' : s === 'warn' ? 'var(--warning-color)' : 'var(--text-muted)';
+        }
+
         function saveBodyMeasurements() {
             const weight = parseFloat(document.getElementById('bodyWeightInput').value);
             if (!weight) return alert("Por favor, preencha pelo menos o peso.");
 
+            const dateVal = document.getElementById('bodyDateInput').value || localISO();
+
             const entry = {
-                date: new Date().toISOString().split('T')[0],
+                date: dateVal,
                 weight: weight,
                 arm: parseFloat(document.getElementById('bodyArmInput').value) || 0,
                 chest: parseFloat(document.getElementById('bodyChestInput').value) || 0,
@@ -1996,21 +2116,49 @@
                 thigh: parseFloat(document.getElementById('bodyThighInput').value) || 0
             };
 
-            userData.bodyHistory.push(entry);
-            userData.weight = weight;
+            // Uma medição por data: se já existir na mesma data, atualiza
+            const existingIdx = userData.bodyHistory.findIndex(h => h.date === dateVal);
+            if (existingIdx >= 0) {
+                if (!confirm("Já existe uma medição nesta data. Deseja substituí-la?")) return;
+                userData.bodyHistory[existingIdx] = entry;
+            } else {
+                userData.bodyHistory.push(entry);
+            }
+            userData.bodyHistory.sort((a, b) => a.date.localeCompare(b.date));
+
+            // Peso do perfil acompanha a medição mais recente
+            const latest = userData.bodyHistory[userData.bodyHistory.length - 1];
+            userData.weight = latest.weight;
             profilesData[activeProfileId] = userData;
             saveProfilesState();
             updateUI();
+
+            BODY_METRICS.forEach(m => { document.getElementById(m.inputId).value = ''; });
             renderBodySection();
             alert("📏 Medidas registradas com sucesso!");
         }
 
+        function deleteBodyEntry(date) {
+            if (!confirm(`Excluir a medição de ${formatDateBR(date)}?`)) return;
+            userData.bodyHistory = userData.bodyHistory.filter(h => h.date !== date);
+            if (userData.bodyHistory.length > 0) {
+                userData.weight = userData.bodyHistory[userData.bodyHistory.length - 1].weight;
+            }
+            profilesData[activeProfileId] = userData;
+            saveProfilesState();
+            updateUI();
+            renderBodySection();
+        }
+
         function renderBodySection() {
-            const history = userData.bodyHistory || [];
+            const dateInput = document.getElementById('bodyDateInput');
+            if (dateInput && !dateInput.value) dateInput.value = localISO();
+
+            const history = (userData.bodyHistory || []).slice().sort((a, b) => a.date.localeCompare(b.date));
             const ctx = document.getElementById('bodyWeightChart').getContext('2d');
             if (bodyChartInstance) bodyChartInstance.destroy();
 
-            const labels = history.length > 0 ? history.map(h => h.date) : ['Hoje'];
+            const labels = history.length > 0 ? history.map(h => formatDateBR(h.date)) : ['Hoje'];
             const dataW = history.length > 0 ? history.map(h => h.weight) : [parseFloat(userData.weight) || 70];
 
             bodyChartInstance = new Chart(ctx, {
@@ -2036,6 +2184,294 @@
                     }
                 }
             });
+
+            // LISTA DE MEDIÇÕES (mais recente primeiro) com variação em relação à anterior
+            const list = document.getElementById('bodyHistoryList');
+            if (history.length === 0) {
+                list.innerHTML = `<div style="color:var(--text-muted); text-align:center; padding:16px; font-size:0.8rem;">Nenhuma medição registrada ainda.</div>`;
+                return;
+            }
+            list.innerHTML = '';
+            for (let i = history.length - 1; i >= 0; i--) {
+                const h = history[i];
+                const prev = i > 0 ? history[i - 1] : null;
+                const chips = BODY_METRICS.map(m => {
+                    const v = parseFloat(h[m.key]) || 0;
+                    if (!v) return '';
+                    let arrow = '';
+                    const pv = prev ? (parseFloat(prev[m.key]) || 0) : 0;
+                    if (pv) {
+                        const d = v - pv;
+                        if (Math.abs(d) > 0.001) {
+                            arrow = d > 0
+                                ? `<span style="color:var(--success-color);">▲ ${d.toFixed(1)}</span>`
+                                : `<span style="color:var(--danger-color);">▼ ${Math.abs(d).toFixed(1)}</span>`;
+                        }
+                    }
+                    return `<div style="background:rgba(0,0,0,0.25); border:1px solid var(--card-border); border-radius:8px; padding:6px 8px; font-size:0.7rem;">
+                        <div style="color:var(--text-muted);">${m.label}</div>
+                        <div style="font-weight:800; color:#fff;">${v} ${m.unit} ${arrow}</div>
+                    </div>`;
+                }).join('');
+                list.innerHTML += `
+                    <div style="background:rgba(22, 30, 46, 0.8); border:1px solid var(--card-border); border-radius:12px; padding:12px; margin-bottom:8px;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                            <span style="font-size:0.78rem; color:var(--accent-primary); font-weight:700;">📅 ${formatDateBR(h.date)}</span>
+                            <button class="action-btn-sm delete" onclick="deleteBodyEntry('${h.date}')"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                        <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:6px;">${chips}</div>
+                    </div>`;
+            }
+        }
+
+        // --- ANÁLISE DE EVOLUÇÃO CORPORAL / MUSCULAR (aba Minha Evolução) ---
+        function renderBodyAnalysis() {
+            const container = document.getElementById('bodyAnalysisContainer');
+            const summary = document.getElementById('bodyGoalSummary');
+            const goal = userData.goal || 'hipertrofia';
+            const goalLabel = GOAL_LABELS[goal] || goal;
+
+            const rows = [];
+            let good = 0, bad = 0, warn = 0, evaluated = 0;
+
+            BODY_METRICS.forEach(m => {
+                const series = getMetricSeries(m.key);
+                if (series.length === 0) return;
+                const cur = series[series.length - 1];
+                if (series.length < 2) {
+                    rows.push({ m, cur, single: true });
+                    return;
+                }
+                const prev = series[series.length - 2];
+                const first = series[0];
+                const dPrev = cur.value - prev.value;
+                const pctPrev = (dPrev / prev.value) * 100;
+                const dFirst = cur.value - first.value;
+                const pctFirst = (dFirst / first.value) * 100;
+                const ev = evaluateMetric(m, pctFirst, goal);
+                evaluated++;
+                if (ev.status === 'good') good++;
+                else if (ev.status === 'bad') bad++;
+                else if (ev.status === 'warn') warn++;
+                rows.push({ m, cur, prev, first, dPrev, pctPrev, dFirst, pctFirst, ev });
+            });
+
+            if (rows.length === 0) {
+                summary.innerHTML = `<div style="color:var(--text-muted); font-size:0.8rem; padding:8px 0;">Registre suas medidas na aba <b>Medidas</b> para ver a evolução aqui.</div>`;
+                container.innerHTML = '';
+                return;
+            }
+
+            if (evaluated === 0) {
+                summary.innerHTML = `
+                    <div style="font-size:0.78rem; color:var(--text-muted);">🎯 Objetivo: <b style="color:#fff;">${goalLabel}</b></div>
+                    <div style="font-size:0.78rem; color:var(--text-muted); margin-top:6px;">Registre pelo menos <b>duas medições</b> em datas diferentes para comparar a evolução.</div>`;
+            } else {
+                const aligned = good;
+                const perc = Math.round((aligned / evaluated) * 100);
+                let verdictColor = 'var(--warning-color)';
+                let verdictText = 'Resultado misto: ajuste treino e alimentação e continue acompanhando.';
+                if (bad === 0 && good >= Math.ceil(evaluated / 2)) { verdictColor = 'var(--success-color)'; verdictText = 'Você está no caminho certo para o seu objetivo.'; }
+                else if (bad > good) { verdictColor = 'var(--danger-color)'; verdictText = 'A maioria das medidas está contra o objetivo: reveja volume de treino, nutrição e descanso.'; }
+
+                summary.innerHTML = `
+                    <div style="background:rgba(0,0,0,0.25); border:1px solid ${verdictColor}; border-radius:12px; padding:12px;">
+                        <div style="font-size:0.72rem; color:var(--text-muted);">🎯 Objetivo: <b style="color:#fff;">${goalLabel}</b></div>
+                        <div style="font-size:1.05rem; font-weight:800; color:${verdictColor}; margin-top:4px;">${aligned} de ${evaluated} medidas alinhadas ao objetivo (${perc}%)</div>
+                        <div style="font-size:0.75rem; color:var(--text-muted); margin-top:4px;">${verdictText}</div>
+                        <div style="font-size:0.68rem; color:var(--text-subtle); margin-top:6px;">Análise baseada na variação entre o 1º e o último registro de cada medida. ${bad} contra o objetivo, ${warn} em atenção.</div>
+                    </div>`;
+            }
+
+            container.innerHTML = '';
+            rows.forEach(r => {
+                const m = r.m;
+                if (r.single) {
+                    container.innerHTML += `
+                        <div class="stat-card">
+                            <span class="stat-label">${m.label}</span>
+                            <span class="stat-value">${r.cur.value} <span style="font-size:0.7rem; color:var(--text-muted);">${m.unit}</span></span>
+                            <span style="font-size:0.68rem; color:var(--text-subtle);">1º registro: ${formatDateBR(r.cur.date)}</span>
+                        </div>`;
+                    return;
+                }
+                const stable = Math.abs(r.pctPrev) < 0.3;
+                const arrowColor = stable ? 'var(--text-muted)' : (r.dPrev > 0 ? 'var(--success-color)' : 'var(--danger-color)');
+                const arrow = stable ? '■' : (r.dPrev > 0 ? '▲' : '▼');
+                const sign = r.dPrev > 0 ? '+' : '';
+                const signF = r.dFirst > 0 ? '+' : '';
+                container.innerHTML += `
+                    <div class="stat-card" style="border-color:${arrowColor};">
+                        <span class="stat-label">${m.label}</span>
+                        <span class="stat-value">${r.cur.value} <span style="font-size:0.7rem; color:var(--text-muted);">${m.unit}</span></span>
+                        <span style="font-size:0.8rem; font-weight:800; color:${arrowColor};">${arrow} ${sign}${r.dPrev.toFixed(1)} ${m.unit} (${sign}${r.pctPrev.toFixed(1)}%)</span>
+                        <span style="font-size:0.66rem; color:var(--text-subtle);">vs ${formatDateBR(r.prev.date)}: ${r.prev.value} ${m.unit}</span>
+                        <span style="font-size:0.66rem; color:var(--text-muted);">Desde o início: ${signF}${r.dFirst.toFixed(1)} ${m.unit} (${signF}${r.pctFirst.toFixed(1)}%)</span>
+                        <span style="font-size:0.66rem; font-weight:700; color:${statusColor(r.ev.status)};">${r.ev.status === 'good' ? '✔' : r.ev.status === 'bad' ? '✖' : r.ev.status === 'warn' ? '⚠' : '•'} ${r.ev.text}</span>
+                    </div>`;
+            });
+
+            renderBodyDeltaChart(rows.filter(r => !r.single));
+        }
+
+        function renderBodyDeltaChart(rows) {
+            const canvas = document.getElementById('bodyDeltaChart');
+            if (!canvas) return;
+            if (bodyDeltaChartInstance) bodyDeltaChartInstance.destroy();
+
+            const labels = rows.length ? rows.map(r => r.m.label) : ['Sem dados'];
+            const data = rows.length ? rows.map(r => parseFloat(r.pctFirst.toFixed(2))) : [0];
+            const colors = data.map(v => v > 0 ? '#10b981' : v < 0 ? '#ef4444' : '#64748b');
+
+            bodyDeltaChartInstance = new Chart(canvas.getContext('2d'), {
+                type: 'bar',
+                data: { labels, datasets: [{ label: 'Variação (%)', data, backgroundColor: colors, borderRadius: 6 }] },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { ticks: { color: '#64748b' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+                        y: { ticks: { color: '#64748b', callback: v => v + '%' }, grid: { color: 'rgba(255,255,255,0.05)' } }
+                    }
+                }
+            });
+        }
+
+        function updateBodyMetricChart() {
+            const key = document.getElementById('bodyMetricSelect').value;
+            const metric = BODY_METRICS.find(m => m.key === key) || BODY_METRICS[0];
+            const series = getMetricSeries(metric.key);
+
+            if (bodyMetricChartInstance) bodyMetricChartInstance.destroy();
+            const ctx = document.getElementById('bodyMetricChart').getContext('2d');
+
+            bodyMetricChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: series.length ? series.map(s => formatDateBR(s.date)) : ['Sem dados'],
+                    datasets: [{
+                        label: `${metric.label} (${metric.unit})`,
+                        data: series.length ? series.map(s => s.value) : [0],
+                        borderColor: '#38bdf8',
+                        backgroundColor: 'rgba(56, 189, 248, 0.15)',
+                        fill: true,
+                        tension: 0.3,
+                        pointBackgroundColor: series.map((s, i) => i === 0 ? '#38bdf8' : (s.value >= series[i - 1].value ? '#10b981' : '#ef4444')),
+                        pointRadius: 5
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { labels: { color: '#94a3b8' } } },
+                    scales: {
+                        x: { ticks: { color: '#64748b' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+                        y: { ticks: { color: '#64748b' }, grid: { color: 'rgba(255,255,255,0.05)' } }
+                    }
+                }
+            });
+        }
+
+        // --- ANÁLISE DE CARGAS: ATUAL x ANTERIOR ---
+        function estimate1RM(load, reps) {
+            return load * (1 + reps / 30); // fórmula de Epley
+        }
+
+        function bestSetOfEntry(h) {
+            let best = { load: h.load || 0, reps: h.reps || 0, e1rm: 0 };
+            (h.sets || []).forEach(s => {
+                const l = parseFloat(s.load) || 0;
+                const r = parseInt(s.repsDone) || 0;
+                const e = estimate1RM(l, r);
+                if (e > best.e1rm) best = { load: l, reps: r, e1rm: e };
+            });
+            if (!best.e1rm) best.e1rm = estimate1RM(best.load, best.reps);
+            return best;
+        }
+
+        function deltaBadge(cur, prev, unit) {
+            const d = cur - prev;
+            const pct = prev ? (d / prev) * 100 : 0;
+            if (Math.abs(d) < 0.001) return `<span style="color:var(--text-muted); font-weight:800;">■ igual</span>`;
+            const up = d > 0;
+            const c = up ? 'var(--success-color)' : 'var(--danger-color)';
+            const sg = up ? '+' : '-';
+            return `<span style="color:${c}; font-weight:800;">${up ? '▲' : '▼'} ${sg}${Math.abs(d).toFixed(1)} ${unit} (${sg}${Math.abs(pct).toFixed(1)}%)</span>`;
+        }
+
+        function renderLoadAnalysis() {
+            const container = document.getElementById('loadAnalysisContainer');
+            const hist = userData.history || {};
+            const titles = Object.keys(hist).filter(t => hist[t].length > 0);
+
+            if (titles.length === 0) {
+                container.innerHTML = `<div style="color:var(--text-muted); font-size:0.8rem; text-align:center; padding:12px;">Conclua exercícios nos treinos para comparar a carga atual com a anterior.</div>`;
+                return;
+            }
+
+            container.innerHTML = '';
+            titles.forEach(title => {
+                const list = hist[title];
+                const cur = list[list.length - 1];
+                const first = list[0];
+                const prev = list.length > 1 ? list[list.length - 2] : null;
+                const bestCur = bestSetOfEntry(cur);
+
+                let body = '';
+                if (!prev) {
+                    body = `<div style="font-size:0.72rem; color:var(--text-muted);">Primeiro registro: <b style="color:#fff;">${cur.load} kg x ${cur.reps} reps</b>. Repita o exercício para ver a evolução.</div>`;
+                } else {
+                    const bestPrev = bestSetOfEntry(prev);
+                    const bestFirst = bestSetOfEntry(first);
+                    body = `
+                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px; font-size:0.72rem;">
+                            <div style="background:rgba(0,0,0,0.25); border-radius:8px; padding:8px;">
+                                <div style="color:var(--text-muted);">Anterior (${formatDateBR(prev.date)})</div>
+                                <div style="font-weight:800; color:#fff;">${prev.load} kg x ${prev.reps}</div>
+                            </div>
+                            <div style="background:rgba(0,0,0,0.25); border-radius:8px; padding:8px;">
+                                <div style="color:var(--text-muted);">Atual (${formatDateBR(cur.date)})</div>
+                                <div style="font-weight:800; color:#fff;">${cur.load} kg x ${cur.reps}</div>
+                            </div>
+                        </div>
+                        <div style="font-size:0.72rem; margin-top:8px; display:flex; flex-direction:column; gap:3px;">
+                            <div>Carga máxima: ${deltaBadge(cur.load, prev.load, 'kg')}</div>
+                            <div>Volume total: ${deltaBadge(cur.volume || 0, prev.volume || 0, 'kg')}</div>
+                            <div>Força estimada (1RM): ${deltaBadge(bestCur.e1rm, bestPrev.e1rm, 'kg')}</div>
+                            ${list.length > 2 ? `<div style="color:var(--text-muted);">Desde o 1º treino: ${deltaBadge(cur.load, first.load, 'kg')} <span style="color:var(--text-subtle);">(1RM: ${deltaBadge(bestCur.e1rm, bestFirst.e1rm, 'kg')})</span></div>` : ''}
+                        </div>`;
+                }
+
+                container.innerHTML += `
+                    <div style="background:rgba(22, 30, 46, 0.8); border:1px solid var(--card-border); border-radius:12px; padding:12px; margin-bottom:8px;">
+                        <div style="font-weight:700; font-size:0.85rem; color:var(--accent-primary); margin-bottom:8px;">${title}</div>
+                        ${body}
+                    </div>`;
+            });
+        }
+
+        // Chip com carga anterior x atual exibido no cartão do exercício
+        function getLoadChipHtml(ex) {
+            const list = (userData && userData.history && userData.history[ex.title]) ? userData.history[ex.title] : [];
+            if (list.length === 0) return '';
+            let curLoad, prevLoad;
+            if (ex.completed && list.length >= 2) {
+                curLoad = list[list.length - 1].load;
+                prevLoad = list[list.length - 2].load;
+            } else {
+                curLoad = Math.max(0, ...ex.sets.map(s => parseFloat(s.load) || 0));
+                prevLoad = list[list.length - 1].load;
+            }
+            const d = curLoad - prevLoad;
+            if (Math.abs(d) < 0.001) return '';
+            const pct = prevLoad ? (d / prevLoad) * 100 : 0;
+            const up = d > 0;
+            const c = up ? 'var(--success-color)' : 'var(--danger-color)';
+            const bg = up ? 'rgba(16,185,129,0.12)' : 'rgba(239,68,68,0.12)';
+            return `<div style="font-size:0.7rem; font-weight:700; color:${c}; background:${bg}; border-radius:8px; padding:6px 10px;">
+                ${up ? '▲' : '▼'} Carga: ${prevLoad} kg → ${curLoad} kg (${up ? '+' : '-'}${Math.abs(pct).toFixed(1)}%)
+            </div>`;
         }
 
         // --- BACKUP E RESTAURAÇÃO ---
